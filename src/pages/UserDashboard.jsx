@@ -565,7 +565,7 @@ function UserDashboard() {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-blue-200/10 min-h-screen">
       <Header />
       <div className="p-6 max-w-7xl mx-auto">
         {/* Header Section */}
