@@ -1,31 +1,16 @@
-// import React from 'react'
-// import { Navigate, Outlet } from 'react-router-dom'
+import React from 'react'
+import { Navigate, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-// const ProtectedRoute = ({isAuthenticated, allowedRoles, userRoles, redirectTo = "/AdminDashboard"}) => {
-//     if(isAuthenticated){
-//         return <Navigate to={redirectTo}/>
-//     }
-//     if(!isAuthenticated.includes(userRoles)){
-//         return <Navigate to="/unauthorised"/>
-//     }
-//     return <Outlet/>
- 
-// }
+const PrivateRoute = ({ allowedRoles }) => {
+  const user = useSelector((state) => state.auth.user);
+  const isAuthenticated = !!user;
+  const userRole = user?.role;
 
-// export default ProtectedRoute
+  if (!isAuthenticated) return <Navigate to="/" replace />;
+  if (!allowedRoles.includes(userRole)) return <Navigate to="/" replace />;
 
-import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
-
-const ProtectedRoute = ({ isAuthenticated, allowedRoles, userRoles, redirectTo = "/login" }) => {
-    if (!isAuthenticated) {
-        return <Navigate to={redirectTo} />;
-    }
-    if (!allowedRoles.includes(userRoles)) {
-        return <Navigate to="/unauthorised" />;
-    }
-    return <Outlet />;
+  return <Outlet />;
 };
 
-export default ProtectedRoute;
-
+export default PrivateRoute;
