@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from '../../redux/slice/authSlice';
+import { loginUser } from '../../redux/thunks/auththunks';
 import { fetchUserInit } from '../../redux/slice/userDashboardSlice'
 
 const LoginForm = () => {
@@ -29,14 +29,13 @@ const LoginForm = () => {
 
         if (resultAction.payload.role === "admin") {
           //await dispatch(fetchAdminInit(user.id));
-          navigate(`/${resultAction.payload.role}/admin-dashboard`);
+          navigate(`/${resultAction.payload.role}/dashboard/${resultAction.payload.id}`);
         } else if(resultAction.payload.role === "user"){
           await dispatch(fetchUserInit(resultAction.payload.id));
           navigate(`/${resultAction.payload.role}/dashboard/${resultAction.payload.id}`);
-        }else{
-          
+        }else if(resultAction.payload.role === "superAdmin"){
+          navigate(`/${resultAction.payload.role}/admin-dashboard`);
         }
-
 
       } else {
         setSignInError(true);

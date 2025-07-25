@@ -1,18 +1,25 @@
 import axios from 'axios';
 
-
 const api = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL, 
+  baseURL: import.meta.env.VITE_BACKEND_URL,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
 const getToken = () => localStorage.getItem('authToken');
+
 api.interceptors.request.use(
   config => {
     const token = getToken();
-    if (token) config.headers.Authorization = `Bearer ${token}`;
+
+    const skipAuthRoutes = ['/auth/login', '/auth/logout'];
+    const shouldSkip = skipAuthRoutes.some(route => config.url?.includes(route));
+
+    if (token && !shouldSkip) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
     return config;
   },
   error => Promise.reject(error)
@@ -26,7 +33,7 @@ api.interceptors.response.use(
 );
 
 const userManagement = {
-  UserById : (id)=> api.get("user",id)
+  UserById: (id) => api.get("user", id)
 }
 
 const meterManagement = {
@@ -36,11 +43,25 @@ const adminDashboard = {
 
 }
 const userDashboard = {
-  init:(id) => api.get(`/user/dashboard/init/${id}`),//intital data that have all the dashbaord data.
+  init: (id) => api.get(`/user/dashboard/init/${id}`),//intital data that have all the dashbaord data.
 }
-const authApis={
-  login:(credential) =>api.post('/auth/login',credential),
-  logout:() => api.post('/auth/logout'),
+const authApis = {
+  login: (credential) => api.post('/auth/login', credential),
+  logout: () => api.post('/auth/logout'),
 }
 
-export {userManagement, meterManagement,authApis,userDashboard}
+const userApi = {
+  profile: () => api.get('auth/profile')
+}
+
+const meterApi = {
+  getMeterById: (id) => api.get(`/meter/${id}`),
+  getAllMeter: () => api.get('meter/get-all-meter'),
+  addMeter: (data) => api.post('meter/create',data),
+  asignMeter: (data) => api.post('meter/assign-meter', data),
+  updateMeter: (id) => api.put(`/meter/update/${id}`),
+  deleteMeter: (id) => api.delete(`/meter/update/${id}`),
+  getAllMeterFromIOT: () => api.get('/meter/get-all-meter-from-iot')
+}
+
+export { userManagement, meterManagement, authApis, userDashboard, userApi, meterApi }

@@ -879,10 +879,14 @@ import React, { useState, useEffect } from 'react';
 import { Send, Search, Wifi, Battery, Clock, CheckCircle, XCircle, AlertCircle, Loader2, Settings, Plus, User, Trash2, X } from 'lucide-react';
 import AddMeter from '../components/meterManagement/AddMeter';
 import AddMeterModal from '../components/meterManagement/AddMeterModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectIotMeters, selectMeteringMeters } from '../redux/slice/meterManagementSlice';
+import { fetchMeters, fetchUnassignedIoTMeters } from '../redux/thunks/meterThunks';
 
- 
 const MeterManagement = () => {
   // State declarations
+
+  const dispatch = useDispatch();
   const [selectedMeter, setSelectedMeter] = useState(null);
   const [commandType, setCommandType] = useState('');
   const [customPayload, setCustomPayload] = useState('');
@@ -897,7 +901,18 @@ const MeterManagement = () => {
   const [selectedUser, setSelectedUser] = useState('');
   const [userSearch, setUserSearch] = useState('');
 
-  // Mock data for meters
+
+
+
+  useEffect(() => {
+    dispatch(fetchMeters());
+    dispatch(fetchUnassignedIoTMeters());
+  }, []);
+
+  const unasignedIOTMeter = useSelector(selectIotMeters);
+  const meteringMeter = useSelector(selectMeteringMeters);
+
+
   const [meters, setMeters] = useState([
     {
       id: 'MTR001',
@@ -1214,10 +1229,10 @@ const MeterManagement = () => {
   };
 
   // Filter meters based on search term
-  const filteredMeters = meters.filter(meter =>
-    meter.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    meter.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    meter.devEUI.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredMeters = meteringMeter.filter(meter =>
+    (meter?.name?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+    (meter?.id?.toLowerCase() || "").includes(searchTerm.toLowerCase()) ||
+    (meter?.devEUI?.toLowerCase() || "").includes(searchTerm.toLowerCase())
   );
 
   // Filter users based on search term
@@ -1360,7 +1375,7 @@ const MeterManagement = () => {
     });
 
     // Add to meters list
-    setMeters([...meters, ...newMeterObjects]);
+    setMeters([...meters, ...newMeterObjects]);//here we will dispatch the meter.
 
     // Reset form and close modal
     setNewMeters([{ meterId: '', rs485Id: '' }]);
@@ -1369,7 +1384,7 @@ const MeterManagement = () => {
 
     alert(`Successfully added ${newMeterObjects.length} new meters!`);
   };
-
+  console.log("all meters data", { iot: unasignedIOTMeter, metering: meteringMeter });
   return (
     <div className="min-h-screen p-6">
       <div className="max-w-7xl mx-auto">
@@ -1409,9 +1424,9 @@ const MeterManagement = () => {
               <div className="max-h-96 overflow-y-auto">
                 {filteredMeters.map((meter) => (
                   <div
-                    key={meter.id}
+                    key={meter.meterId}
                     onClick={() => setSelectedMeter(meter)}
-                    className={`p-4 border-b border-gray-100 cursor-pointer transition-colors ${selectedMeter?.id === meter.id ? 'bg-blue-50 border-blue-200' : 'hover:bg-gray-50'
+                    className={`p-4 border-b border-gray-100 cursor-pointer transition-colors ${selectedMeter?.meterId === meter.meterId ? 'bg-blue-50 border-blue-200' : 'hover:bg-gray-50'
                       }`}
                   >
                     <div className="flex items-center justify-between mb-2">
@@ -1423,9 +1438,9 @@ const MeterManagement = () => {
                     </div>
 
                     <div className="text-sm text-gray-600 mb-2">
-                      <div>ID: {meter.id}</div>
-                      <div>DevEUI: {meter.devEUI}</div>
-                      <div>RS485: {meter.rs485Id}</div>
+                      <div>ID: {meter.meterId}</div>
+                      <div>DevEUI: {meter.meterSerialNumber}</div>
+                      <div>RS485: {meter.slaveId}</div>
                       <div>{meter.type}</div>
                     </div>
 

@@ -1,43 +1,19 @@
-// import React from "react";
-// import { FaSearch, FaBell, FaUserCircle } from "react-icons/fa";
-
-// const Topbar = () => {
-//   return (
-//     <div className="h-full flex justify-between items-center p-4 bg-white shadow-md ">
-//       <div className="relative ">
-//         <input
-//           type="text"
-//           className="w-full p-2 pl-10 border rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500"
-//           placeholder="Search..."
-//         />
-//         {/* <img className="w-16 h-16 rounded-full mx-auto" src="" alt="Logo" /> */}
-//         {/* <FaSearch className="absolute top-3 left-3 text-gray-400" /> */}
-//       </div>
-//       <div className="flex items-center space-x-4">
-//         <FaBell className="text-gray-500 text-lg cursor-pointer" />
-//         <div className="flex items-center space-x-2">
-//           <FaUserCircle className="text-gray-500 text-2xl" />
-//           <div>
-//             <p className="text-sm font-semibold">Afraz Ali</p>
-//             <p className="text-xs text-gray-400">afraz.ali@skysolutions.com</p>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Topbar;
-
-
-
 import React, { useState } from "react";
-import { Search, Bell, User, ChevronDown, Mail, Globe, Menu, Expand, UserCircle } from "lucide-react";
+import { Link, useNavigate } from 'react-router-dom'
+import { Search, Bell, User, ChevronDown, Mail, Globe, Menu, Expand, UserCircle, LogOutIcon } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { logout } from "../redux/slice/authSlice";
 
 const Topbar = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [showDropdown, setShowDropdown] = useState(false);
   const [notifications, setNotifications] = useState(3);
 
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/');
+  }
   return (
     <div className="h-full flex justify-between items-center px-6 py-4 bg-white shadow-sm border-b border-gray-100">
       {/* Left Section - Search and Breadcrumb */}
@@ -103,21 +79,21 @@ const Topbar = () => {
 
         {/* User Profile Section */}
         <div className="relative">
-          <div 
+          <div
             className="flex items-center space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded-lg transition-colors"
             onClick={() => setShowDropdown(!showDropdown)}
           >
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center">
-              <span className="text-white text-sm font-medium">AA</span>
+              <span className="text-white text-sm font-medium">{ }</span>
             </div>
             <div className="hidden md:block">
-              <p className="text-sm font-semibold text-gray-800">Afraz Ali</p>
+              <p className="text-sm font-semibold text-gray-800">{ }</p>
               <div className="flex items-center space-x-2">
                 {/* Company Logo */}
                 <div className="w-3 h-3 bg-cyan-500 rounded flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">SS</span>
+                  <span className="text-white text-xs font-bold"></span>
                 </div>
-                <span className="text-xs text-gray-500">Sky Solutions</span>
+                <span className="text-xs text-gray-500">SmartLynk Metering Solutions</span>
               </div>
             </div>
             <ChevronDown className={`text-gray-400 transition-transform ${showDropdown ? 'rotate-180' : ''}`} size={16} />
@@ -137,18 +113,18 @@ const Topbar = () => {
                 </div>
               </div>
               <div className="py-2">
-                <a href="#" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                <Link to='/profile/:id' className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
                   <UserCircle className="mr-3 text-gray-400" size={16} />
                   My Profile
-                </a>
-                <a href="#" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                </Link>
+                <Link to='' className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
                   <Bell className="mr-3 text-gray-400" size={16} />
                   Notifications
-                </a>
-                <a href="#" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                  <Mail className="mr-3 text-gray-400" size={16} />
-                  Messages
-                </a>
+                </Link>
+                <Link onClick={() => handleLogout()} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                  <LogOutIcon className="mr-3 text-gray-400" size={16} />
+                  logout
+                </Link>
               </div>
             </div>
           )}

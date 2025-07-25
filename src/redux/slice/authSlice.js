@@ -1,27 +1,11 @@
 // store/authSlice.ts
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { authApis } from "../../api/apiService";
-
-// Async login thunk
-export const loginUser = createAsyncThunk("auth/login", async (credentials, thunkAPI) => {
-    try {
-      const response = await authApis.login(credentials);
-      const user = response.data.data;
-      
-      localStorage.setItem("authToken", JSON.stringify(user.authToken));
-      localStorage.setItem("refreshToken",JSON.stringify(user.refreshToken));
-
-      return user;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
-    }
-  }
-);
+import { createSlice } from "@reduxjs/toolkit";
+import { loginUser } from "../thunks/auththunks";
+import { useSelector } from "react-redux";
 
 // Initial state
 const initialState = {
-  user: JSON.parse(localStorage.getItem("authToken")),
+  user: null,
   loading: false,
   error: null ,
 };
@@ -45,6 +29,7 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
+        state.error = false;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
@@ -54,4 +39,9 @@ const authSlice = createSlice({
 });
 
 export const { logout } = authSlice.actions;
+
+export const selectUserId = (state) => state.auth.user?.id;
+export const selectUserEmail = (state)=> state.auth.user?.email;
+export const selectUserRole = (state)=> state.auth.user?.role;
+
 export default authSlice.reducer;
