@@ -1,7 +1,6 @@
 // store/authSlice.ts
 import { createSlice } from "@reduxjs/toolkit";
 import { loginUser } from "../thunks/auththunks";
-import { useSelector } from "react-redux";
 
 // Initial state
 const initialState = {

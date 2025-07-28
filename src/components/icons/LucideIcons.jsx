@@ -2,7 +2,7 @@
 import { 
   Users, Search, Shield, Clock, CheckCircle, XCircle, AlertCircle, 
   Loader2, Settings, UserPlus, Edit3, Trash2, Eye, EyeOff, Mail, 
-  Phone, Calendar, Activity, X, Building, Lock 
+  Phone, Calendar, Activity, X, Building, Lock,Check
 } from 'lucide-react';
 
 export const Icons = {
@@ -26,7 +26,8 @@ export const Icons = {
   Activity,
   X,
   Building,
-  Lock
+  Lock,
+  Check
 };
 
 export default Icons;

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-export const fetchUserProfile = createAsyncThunk('user/fetchProfile', async (thunkAPI) => {
+export const fetchUserProfile = createAsyncThunk('profile/fetchUserProfile', async (thunkAPI) => {
   try {
     const token = localStorage.getItem('authToken');
     const res = await fetch('/api/me', {
@@ -16,17 +16,14 @@ export const fetchUserProfile = createAsyncThunk('user/fetchProfile', async (thu
 });
 
 const userSlice = createSlice({
-  name: 'user',
+  name: 'profile',
   initialState: {
     profile: null,
     status: 'idle',
     error: null,
   },
   reducers: {
-    logout: (state) => {
-      state.profile = null;
-      localStorage.removeItem('authToken');
-    },
+    
   },
   extraReducers: (builder) => {
     builder
@@ -45,7 +42,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { logout } = userSlice.actions;
-export const selectUser = (state) => state.user.profile;
+export const selectUserProfile = (state) => state.user.profile;
 export const selectUserStatus = (state) => state.user.status;
 export default userSlice.reducer;

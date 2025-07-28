@@ -30,10 +30,10 @@ const LoginForm = () => {
         if (resultAction.payload.role === "admin") {
           //await dispatch(fetchAdminInit(user.id));
           navigate(`/${resultAction.payload.role}/dashboard/${resultAction.payload.id}`);
-        } else if(resultAction.payload.role === "user"){
+        } else if (resultAction.payload.role === "user") {
           await dispatch(fetchUserInit(resultAction.payload.id));
           navigate(`/${resultAction.payload.role}/dashboard/${resultAction.payload.id}`);
-        }else if(resultAction.payload.role === "superAdmin"){
+        } else if (resultAction.payload.role === "superAdmin") {
           navigate(`/${resultAction.payload.role}/admin-dashboard`);
         }
 
@@ -82,12 +82,18 @@ const LoginForm = () => {
               placeholder="Password"
               className="w-full pl-10 pr-10 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 outline-none"
               value={password}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleLogin();
+                }
+              }}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
+
               className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600"
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}

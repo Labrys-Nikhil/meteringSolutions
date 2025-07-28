@@ -37,6 +37,9 @@ import currentPowerChartReducer from "../slice/currentPowerChartSlice";
 import initialUserDashboardReducer from "../slice/userDashboardSlice";
 import authReducer from "../slice/authSlice";
 import meterReducer from "../slice/meterManagementSlice";
+import userMangementReducer from "../slice/userMangementSlice";
+import { adminDashboard } from "../../api/apiService";
+import adminDahboardReducer from "../slice/adminDashboardSlice";
 
 const authPersistConfig = {
   key: "auth",
@@ -52,6 +55,8 @@ const rootReducer = combineReducers({
   userDashboard: initialUserDashboardReducer,
   auth: persistedAuthReducer,
   meter: meterReducer,
+  usersMangement: userMangementReducer,
+  adminDashboard: adminDahboardReducer
 });
 
 export default rootReducer;

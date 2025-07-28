@@ -79,7 +79,7 @@ const AddMeter = ({ isOpen, handleCancel, addMeter }) => {
   };
 
   return (
-    <div className="mt-2 max-h-60 overflow-y-auto">
+    <div className="mt-2 max-h-60 overflow-y-scroll">
       {filteredUsers.map(user => (
         <div
           key={user.id}

@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+:root{
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
 /* Beautiful Custom Scrollbar with Orange to Blue Gradient */
 ::-webkit-scrollbar {
   width: 12px;
