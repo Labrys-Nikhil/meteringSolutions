@@ -22,14 +22,14 @@
 // import SignIn from './components/user/LoginForm';
 
 // const App = () => {
-  
+
 //   return (
 //     <HashRouter>
 //       <Routes>
 //         <Route path="/" element={<SignIn />} />
 //         <Route path="/customer-register" element={<SignUpForm />} />
 
-      
+
 //         <Route element={<PrivateRoute allowedRoles={['admin']} />}>
 //           <Route path="/admin" element={<DashboardLayout />}>
 //             <Route path='/admin-dashbaord' element={<AdminDashboard />} />
@@ -91,6 +91,10 @@ const UsageHistory = lazy(() => import('./pages/UsageHistory'));
 const AccountSettings = lazy(() => import("./pages/AccountSetting"));
 const SignUpForm = lazy(() => import('./components/user/SignUpForm'));
 const SignIn = lazy(() => import('./components/user/LoginForm'));
+const AdminMeterList = lazy(() => import("./pages/AdminMeterList"));
+const AdminUserList = lazy(() => import("./pages/AdminUserList"));
+const FaultyOffline = lazy(() => import('./pages/FaultyOffline'));
+
 
 // You can replace this with a Spinner or Skeleton
 const Loader = () => <div>Loading...</div>;
@@ -104,15 +108,32 @@ const App = () => {
           <Route path="/" element={<SignIn />} />
           <Route path="/customer-register" element={<SignUpForm />} />
 
+          {/* <Route element={<PrivateRoute allowedRoles={['superadmin']} />}>
+            <Route path='/super-admin' element={<DashboardLayout />}>
+              <Route path=":id" element={<SuperAdminPanel />} />
+              <Route path="meter-usage/:meterId" element={<DailyMeterDataUsageHistory />} />
+               <Route path="/admin/rechargehistory/:meterid" element = {<AdminRechargeHistory/>}/> }
+              <Route path="recharge-history/:meterId" element={<SuperAdminRechargeHistory />} />
+            </Route>
+          </Route> */}
           {/* Admin Routes */}
           <Route element={<PrivateRoute allowedRoles={['admin']} />}>
             <Route path="/admin" element={<DashboardLayout />}>
+            
+              <Route path="dashboard/:id" element={<AdminDashboard />} />
+              <Route path='meters-list' element={<AdminMeterList />} />
+              <Route path='user-list' element={<AdminUserList />} />
+              <Route path='offline-meters' element={<FaultyOffline />} />
+              <Route path='faulty-meters' element={<FaultyOffline />} />
+              {/* <Route path='due-users' element={<AdminMeterList/>} />
+              <Route path='due-balance' element={<AdminMeterList/>} /> */}
               <Route path="dashboard/:id" element={<AdminDashboard />} />
               <Route path="user-management/:id" element={<UserManagement />} />
               <Route path="meter-management/:id" element={<MeterManagement />} />
               <Route path="roles/:id" element={<Roles />} />
               <Route path="supportandlogs/:id" element={<SupportAndLogs />} />
               <Route path="onboarding/:id" element={<Onboarding />} />
+              <Route path="invoice" element={<Invoice />} />
             </Route>
           </Route>
 

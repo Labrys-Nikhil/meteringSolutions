@@ -257,7 +257,7 @@ const CurrentPowerChart = ({
 
 
     <div
-    className={`bg-white rounded-lg shadow-xl w-full max-w-full sm:max-w-[600px] md:max-w-[800px] lg:max-w-[1000px] xl:max-w-[1200px] h-auto border border-gray-200 p-4 hover:shadow-2xl transition-all duration-300 ${className}`}
+    className={`bg-slate-100/20 rounded-md shadow-xs w-full max-w-full sm:max-w-[600px] md:max-w-[800px] lg:max-w-[1000px] xl:max-w-[1200px] h-auto  p-4 hover:shadow-sm transition-all duration-300 ${className}`}
   >
     <h4 className="text-gray-700 font-bold">{title}</h4>
 

@@ -102,13 +102,13 @@
 //         </div>
 //         <div className="flex items-center space-x-1">
 //           {isPositive ? <TrendingUp size={16} className="text-green-600" /> : <TrendingDown size={16} className="text-red-600" />}
-//           <span className={`text-sm font-medium ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
+//           <span className={`text-xs font-medium ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
 //             {change}
 //           </span>
 //         </div>
 //       </div>
 //       <div>
-//         <h3 className="text-sm font-medium text-gray-600 mb-1">{title}</h3>
+//         <h3 className="text-xs font-medium text-gray-600 mb-1">{title}</h3>
 //         <p className="text-2xl font-bold text-gray-900">{value}</p>
 //         {trend && (
 //           <div className="mt-2 h-12 bg-gray-50 rounded-sm flex items-end justify-between px-2 py-1">
@@ -131,7 +131,7 @@
 //       <div className="text-center">
 //         <BarChart3 className="mx-auto mb-4 text-gray-400" size={48} />
 //         <p className="text-gray-600">Interactive Chart Placeholder</p>
-//         <p className="text-sm text-gray-500 mt-2">Data points: {data.dataPoints?.length || 0}</p>
+//         <p className="text-xs text-gray-500 mt-2">Data points: {data.dataPoints?.length || 0}</p>
 //       </div>
 //     </div>
 //   );
@@ -146,12 +146,12 @@
 //           </div>
 //           <div>
 //             <h3 className="text-lg font-semibold text-gray-800">Smart Alerts</h3>
-//             <p className="text-sm text-gray-500">{alerts.length} active alerts</p>
+//             <p className="text-xs text-gray-500">{alerts.length} active alerts</p>
 //           </div>
 //         </div>
 //         <button 
 //           onClick={() => setAlerts([])}
-//           className="text-sm text-blue-600 hover:text-blue-800"
+//           className="text-xs text-blue-600 hover:text-blue-800"
 //         >
 //           Clear All
 //         </button>
@@ -165,7 +165,7 @@
 //                 alert.type === 'warning' ? 'bg-orange-500' : 'bg-blue-500'
 //               }`} />
 //               <div>
-//                 <div className="text-sm font-medium text-gray-900">{alert.message}</div>
+//                 <div className="text-xs font-medium text-gray-900">{alert.message}</div>
 //                 <div className="text-xs text-gray-500">{alert.time}</div>
 //               </div>
 //             </div>
@@ -192,7 +192,7 @@
 //               <p className="text-xs text-gray-500"><span className='font-bold'>Hello {"user"}</span> Welcome to Real-time energy management system</p>
 //             </div>
 //             <div className="flex items-center space-x-3">
-//               <div className="flex items-center space-x-2 text-sm text-gray-600">
+//               <div className="flex items-center space-x-2 text-xs text-gray-600">
 //                 <Clock size={16} />
 //                 <span>Last updated: {new Date().toLocaleTimeString()}</span>
 //               </div>
@@ -220,7 +220,7 @@
 //               <h2 className="text-lg font-semibold text-emerald-800 mb-1">Total Revenue</h2>
 //               <div className="flex items-baseline space-x-2">
 //                 <span className="text-3xl font-bold text-emerald-900">$95,000</span>
-//                 <span className="text-sm text-emerald-600 flex items-center">
+//                 <span className="text-xs text-emerald-600 flex items-center">
 //                   <TrendingUp size={14} className="mr-1" />
 //                   +12.5% from last month
 //                 </span>
@@ -231,11 +231,11 @@
 //           <div className="flex items-center space-x-6">
 //             <div className="text-center">
 //               <div className="text-2xl font-bold text-emerald-900">1,247</div>
-//               <div className="text-sm text-emerald-600">Active Users</div>
+//               <div className="text-xs text-emerald-600">Active Users</div>
 //             </div>
 //             <div className="text-center">
 //               <div className="text-2xl font-bold text-emerald-900">25/30</div>
-//               <div className="text-sm text-emerald-600">Active Meters</div>
+//               <div className="text-xs text-emerald-600">Active Meters</div>
 //             </div>
 //             <button className="flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm rounded-xl border border-emerald-200 hover:bg-white transition-colors">
 //               <Download className="text-emerald-600 mr-2" size={18} />
@@ -295,29 +295,29 @@
 //                     <BarChart3 className="text-blue-600" size={24} />
 //                   </div>
 //                   <div>
-//                     <h2 className="text-xl font-bold text-gray-800">Smart Usage Analytics</h2>
-//                     <p className="text-sm text-gray-500">AI-powered consumption insights</p>
+//                     <h2 className="text-md font-bold text-gray-800">Smart Usage Analytics</h2>
+//                     <p className="text-xs text-gray-500">AI-powered consumption insights</p>
 //                   </div>
 //                 </div>
 //                 <div className="flex items-center space-x-4">
 //                   <div className="flex items-center space-x-4">
 //                     <div className="flex items-center space-x-2">
 //                       <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-//                       <span className="text-sm text-gray-600">Current</span>
+//                       <span className="text-xs text-gray-600">Current</span>
 //                     </div>
 //                     <div className="flex items-center space-x-2">
 //                       <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-//                       <span className="text-sm text-gray-600">Previous</span>
+//                       <span className="text-xs text-gray-600">Previous</span>
 //                     </div>
 //                   </div>
 //                   <div className="flex items-center space-x-2">
-//                     <label className="text-sm font-medium text-gray-700">From:</label>
+//                     <label className="text-xs font-medium text-gray-700">From:</label>
 //                     <input
 //                       type="date"
 //                       value={startDate}
 //                       max={today}
 //                       onChange={(e) => setStartDate(e.target.value)}
-//                       className="px-3 py-2 border border-gray-300 rounded-sm text-sm focus:ring-2 focus:ring-blue-500"
+//                       className="px-3 py-2 border border-gray-300 rounded-sm text-xs focus:ring-2 focus:ring-blue-500"
 //                     />
 //                   </div>
 //                 </div>
@@ -347,12 +347,12 @@
 //               <div className="flex items-baseline space-x-2 mb-3">
 //                 <span className="text-2xl font-bold text-green-600">25</span>
 //                 <span className="text-lg text-gray-500">/30</span>
-//                 <span className="text-sm text-green-600">(83%)</span>
+//                 <span className="text-xs text-green-600">(83%)</span>
 //               </div>
 //               <div className="w-full bg-green-200 rounded-full h-3 mb-2">
 //                 <div className="bg-green-500 h-3 rounded-full transition-all duration-500" style={{ width: '83%' }}></div>
 //               </div>
-//               <p className="text-sm text-gray-600">5 meters scheduled for maintenance</p>
+//               <p className="text-xs text-gray-600">5 meters scheduled for maintenance</p>
 //             </div>
 //           </div>
 
@@ -368,7 +368,7 @@
 //             <div>
 //               <h3 className="text-lg font-semibold text-gray-800 mb-2">System Health</h3>
 //               <div className="text-2xl font-bold text-blue-600 mb-3">98.5%</div>
-//               <div className="space-y-2 text-sm">
+//               <div className="space-y-2 text-xs">
 //                 <div className="flex justify-between">
 //                   <span className="text-gray-600">Uptime</span>
 //                   <span className="font-medium">99.2%</span>
@@ -879,7 +879,7 @@ const Dashboard = () => {
           />
         </div>
         <div className="flex items-center space-x-1">
-          <div className="relative group flex items-center space-x-1 text-sm font-medium">
+          <div className="relative group flex items-center space-x-1 text-xs font-medium">
             {isPositive ? (
               <TrendingUp size={16} className="text-green-600" />
             ) : (
@@ -887,7 +887,7 @@ const Dashboard = () => {
             )}
 
             <span
-              className={`text-sm font-semibold ${isPositive ? "text-green-600" : "text-red-600"
+              className={`text-xs font-semibold ${isPositive ? "text-green-600" : "text-red-600"
                 }`}
             >
               {change}
@@ -913,7 +913,7 @@ const Dashboard = () => {
                 to={valueRoute}
                 className="text-2xl font-bold text-gray-900 hover:underline cursor-pointer"
               >
-                <h3 className="text-sm font-medium text-gray-600 mb-1">
+                <h3 className="text-xs font-medium text-gray-600 mb-1">
                   {title}
                 </h3>
                 <p className="text-2xl font-bold text-gray-900">{value}</p>
@@ -921,7 +921,7 @@ const Dashboard = () => {
             ) : (
               <>
                 {" "}
-                <h3 className="text-sm font-medium text-gray-600 mb-1">
+                <h3 className="text-xs font-medium text-gray-600 mb-1">
                   {title}
                 </h3>
                 <p className="text-2xl font-bold text-gray-900">{value}</p>
@@ -936,7 +936,7 @@ const Dashboard = () => {
                 to={subValueRoute}
                 className="text-2xl font-bold text-gray-900 hover:underline cursor-pointer"
               >
-                <p className="text-sm font-medium text-gray-600 mb-1">
+                <p className="text-xs font-medium text-gray-600 mb-1">
                   {subLabel}
                 </p>
                 <p className="text-2xl font-bold text-gray-900">{subValue}</p>
@@ -944,7 +944,7 @@ const Dashboard = () => {
             ) : (
               <>
                 {" "}
-                <p className="text-sm font-medium text-gray-600 mb-1">
+                <p className="text-xs font-medium text-gray-600 mb-1">
                   {subLabel}
                 </p>
                 <p className="text-2xl font-bold text-gray-900">{subValue}</p>
@@ -974,7 +974,7 @@ const Dashboard = () => {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white border border-gray-200 rounded-md p-2 shadow text-sm text-gray-800">
+        <div className="bg-white border border-gray-200 rounded-md p-2 shadow text-xs text-gray-800">
           <p className="font-semibold">{label}</p>
           <p>Value: {payload[0].value}</p>
         </div>
@@ -996,7 +996,7 @@ const Dashboard = () => {
           <div className="flex flex-col items-center justify-center h-full text-center">
             <BarChart3 className="mx-auto mb-4 text-gray-400" size={48} />
             <p className="text-gray-600">No chart data available</p>
-            <p className="text-sm text-gray-500 mt-2">
+            <p className="text-xs text-gray-500 mt-2">
               Data points: {data?.dataPoints?.length || 0}
             </p>
           </div>
@@ -1042,14 +1042,14 @@ const Dashboard = () => {
             <h3 className="text-lg font-semibold text-gray-800">
               Smart Alerts
             </h3>
-            <p className="text-sm text-gray-500">
+            <p className="text-xs text-gray-500">
               {alerts.length} active alerts
             </p>
           </div>
         </div>
         <button
           onClick={() => setAlerts([])}
-          className="text-sm text-blue-600 hover:text-blue-800"
+          className="text-xs text-blue-600 hover:text-blue-800"
         >
           Clear All
         </button>
@@ -1068,7 +1068,7 @@ const Dashboard = () => {
                 )}`}
               />
               <div>
-                <div className="text-sm font-medium text-gray-900">
+                <div className="text-xs font-medium text-gray-900">
                   {alert.message}
                 </div>
                 <div className="text-xs text-gray-500">
@@ -1094,7 +1094,7 @@ const Dashboard = () => {
       <div className="bg-white shadow-sm border-b border-gray-200 px-4 sm:px-6 py-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900">
+            <h1 className="text-md sm:text-lg md:text-xl font-semibold text-gray-900">
               Admin Dashboard
             </h1>
             <p className="text-xs text-gray-500">
@@ -1102,7 +1102,7 @@ const Dashboard = () => {
               Real-time energy management system
             </p>
           </div>
-          <div className="flex items-center flex-wrap gap-2 text-sm text-gray-600">
+          <div className="flex items-center flex-wrap gap-2 text-xs text-gray-600">
             <Clock size={16} />
             <span>Last updated: {new Date().toLocaleTimeString()}</span>
             <button
@@ -1135,7 +1135,7 @@ const Dashboard = () => {
                 <span className="text-3xl font-bold text-emerald-900">
                   {data.data.totalRevenue}
                 </span>
-                <span className="text-sm text-emerald-600 flex items-center group relative">
+                <span className="text-xs text-emerald-600 flex items-center group relative">
                   <TrendingUp size={14} className="mr-1" /> +12.5%
                   <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-max px-2 py-1 text-xs text-black bg-white rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
                     Vs Previous Day
@@ -1150,14 +1150,14 @@ const Dashboard = () => {
               <div className="text-2xl font-bold text-emerald-900">
                 {data.data.totalAssignedUsers}
               </div>
-              <div className="text-sm text-emerald-600">Active Users</div>
+              <div className="text-xs text-emerald-600">Active Users</div>
             </div>
             <div className="text-center">
               {/* <div className="text-2xl font-bold text-emerald-900">25/30</div> */}
               <div className="text-2xl font-bold text-emerald-900">
                 {data.data.totalActiveMeters}
               </div>
-              <div className="text-sm text-emerald-600">Active Meters</div>
+              <div className="text-xs text-emerald-600">Active Meters</div>
             </div>
             <button className="flex items-center px-4 py-2 bg-white/80 rounded-xl border border-emerald-200 hover:bg-white transition-colors">
               <Download className="text-emerald-600 mr-2" size={18} />
@@ -1192,8 +1192,8 @@ const Dashboard = () => {
             isPositive={true}
             icon={Users}
             trend={[20, 40, 60, 80, 100, 85, 90]}
-            valueRoute="/userlist"
-            subValueRoute="/meterslist"
+            valueRoute="/admin/user-list"
+            subValueRoute="/admin/meters-list"
           />
           {/* </Link> */}
 
@@ -1207,8 +1207,8 @@ const Dashboard = () => {
             isPositive={false}
             icon={AlertTriangle}
             trend={[10, 15, 8, 12, 20, 18, 8]}
-            valueRoute="/faultymeters"
-            subValueRoute="/offlinemeters"
+            valueRoute="/admin/faulty-meters"
+            subValueRoute="/admin/offline-meters"
           />
 
           {/* <MetricsCard title="Next Payment" value="$2,829" change="-1.43%" isPositive={false} icon={DollarSign} trend={[80, 70, 85, 75, 90, 85, 75]} /> */}
@@ -1221,8 +1221,8 @@ const Dashboard = () => {
             isPositive={false}
             icon={DollarSign}
             trend={[80, 70, 85, 75, 90, 85, 75]}
-            valueRoute="/duebalance"
-            subValueRoute="/dueusers"
+            valueRoute="/admin/due-balance"
+            subValueRoute="/admin/due-users"
           />
           {/* <MetricsCard title="Energy Consumption" value="12,300 kWh" change="18.9%" isPositive={true} icon={Zap} trend={[30, 50, 70, 90, 85, 95, 100]} /> */}
           <MetricsCard
@@ -1244,10 +1244,10 @@ const Dashboard = () => {
                 </div>
 
                 <div>
-                  <h2 className="text-xl font-bold text-gray-800">
+                  <h2 className="text-md font-bold text-gray-800">
                     Smart Usage Analytics
                   </h2>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-xs text-gray-500">
                     AI-powered consumption insights
                   </p>
                 </div>
@@ -1256,7 +1256,7 @@ const Dashboard = () => {
               <div className="flex flex-wrap items-center gap-4">
                 <div className="flex items-center space-x-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-xs font-medium text-gray-700 mb-1">
                       <Calendar className="h-4 w-4 inline mr-1" />
                       From Date
                     </label>
@@ -1265,14 +1265,14 @@ const Dashboard = () => {
                       value={startDate}
                       max={endDate || today} // Ensure from date can't be after to date
                       onChange={(e) => setStartDate(e.target.value)}
-                      className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-xs"
                     />
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-xs font-medium text-gray-700 mb-1">
                       <Calendar className="h-4 w-4 inline mr-1" />
                       Last Date
                     </label>
@@ -1282,7 +1282,7 @@ const Dashboard = () => {
                       min={startDate} // Ensure to date can't be before from date
                       max={today}
                       onChange={(e) => setEndDate(e.target.value)}
-                      className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-xs"
                     />
                   </div>
                 </div>
@@ -1292,7 +1292,7 @@ const Dashboard = () => {
                     setStartDate(today);
                     setEndDate(today);
                   }}
-                  className="px-3 py-2 text-sm bg-gray-100 font-medium text-gray-700 rounded-sm"
+                  className="px-3 py-2 text-xs bg-gray-100 font-medium text-gray-700 rounded-sm"
                 >
                   Reset
                 </button>
