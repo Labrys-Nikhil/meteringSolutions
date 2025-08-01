@@ -36,4 +36,6 @@ const metersSlice = createSlice({
     },
 });
 
+export const selectSuperAdminAllMeter = (state)=>state.meters.allMeters;
+export const selectLoadingSuperAdmin = (state)=>state.meters.loading;
 export default metersSlice.reducer;

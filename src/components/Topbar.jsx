@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { Search, Bell, User, ChevronDown, Mail, Globe, Menu, Expand, UserCircle, LogOutIcon } from "lucide-react";
-import { useDispatch } from "react-redux";
-import { logout } from "../redux/slice/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUserId, selectUserRole } from "../redux/slice/authSlice";
 
 const Topbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showDropdown, setShowDropdown] = useState(false);
   const [notifications, setNotifications] = useState(3);
+
+  const role = useSelector(selectUserRole);
+  const id = useSelector(selectUserId);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -113,10 +116,10 @@ const Topbar = () => {
                 </div>
               </div>
               <div className="py-2">
-                <Link to='/profile/:id' className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                <div onClick={()=>navigate(`/${role}/profile`)} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
                   <UserCircle className="mr-3 text-gray-400" size={16} />
                   My Profile
-                </Link>
+                </div>
                 <Link to='' className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
                   <Bell className="mr-3 text-gray-400" size={16} />
                   Notifications

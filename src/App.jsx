@@ -71,6 +71,9 @@ import React, { Suspense, lazy } from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import DashboardLayout from "./layout/DashboardLayout";
 import PrivateRoute from "./service/ProtectedRoute";
+import NotFound404 from "./pages/NotFound404";
+import ProfileSection from "./pages/ProfileSection";
+import SuperAdminRechargeHistory from "./components/superAdmin/SuperAdminRechargeHistory";
 
 // Lazy-loaded components
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
@@ -94,6 +97,8 @@ const SignIn = lazy(() => import('./components/user/LoginForm'));
 const AdminMeterList = lazy(() => import("./pages/AdminMeterList"));
 const AdminUserList = lazy(() => import("./pages/AdminUserList"));
 const FaultyOffline = lazy(() => import('./pages/FaultyOffline'));
+const SuperAdminPanel = lazy(() => import('./pages/SuperAdminPanel'));
+const DailyMeterDataUsageHistory = lazy(() => import('./components/superAdmin/DailyMeterDataUsageHistory'));
 
 
 // You can replace this with a Spinner or Skeleton
@@ -107,19 +112,21 @@ const App = () => {
           {/* Public Routes */}
           <Route path="/" element={<SignIn />} />
           <Route path="/customer-register" element={<SignUpForm />} />
-
-          {/* <Route element={<PrivateRoute allowedRoles={['superadmin']} />}>
-            <Route path='/super-admin' element={<DashboardLayout />}>
-              <Route path=":id" element={<SuperAdminPanel />} />
+          <Route path='*' element={<NotFound404 />} />
+          <Route element={<PrivateRoute allowedRoles={['superAdmin']} />}>
+            <Route path='/superAdmin' element={<DashboardLayout />}>
+              <Route path='profile' element={<ProfileSection />} />
+              <Route path="dashboard/:id" element={<SuperAdminPanel />} />
               <Route path="meter-usage/:meterId" element={<DailyMeterDataUsageHistory />} />
-               <Route path="/admin/rechargehistory/:meterid" element = {<AdminRechargeHistory/>}/> }
+
+              {/* <Route path="/admin/rechargehistory/:meterid" element = {<AdminRechargeHistory/>}/>  */}
               <Route path="recharge-history/:meterId" element={<SuperAdminRechargeHistory />} />
             </Route>
-          </Route> */}
+          </Route>
           {/* Admin Routes */}
           <Route element={<PrivateRoute allowedRoles={['admin']} />}>
             <Route path="/admin" element={<DashboardLayout />}>
-            
+              <Route path='profile' element={<ProfileSection />} />
               <Route path="dashboard/:id" element={<AdminDashboard />} />
               <Route path='meters-list' element={<AdminMeterList />} />
               <Route path='user-list' element={<AdminUserList />} />
@@ -140,6 +147,7 @@ const App = () => {
           {/* User Routes */}
           <Route element={<PrivateRoute allowedRoles={['user']} />}>
             <Route path="/user" element={<DashboardLayout />}>
+              <Route path='profile' element={<ProfileSection />} />
               <Route path="dashboard/:id" element={<UserDashboard />} />
               <Route path="usage-history/:id" element={<UsageHistory />} />
               <Route path="account-setting/:id" element={<AccountSettings />} />

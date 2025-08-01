@@ -25,7 +25,7 @@
 //     <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
 //       <div className="p-6">
 //         <h2 className="font-semibold text-gray-900 mb-4">User Actions</h2>
-        
+
 //         {selectedUser ? (
 //           <div className="space-y-6">
 //             {/* Selected User Info */}
@@ -43,7 +43,7 @@
 //                 </div>
 //                 <Icons.Users className="h-8 w-8 text-blue-600" />
 //               </div>
-              
+
 //               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 pt-4 border-t border-blue-200">
 //                 <div>
 //                   <div className="text-xs text-blue-600 uppercase tracking-wide">Status</div>
@@ -314,7 +314,7 @@ const UserDetailsPanel = ({
     setProcessing(true);
 
     try {
-      
+
 
       if (actionType === "force_logout") {
         const response = await fetch(
@@ -383,8 +383,8 @@ const UserDetailsPanel = ({
 
       // Prepare full update payload
       const fullUpdateData = {
-        //...updateData,
-        status: formData.newStatus,
+        ...updateData,
+        //status: formData.newStatus,
 
         actionHistory: [
           ...(selectedUser.actionHistory || []),
@@ -488,9 +488,8 @@ const UserDetailsPanel = ({
                 }
                 rows={3}
                 className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder={`Enter reason for changing to ${
-                  formData.newStatus || "new status"
-                }...`}
+                placeholder={`Enter reason for changing to ${formData.newStatus || "new status"
+                  }...`}
                 required
               />
 

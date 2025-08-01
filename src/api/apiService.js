@@ -32,6 +32,7 @@ api.interceptors.response.use(
   }
 );
 
+
 const userManagement = {
   UserById: (id) => api.get("user", id),
   getUsersByQuery: ({ superAdminId, adminId, role, search }) =>
@@ -62,7 +63,8 @@ const authApis = {
 }
 
 const userApi = {
-  profile: () => api.get('auth/profile')
+  profile: () => api.get(`/user/profile`),
+  updateProfile: (data) => api.put('/user/update-profile',data)
 }
 
 const meterApi = {
@@ -74,7 +76,7 @@ const meterApi = {
   deleteMeter: (id) => api.delete(`/meter/update/${id}`),
   getAllMeterFromIOT: () => api.get('/meter/get-all-meter-from-iot'),
   getMeterByMeterId: (meterId, params = {}) =>api.get(`/meter/by-meterId/${meterId}`, { params }),
-  getAllMeterWithPayment:() => api.get(`meter//get-all-meter-with-payment`),
+  getAllMeterWithPayment:() => api.get(`meter/get-all-meter-with-payment`),
 }
 
 

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { setHeaderTitle, setBreadcrumbs } from "../redux/slice/headerSlice";
 import { fetchMeters } from "../redux/slice/superAdminMeterSlice"; // <-- import redux action
 import Header from "../components/header/Header";
+import { selectSuperAdminAllMeter, selectLoadingSuperAdmin } from "../redux/slice/superAdminMeterSlice"
 
 const SuperAdminPanel = () => {
   const navigate = useNavigate();
@@ -19,7 +20,9 @@ const SuperAdminPanel = () => {
   const metersPerPage = 10;
 
   // Redux meter data
-  const { allMeters, loading } = useSelector((state) => state.meter);
+
+  const allMeters = useSelector(selectSuperAdminAllMeter);
+  const loading = useSelector(selectLoadingSuperAdmin);
 
   console.log("=================", allMeters);
 
@@ -113,19 +116,19 @@ const SuperAdminPanel = () => {
       <Header />
       <div className="p-4 max-w-7xl mx-auto">
         <div className="mb-4">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900">
+          <h1 className="text-lg sm:text-xl md:text-xl font-semibold text-gray-900">
             Admin Panel
           </h1>
-          <p className="text-sm sm:text-base text-gray-600">
+          <p className="text-xs sm:text-base text-gray-600">
             Manage all meters, recharge balances, and monitor statuses
           </p>
         </div>
 
-        {/* Search and Actions */}
+        {/* Search and Actions
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-4">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div className="w-full md:w-2/3" ref={dropdownRef}>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+            <div className="w-full flex justify-start items-center" ref={dropdownRef}>
+              <label className="block text-sm font-medium text-gray-700 mb-1 gap-4">
                 Search Meter
               </label>
               <input
@@ -135,17 +138,17 @@ const SuperAdminPanel = () => {
                 onChange={(e) =>
                   setFilters({ ...filters, search: e.target.value })
                 }
-                className=" px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className=" px-3 py-2 border border-gray-300 rounded-md text-xs focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
 
-            <div className="flex flex-col sm:flex-row w-full md:w-1/3 gap-2">
+            <div className="flex flex-end sm:flex-row w-full gap-2">
               <button
                 disabled={!selectedMeter}
                 onClick={() =>
-                  navigate(`/super-admin/recharge-history/${selectedMeter?.meterId}`)
+                  navigate(`/superAdmin/recharge-history/${selectedMeter?.meterId}`)
                 }
-                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto text-sm rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto text-xs rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
               >
                 Recharge History
               </button>
@@ -153,9 +156,9 @@ const SuperAdminPanel = () => {
               <button
                 disabled={!selectedMeter}
                 onClick={() =>
-                  navigate(`/super-admin/meter-usage/${selectedMeter?.meterId}`)
+                  navigate(`/superAdmin/meter-usage/${selectedMeter?.meterId}`)
                 }
-                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto text-sm rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto text-xs rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
               >
                 Usage History
               </button>
@@ -163,13 +166,63 @@ const SuperAdminPanel = () => {
               <button
                 disabled={!selectedMeter}
                 onClick={handleRecharge}
-                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto text-sm rounded-md bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
+                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto text-xs rounded-md bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
+              >
+                Recharge Now
+              </button>
+            </div>
+          </div>
+        </div> */}
+        {/* Search and Actions */}
+        <div className="bg-white rounded-md shadow-sm border border-gray-200 p-3 mb-4">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+
+            {/* Search Input */}
+            <div className="w-full md:w-1/2" ref={dropdownRef}>
+              <input
+                type="text"
+                placeholder="Search Meter"
+                value={filters.search}
+                onChange={(e) =>
+                  setFilters({ ...filters, search: e.target.value })
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md text-xs focus:outline-none focus:ring-1 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="w-full md:w-auto flex flex-col sm:flex-row gap-2">
+              <button
+                disabled={!selectedMeter}
+                onClick={() =>
+                  navigate(`/superAdmin/recharge-history/${selectedMeter?.meterId}`)
+                }
+                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto text-xs rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+              >
+                Recharge History
+              </button>
+
+              <button
+                disabled={!selectedMeter}
+                onClick={() =>
+                  navigate(`/superAdmin/meter-usage/${selectedMeter?.meterId}`)
+                }
+                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto text-xs rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+              >
+                Usage History
+              </button>
+
+              <button
+                disabled={!selectedMeter}
+                onClick={handleRecharge}
+                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto text-xs rounded-md bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
               >
                 Recharge Now
               </button>
             </div>
           </div>
         </div>
+
 
         {/* Loading State */}
         {loading ? (
@@ -181,54 +234,53 @@ const SuperAdminPanel = () => {
             {/* Meter Cards */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 space-y-4">
               {paginatedMeters.length === 0 ? (
-                <div className="text-center text-gray-500 py-8 text-sm">
+                <div className="text-center text-gray-500 py-8 text-xs">
                   No meters found for your search.
                 </div>
               ) : (
                 paginatedMeters.map((meter) => (
                   <div
                     key={meter.id}
-                    className={`cursor-pointer p-4 border rounded-lg transition-all ${
-                      selectedMeter?.meterId === meter.meterId
+                    className={`cursor-pointer p-4 border rounded-lg transition-all ${selectedMeter?.meterId === meter.meterId
                         ? "border-blue-600 bg-blue-50"
                         : "border-gray-200 hover:bg-gray-50"
-                    }`}
+                      }`}
                     onClick={() => setSelectedMeter(meter)}
                   >
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
                       <div>
-                        <p className="text-xs sm:text-sm font-semibold text-gray-500 tracking-wid">
+                        <p className="text-xs sm:text-xs font-semibold text-gray-500 tracking-wid">
                           Meter ID
                         </p>
-                        <p className="text-sm font-semibold text-blue-700">
+                        <p className="text-xs font-semibold text-blue-700">
                           {meter.meterId}
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs sm:text-sm font-semibold text-gray-500 tracking-wid">
+                        <p className="text-xs sm:text-xs font-semibold text-gray-500 tracking-wid">
                           User
                         </p>
-                        <p className="text-sm font-medium">{meter.User}</p>
+                        <p className="text-xs font-medium">{meter.User}</p>
                       </div>
                       <div>
-                        <p className="text-xs sm:text-sm font-semibold text-gray-500 tracking-wid">
+                        <p className="text-xs sm:text-xs font-semibold text-gray-500 tracking-wid">
                           Meter Name
                         </p>
-                        <p className="text-sm font-medium">{meter.meterName}</p>
+                        <p className="text-xs font-medium">{meter.meterName}</p>
                       </div>
                       <div>
-                        <p className="text-xs sm:text-sm font-semibold text-gray-500 tracking-wid">
+                        <p className="text-xs sm:text-xs font-semibold text-gray-500 tracking-wid">
                           Balance
                         </p>
-                        <p className="text-sm font-bold text-green-600">
+                        <p className="text-xs font-bold text-green-600">
                           ₹{meter.currentBalance}
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs sm:text-sm font-semibold text-gray-500 tracking-wid">
+                        <p className="text-xs sm:text-xs font-semibold text-gray-500 tracking-wid">
                           Last Recharge
                         </p>
-                        <p className="text-sm font-medium text-blue-600">
+                        <p className="text-xs font-medium text-blue-600">
                           {new Date(meter.lastRecharge)
                             .toLocaleString("en-GB", {
                               year: "numeric",
@@ -242,7 +294,7 @@ const SuperAdminPanel = () => {
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs sm:text-sm font-semibold text-gray-500 tracking-wid">
+                        <p className="text-xs sm:text-xs font-semibold text-gray-500 tracking-wid">
                           Status
                         </p>
                         <span
@@ -264,11 +316,11 @@ const SuperAdminPanel = () => {
               <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
-                className="px-4 py-2 bg-gray-100 rounded-md text-sm hover:bg-gray-200 disabled:opacity-50"
+                className="px-4 py-2 bg-gray-100 rounded-md text-xs hover:bg-gray-200 disabled:opacity-50"
               >
                 Previous
               </button>
-              <span className="text-sm font-medium text-gray-700">
+              <span className="text-xs font-medium text-gray-700">
                 Page {currentPage} of {totalPages}
               </span>
               <button
@@ -278,7 +330,7 @@ const SuperAdminPanel = () => {
                   )
                 }
                 disabled={currentPage === totalPages}
-                className="px-4 py-2 bg-gray-100 rounded-md text-sm hover:bg-gray-200 disabled:opacity-50"
+                className="px-4 py-2 bg-gray-100 rounded-md text-xs hover:bg-gray-200 disabled:opacity-50"
               >
                 Next
               </button>
@@ -292,12 +344,12 @@ const SuperAdminPanel = () => {
             <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
               <button
                 onClick={() => setShowRechargeModal(false)}
-                className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl"
+                className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-lg"
               >
                 ×
               </button>
-              <h2 className="text-lg font-semibold mb-4">Recharge Meter</h2>
-              <div className="space-y-1 mb-4 text-sm text-gray-700">
+              <h2 className="text-md font-semibold mb-4">Recharge Meter</h2>
+              <div className="space-y-1 mb-4 text-xs text-gray-700">
                 <div>
                   <strong>Meter:</strong> {selectedMeter.meterId}
                 </div>
@@ -317,19 +369,19 @@ const SuperAdminPanel = () => {
                 placeholder="Enter recharge amount"
                 value={rechargeAmount}
                 onChange={(e) => setRechargeAmount(e.target.value)}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 text-sm"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 text-xs"
               />
               <div className="flex justify-end gap-2">
                 <button
                   onClick={() => setShowRechargeModal(false)}
-                  className="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded-md"
+                  className="px-4 py-2 text-xs bg-gray-100 hover:bg-gray-200 rounded-md"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={processRecharge}
                   disabled={!rechargeAmount}
-                  className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+                  className="px-4 py-2 text-xs bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
                 >
                   Recharge
                 </button>

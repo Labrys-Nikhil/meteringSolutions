@@ -156,20 +156,24 @@ const LoginForm = () => {
     try {
       const resultAction = await dispatch(loginUser({ email, password }));
       const payload = resultAction.payload;
+
       console.log(payload);
-      console.log("checking the",loginUser.fulfilled.match(resultAction));
-      if (loginUser.fulfilled.match(resultAction)===true) {
+      console.log("checking the", loginUser.fulfilled.match(resultAction));
+
+      if (loginUser.fulfilled.match(resultAction) === true) {
         const role = payload?.role;
         const id = payload?.id;
-        console.log(role,id)
+
+        console.log(role, id)
+
         if (role === "admin") {
           console.log('checking inside the role === admin')
           navigate(`/admin/dashboard/${id}`);
         } else if (role === "user") {
           await dispatch(fetchUserInit(id));
           navigate(`/user/dashboard/${id}`);
-        } else if (role === "superadmin") {
-          navigate(`/super-admin/${id}`);
+        } else if (role === "superAdmin") {
+          navigate(`/superAdmin/dashboard/${id}`);
         } else {
           setSignInError(true);
         }
@@ -182,7 +186,16 @@ const LoginForm = () => {
       setLoading(false);
     }
   };
-
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600 font-medium">Loading...</p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="w-full flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-100 p-4">
       <div className="w-full max-w-xl bg-white rounded-xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2">

@@ -312,7 +312,7 @@ const getUserMainMenuItems = (userId) => [
 ];
 
 const getSettingsItems = () => [
-  { name: "Profile Settings", path: "/profile-settings", icon: FaUser, color: "text-gray-600" },
+  { name: "Profile Settings", path: "/user/profile", icon: FaUser, color: "text-gray-600" },
   { name: "Preferences", path: "/preferences", icon: FaCog, color: "text-gray-600" }
 ];
 

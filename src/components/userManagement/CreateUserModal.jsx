@@ -195,7 +195,7 @@
 import React, { useState } from 'react';
 import Icons from '../icons/LucideIcons';
 import { useDispatch, useSelector } from 'react-redux';
-import { createUser } from '../../redux/thunks/userManagementThunks';
+import { createUser,fetchUsersByQuery } from '../../redux/thunks/userManagementThunks';
 import { toast } from 'react-toastify';
 import { userManagementLoading } from '../../redux/slice/userMangementSlice';
 
@@ -335,7 +335,12 @@ const CreateUserModal = ({
             setShowCreateForm(false);
 
             toast.success("User created successfully!");
-
+            dispatch(fetchUsersByQuery({
+                superAdminId: currentAdmin?.superAdminId || currentAdmin?._id,
+                adminId: currentAdmin?.adminId || currentAdmin?._id,
+                role: "",
+                search: ""
+            }));
         } catch (error) {
             toast.error("An unexpected error occurred");
             console.error("Error creating user:", error);

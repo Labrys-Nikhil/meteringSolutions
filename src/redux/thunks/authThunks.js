@@ -20,11 +20,3 @@ export const loginUser = createAsyncThunk("auth/login", async (credentials, thun
 }
 );
 
-const me = createAsyncThunk('auth/profile', async (thunkAPI) => {
-  try {
-    const response = await userApi.login();
-    return response;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data);
-  }
-})
