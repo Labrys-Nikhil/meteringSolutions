@@ -44,7 +44,7 @@ const SuperAdminPanel = () => {
     return allMeters.map((item) => ({
       id: item._id,
       Admin: "Admin",
-      User: item.isAssigned ? item.assingnedUserId?.name : "Unassigned",
+      User: item.isAssigned ? item.assignedUserId?.name : "Unassigned",
       meterId: item.meterId,
       meterName: item.name,
       currentBalance: item.balanceAmount || "0.00",

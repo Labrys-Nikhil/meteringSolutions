@@ -90,7 +90,6 @@ const Roles = lazy(() => import("./pages/Roles"));
 const SupportAndLogs = lazy(() => import("./pages/SupportAndLogs"));
 const RecentAndHistoricalData = lazy(() => import("./components/energyConsumption/RecentAndHistoricalData"));
 const UserDashboard = lazy(() => import("./pages/UserDashboard"));
-const UsageHistory = lazy(() => import('./pages/UsageHistory'));
 const AccountSettings = lazy(() => import("./pages/AccountSetting"));
 const SignUpForm = lazy(() => import('./components/user/SignUpForm'));
 const SignIn = lazy(() => import('./components/user/LoginForm'));
@@ -99,6 +98,7 @@ const AdminUserList = lazy(() => import("./pages/AdminUserList"));
 const FaultyOffline = lazy(() => import('./pages/FaultyOffline'));
 const SuperAdminPanel = lazy(() => import('./pages/SuperAdminPanel'));
 const DailyMeterDataUsageHistory = lazy(() => import('./components/superAdmin/DailyMeterDataUsageHistory'));
+const UsageHistoryDashboard = lazy(()=>import("./pages/UsageHistory"));
 
 
 // You can replace this with a Spinner or Skeleton
@@ -149,7 +149,7 @@ const App = () => {
             <Route path="/user" element={<DashboardLayout />}>
               <Route path='profile' element={<ProfileSection />} />
               <Route path="dashboard/:id" element={<UserDashboard />} />
-              <Route path="usage-history/:id" element={<UsageHistory />} />
+              <Route path="usage-history/:id" element={<UsageHistoryDashboard />} />
               <Route path="account-setting/:id" element={<AccountSettings />} />
               <Route path="alert-notification/:id" element={<AlertAndNotification />} />
               <Route path="archive/:id" element={<Archive />} />

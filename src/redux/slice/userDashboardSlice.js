@@ -1,7 +1,7 @@
 // here we will make the slice for the userDashboard.
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { userDashboard } from "../../api/apiService";
+import { meterApi, userDashboard } from "../../api/apiService";
 import { setCharts } from "./currentPowerChartSlice";
 
 export const fetchUserInit = createAsyncThunk("userDashboard/fetchUserInit", async (userId, thunkAPI) => {
@@ -18,9 +18,30 @@ export const fetchUserInit = createAsyncThunk("userDashboard/fetchUserInit", asy
     }
 });
 
+export const fetchUsageHistorySingleDay = createAsyncThunk("userDashboard/fetchUsageHistorySingleDay", async ({ meterId, userId, date }, thunkAPI) => {
+    try {
+        const response = await meterApi.getMeterDataDaily(meterId, userId, date);
+        return response.data;
+    }   catch (error) { 
+        return thunkAPI.rejectWithValue(error.response.data);
+    }
+});
+
+export const fetchUsageHistory30Days = createAsyncThunk("userDashboard/fetchUsageHistory30Days", async (_, thunkAPI) => {
+    try {
+        const response = await meterApi.getMeterData30Days();
+        
+        console.log("30 Days Meter Data:", response.data);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data);
+    }
+});
 
 const initialState = {
     data: [],
+    userMeterDataDaily:[],
+    userMeterData30Days: [],
     loading: false,
     error: null,
     selectedMeter: null,
@@ -293,7 +314,34 @@ const userDashboardSlice = createSlice({
             .addCase(fetchUserInit.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload || "Failed to fetch dashboard data";
-            });
+            })
+
+            .addCase(fetchUsageHistorySingleDay.fulfilled,(state,action)=>{
+                state.loading = false;
+                state.error = null;
+                state.userMeterDataDaily = action.payload;
+            })
+            .addCase(fetchUsageHistorySingleDay.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload || "Failed to fetch daily usage history";
+            })
+            .addCase(fetchUsageHistorySingleDay.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchUsageHistory30Days.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchUsageHistory30Days.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload || "Failed to fetch 30 days usage history";
+            })
+            .addCase(fetchUsageHistory30Days.fulfilled,(state,action)=>{
+                state.loading = false;
+                state.error = null;
+                state.userMeterData30Days = action.payload;
+            })
     },
 });
 
@@ -326,6 +374,9 @@ export const selectLoading = (state) => state.userDashboard.loading;
 export const selectError = (state) => state.userDashboard.error;
 export const selectSelectedMeter = (state) => state.userDashboard.selectedMeter;
 export const selectFilterSettings = (state) => state.userDashboard.filterSettings;
+export const selectUserMeterDataDaily = (state) => state.userDashboard.userMeterDataDaily;
+export const selectUserMeterData30Days = (state) => state.userDashboard.userMeterData30Days;
+
 
 // Advanced selectors
 export const selectMeterById = (meterId) => (state) =>

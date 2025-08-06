@@ -69,7 +69,7 @@
 
 // // Main function to get menu items based on user role
 // export const getMenuItemsByRole = (role = null) => {
-  
+
 //   switch (lognInUserRole) {
 //     case 'admin':
 //     case 'superadmin':
@@ -116,13 +116,13 @@
 //     onClick={onToggle}
 //   >
 //     <div className="flex items-center space-x-2">
-//       <span className="text-xs font-bold text-gray-600 uppercase tracking-wider">{title}</span>
-//       <span className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded-full">{count}</span>
+//       <span className="text-sm font-bold text-gray-600 uppercase tracking-wider">{title}</span>
+//       <span className="text-sm bg-gray-200 text-gray-600 px-2 py-1 rounded-full">{count}</span>
 //     </div>
 //     {isExpanded ? (
-//       <FaChevronDown className="text-gray-400 text-xs" />
+//       <FaChevronDown className="text-gray-400 text-sm" />
 //     ) : (
-//       <FaChevronRight className="text-gray-400 text-xs" />
+//       <FaChevronRight className="text-gray-400 text-sm" />
 //     )}
 //   </div>
 // );
@@ -141,7 +141,7 @@
 //           }`}>
 //           <item.icon className={`${navIsActive ? 'text-blue-600' : item.color} group-hover:scale-110 transition-transform`} size={16} />
 //         </div>
-//         <span className={`font-medium text-xs transition-colors ${navIsActive
+//         <span className={`font-medium text-sm transition-colors ${navIsActive
 //           ? 'text-blue-600 font-semibold'
 //           : 'text-gray-700 group-hover:text-gray-900'
 //           }`}>
@@ -186,8 +186,8 @@
 //           </div>
 //           <div className="text-center mt-4">
 //             <h3 className="font-bold text-gray-800">Welcome Back</h3>
-//             <p className="text-xs text-gray-500 capitalize">{role} Dashboard</p>
-//             <p className="text-xs text-gray-400 mt-1">ID: {id}</p>
+//             <p className="text-sm text-gray-500 capitalize">{role} Dashboard</p>
+//             <p className="text-sm text-gray-400 mt-1">ID: {id}</p>
 //           </div>
 //         </div>
 
@@ -254,7 +254,7 @@
 //             <div className="p-2 rounded-lg bg-red-100 group-hover:bg-red-200 transition-colors">
 //               <FaSignOutAlt className="text-red-500 group-hover:text-red-600" size={16} />
 //             </div>
-//             <span className="font-medium text-xs text-red-500 group-hover:text-red-600 transition-colors">
+//             <span className="font-medium text-sm text-red-500 group-hover:text-red-600 transition-colors">
 //               Log Out
 //             </span>
 //           </NavLink>
@@ -268,10 +268,13 @@
 
 // Sidebar.jsx
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FaFileInvoiceDollar, FaLifeRing, FaBolt, FaUserPlus, FaTachometerAlt, FaUser, FaBell, FaUsers, FaCalculator, FaComments, FaArchive, FaCog, FaChartBar, FaCreditCard, FaHistory, FaHeadset, FaSignOutAlt, FaChevronDown, FaChevronRight } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
-import { selectUserId, selectUserRole } from '../redux/slice/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, selectUserId, selectUserRole } from '../redux/slice/authSlice';
+import { selectUserProfile } from '../redux/slice/userSlice';
+import { useEffect } from 'react';
+import { fetchUserProfile } from '../redux/thunks/profileThunks';
 
 const getAdminFavoriteItems = (userId) => [
   { name: "Billing & Payments", path: "/billing-payment", icon: FaFileInvoiceDollar, color: "text-emerald-500" },
@@ -319,10 +322,10 @@ const getSettingsItems = () => [
 const SectionHeader = ({ title, isExpanded, onToggle, count }) => (
   <div className="flex items-center justify-between py-2 px-3 cursor-pointer hover:bg-gray-50 rounded-lg transition-colors" onClick={onToggle}>
     <div className="flex items-center space-x-2">
-      <span className="text-xs font-bold text-gray-600 uppercase tracking-wider">{title}</span>
-      <span className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded-full">{count}</span>
+      <span className="text-sm font-bold text-gray-600 uppercase tracking-wider">{title}</span>
+      <span className="text-sm bg-gray-200 text-gray-600 px-2 py-1 rounded-full">{count}</span>
     </div>
-    {isExpanded ? <FaChevronDown className="text-gray-400 text-xs" /> : <FaChevronRight className="text-gray-400 text-xs" />}
+    {isExpanded ? <FaChevronDown className="text-gray-400 text-sm" /> : <FaChevronRight className="text-gray-400 text-sm" />}
   </div>
 );
 
@@ -333,7 +336,7 @@ const MenuItem = ({ item }) => (
         <div className={`p-2 rounded-lg transition-colors ${isActive ? 'bg-blue-100' : 'bg-gray-100 group-hover:bg-gray-200'}`}>
           <item.icon className={`${isActive ? 'text-blue-600' : item.color} group-hover:scale-110 transition-transform`} size={16} />
         </div>
-        <span className={`font-medium text-xs transition-colors ${isActive ? 'text-blue-600 font-semibold' : 'text-gray-700 group-hover:text-gray-900'}`}>{item.name}</span>
+        <span className={`font-bold text-sm transition-colors ${isActive ? 'text-blue-600 font-semibold' : 'text-gray-700 group-hover:text-gray-900'}`}>{item.name}</span>
         {isActive && <div className="absolute right-3 w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>}
       </div>
     )}
@@ -341,9 +344,17 @@ const MenuItem = ({ item }) => (
 );
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const role = useSelector(selectUserRole);
   const id = useSelector(selectUserId);
+  const userData = useSelector(selectUserProfile);
+  const { firstName, lastName } = userData;
+  console.log('-------->', userData);
 
+  useEffect(() => {
+    dispatch(fetchUserProfile(id));
+  }, [id])
   const favoriteItems = role === 'admin' || role === 'superadmin' ? getAdminFavoriteItems(id) : getUserFavoriteItems(id);
   const mainMenuItems = role === 'admin' || role === 'superadmin' ? getAdminMainMenuItems(id) : getUserMainMenuItems(id);
   const settingsItems = getSettingsItems();
@@ -353,7 +364,10 @@ const Sidebar = () => {
   const toggleSection = (section) => {
     setExpandedSections((prev) => ({ ...prev, [section]: !prev[section] }));
   };
-
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/');
+  }
   return (
     <aside className="w-full h-full bg-white shadow-xl border-r border-gray-100">
       <div className="px-6 py-4 h-full flex flex-col">
@@ -364,10 +378,10 @@ const Sidebar = () => {
             </div>
             <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-green-500 rounded-full border-3 border-white shadow-sm"></div>
           </div>
-          <div className="text-center mt-4">
-            <h3 className="font-bold text-gray-800">Welcome Back</h3>
-            <p className="text-xs text-gray-500 capitalize">{role} Dashboard</p>
-            <p className="text-xs text-gray-400 mt-1">ID: {id}</p>
+          <div className="text-center items-center mt-6 p-4 bg-white">
+            <h3 className="text-xl font-semibold text-gray-800">Welcome Back 👋</h3>
+            <p className="text-sm text-gray-500 capitalize mt-1">{role} Dashboard</p>
+            <p className="text-base font-bold text-gray-700 mt-1 tracking-wide">{firstName.toUpperCase()} {lastName.toUpperCase()}</p>
           </div>
         </div>
 
@@ -389,11 +403,11 @@ const Sidebar = () => {
         </nav>
 
         <div className="pt-6 border-t border-gray-100">
-          <NavLink to="/logout" className="flex items-center space-x-3 p-3 rounded-xl hover:bg-red-50 hover:shadow-md transition-all duration-200 group">
+          <NavLink onClick={handleLogout} className="flex items-center space-x-3 p-3 rounded-xl hover:bg-red-50 hover:shadow-md transition-all duration-200 group">
             <div className="p-2 rounded-lg bg-red-100 group-hover:bg-red-200 transition-colors">
               <FaSignOutAlt className="text-red-500 group-hover:text-red-600" size={16} />
             </div>
-            <span className="font-medium text-xs text-red-500 group-hover:text-red-600 transition-colors">Log Out</span>
+            <span className="font-medium text-sm text-red-500 group-hover:text-red-600 transition-colors">Log Out</span>
           </NavLink>
         </div>
       </div>

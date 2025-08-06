@@ -2,8 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Send, Search, Wifi, Battery, Clock, CheckCircle, XCircle, AlertCircle, Loader2, Settings, Plus, User, Trash2, X } from 'lucide-react';
 import AddMeterModal from '../components/meterManagement/AddMeterModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectIotMeters, selectMeteringMeters } from '../redux/slice/meterManagementSlice';
+import { addActionHistoryToMeter, selectIotMeters, selectMeteringMeters } from '../redux/slice/meterManagementSlice';
 import { fetchMeters, fetchUnassignedIoTMeters } from '../redux/thunks/meterThunks';
+import { sendDownlinlkCommand } from '../redux/thunks/meterManagementThunks';
+import { userAllData,userQueryData } from '../redux/slice/userMangementSlice';
+import { toast } from 'react-toastify';
+
+
 
 const MeterManagement = () => {
   // State declarations
@@ -31,132 +36,23 @@ const MeterManagement = () => {
     dispatch(fetchUnassignedIoTMeters());
   }, []);
 
+  // Selectors
   const unasignedIOTMeter = useSelector(selectIotMeters);
   const meteringMeter = useSelector(selectMeteringMeters);
+  const users = useSelector(userQueryData);
+  console.log("all users------------------>", users);
 
+  
+  useEffect(() => {
+    if (selectedMeter && selectedMeter.actionHistory) {
+      // Convert meter's actionHistory to commandHistory format
+      const formattedHistory = selectedMeter.actionHistory;
 
-  const [meters, setMeters] = useState([
-    {
-      id: 'MTR001',
-      devEUI: '70B3D57ED0000001',
-      name: 'Building A - Floor 1',
-      status: 'online',
-      lastSeen: '2025-06-25T10:30:00Z',
-      battery: 85,
-      signal: -67,
-      type: 'Smart Water Meter',
-      userId: 'user001',
-      rs485Id: 'RS485-001'
-    },
-    {
-      id: 'MTR002',
-      devEUI: '70B3D57ED0000002',
-      name: 'Building A - Floor 2',
-      status: 'online',
-      lastSeen: '2025-06-25T10:25:00Z',
-      battery: 92,
-      signal: -71,
-      type: 'Smart Gas Meter',
-      userId: 'user001',
-      rs485Id: 'RS485-002'
-    },
-    {
-      id: 'MTR003',
-      devEUI: '70B3D57ED0000003',
-      name: 'Building B - Basement',
-      status: 'offline',
-      lastSeen: '2025-06-24T15:45:00Z',
-      battery: 23,
-      signal: -89,
-      type: 'Smart Electric Meter',
-      userId: 'user002',
-      rs485Id: 'RS485-003'
-    },
-    {
-      id: 'MTR004',
-      devEUI: '70B3D57ED0000004',
-      name: 'Building C - Main',
-      status: 'online',
-      lastSeen: '2025-06-25T10:32:00Z',
-      battery: 67,
-      signal: -75,
-      type: 'Smart Water Meter',
-      userId: 'user003',
-      rs485Id: 'RS485-004'
+      setCommandHistory(formattedHistory);
+    } else {
+      setCommandHistory([]);
     }
-  ]);
-
-  // Mock data for users
-  const users = [
-    { id: 'user001', name: 'John Smith', email: 'john@example.com', meters: ['MTR001', 'MTR002'] },
-    { id: 'user002', name: 'Emma Johnson', email: 'emma@example.com', meters: ['MTR003'] },
-    { id: 'user003', name: 'Michael Brown', email: 'michael@example.com', meters: ['MTR004'] },
-    { id: 'user004', name: 'Sarah Davis', email: 'sarah@example.com', meters: [] },
-    { id: 'user005', name: 'David Wilson', email: 'david@example.com', meters: [] },
-  ];
-
-  // Command templates
-  // const commandTemplates = {
-  //   'read_meter': {
-  //     name: 'Read Meter Data',
-  //     description: 'Request current meter readings',
-  //     payload: '010100',
-  //     params: []
-  //   },
-  //   'set_interval': {
-  //     name: 'Set Reporting Interval',
-  //     description: 'Change data reporting frequency',
-  //     payload: '020001{interval}',
-  //     params: [
-  //       {
-  //         name: 'interval', type: 'select', options: [
-  //           { value: '3C', label: '1 minute' },
-  //           { value: '78', label: '2 minutes' },
-  //           { value: 'B4', label: '3 minutes' },
-  //           { value: '012C', label: '5 minutes' },
-  //           { value: '0258', label: '10 minutes' },
-  //           { value: '0708', label: '30 minutes' },
-  //           { value: '0E10', label: '1 hour' }
-  //         ]
-  //       }
-  //     ]
-  //   },
-  //   'reset_meter': {
-  //     name: 'Reset Meter',
-  //     description: 'Perform meter reset operation',
-  //     payload: '030100',
-  //     params: []
-  //   },
-  //   'calibrate': {
-  //     name: 'Calibrate Meter',
-  //     description: 'Start calibration procedure',
-  //     payload: '040001{factor}',
-  //     params: [
-  //       { name: 'factor', type: 'number', min: 0.1, max: 2.0, step: 0.01, default: 1.0 }
-  //     ]
-  //   },
-  //   'set_threshold': {
-  //     name: 'Set Alert Threshold',
-  //     description: 'Configure alert thresholds',
-  //     payload: '050002{threshold}',
-  //     params: [
-  //       { name: 'threshold', type: 'number', min: 0, max: 10000, step: 1, default: 100 }
-  //     ]
-  //   },
-  //   'firmware_update': {
-  //     name: 'Firmware Update',
-  //     description: 'Initiate firmware update process',
-  //     payload: '060100',
-  //     params: []
-  //   },
-  //   'custom': {
-  //     name: 'Custom Command',
-  //     description: 'Send custom hex payload',
-  //     payload: '',
-  //     params: []
-  //   }
-  // };
-
+  }, [selectedMeter]);
   const commandTemplates = {
     forced_eb: {
       name: 'Force EB',
@@ -409,36 +305,95 @@ const MeterManagement = () => {
   };
 
   // Handle sending command
+  // const handleSendCommand = async () => {
+  //   if (!selectedMeter || !commandType) return;
+
+  //   setSending(true);
+  //   console.log("selected meter--------->", selectedMeter);
+
+  //   const payload = {
+  //     id: selectedMeter._id,
+  //     commandType: commandTemplates[commandType]?.name,
+  //     value: "",
+  //     "slaveId": "03",
+  //   }
+
+  //   dispatch(sendDownlinlkCommand({ payload, port }));
+
+
+  //   if (sendDownlinlkCommand.fulfilled) {
+  //     setSending(false);
+  //     dispatch(addActionHistoryToMeter());//this is the reducer to save the history to the meter.
+  //     toast.success(`Command sent successfully to ${selectedMeter.name}`);
+  //   } else {
+  //     error("Error sending command");
+  //   }
+  // };
   const handleSendCommand = async () => {
     if (!selectedMeter || !commandType) return;
 
     setSending(true);
+    console.log("selected meter--------->", selectedMeter);
 
-    const payload = generatePayload();
-    const command = {
-      id: Date.now(),
-      meterId: selectedMeter.id,
-      meterName: selectedMeter.name,
-      devEUI: selectedMeter.devEUI,
-      commandType: commandTemplates[commandType]?.name || 'Custom',
-      payload,
-      port,
-      confirmed,
-      timestamp: new Date().toISOString(),
-      status: 'pending'
+    const payload = {
+      id: selectedMeter._id,
+      commandType: commandTemplates[commandType]?.name,
+      value: Object.values(selectedParams)[0],
+      slaveId: selectedMeter.slaveId.toString(),
     };
 
-    // Simulate API call
-    setTimeout(() => {
-      command.status = Math.random() > 0.2 ? 'sent' : 'failed';
-      setCommandHistory(prev => [command, ...prev]);
-      setSending(false);
+    try {
+      // Dispatch the command and wait for response
+      const result = await dispatch(sendDownlinlkCommand({ payload, port })).unwrap();
+
+      // Create local history entry for immediate UI update
+      const localHistoryEntry = {
+        action: `Command: ${commandTemplates[commandType]?.name}`,
+        timestamp: new Date(),
+        status: 'sent'
+      };
+
+      // Add to local command history state for the command history panel
+      setCommandHistory(prev => [{
+        id: Date.now().toString(),
+        commandType: commandTemplates[commandType]?.name,
+        meterName: selectedMeter.name,
+        devEUI: selectedMeter.deviceId,
+        payload: generatePayload(),
+        port: port,
+        confirmed: confirmed,
+        timestamp: new Date().toISOString(),
+        status: 'sent'
+      }, ...prev]);
 
       // Reset form
       setCommandType('');
-      setCustomPayload('');
       setSelectedParams({});
-    }, 2000);
+      setCustomPayload('');
+
+      setSending(false);
+      toast.success(`Command sent successfully to ${selectedMeter.name}`);
+
+    } catch (error) {
+      console.error("Error sending command:", error);
+
+      // Add failed command to local history
+      setCommandHistory(prev => [{
+        id: Date.now().toString(),
+        commandType: commandTemplates[commandType]?.name,
+        meterName: selectedMeter.name,
+        devEUI: selectedMeter.deviceId,
+        payload: generatePayload(),
+        port: port,
+        confirmed: confirmed,
+        timestamp: new Date().toISOString(),
+        status: 'failed',
+        error: error.message
+      }, ...prev]);
+
+      setSending(false);
+      toast.error("Error sending command");
+    }
   };
 
   // Handle parameter changes
@@ -669,7 +624,7 @@ const MeterManagement = () => {
                       </div>
                     )}
 
-                    {/* Custom Payload */}
+                    {/* Custom Payload
                     {commandType === 'custom' && (
                       <div>
                         <label className="block text-xs font-medium text-gray-700 mb-2">Custom Hex Payload</label>
@@ -681,7 +636,7 @@ const MeterManagement = () => {
                           className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono"
                         />
                       </div>
-                    )}
+                    )} */}
 
                     {/* Port and Confirmation Settings */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -711,14 +666,14 @@ const MeterManagement = () => {
                     </div>
 
                     {/* Payload Preview */}
-                    {commandType && (
+                    {/* {commandType && (
                       <div className="bg-gray-50 p-4 rounded-lg">
                         <h4 className="font-medium text-gray-700 mb-2">Payload Preview</h4>
                         <div className="font-mono text-xs bg-white p-3 rounded border">
                           {generatePayload() || 'No payload generated'}
                         </div>
                       </div>
-                    )}
+                    )} */}
 
                     {/* Send Button */}
                     <button
@@ -744,24 +699,24 @@ const MeterManagement = () => {
             </div>
 
             {/* Command History */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-              <div className="p-6">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 h-96">
+              <div className="p-6 pb-2">
                 <h2 className="font-semibold text-gray-900 mb-4">Command History</h2>
 
                 {commandHistory.length > 0 ? (
-                  <div className="space-y-4">
-                    {commandHistory.slice(0, 10).map((cmd) => (
-                      <div key={cmd.id} className="border border-gray-200 rounded-lg p-4">
+                  <div className="space-y-4 max-h-76 overflow-y-scroll px-2 pb-2">
+                    {[...commandHistory].reverse().slice(0, 10).map((cmd,idx) => (
+                      <div key={idx} className="border border-gray-200 rounded-lg p-4">
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center">
-                            {cmd.status === 'sent' ? (
+                            {cmd.status === 'success' ? (
                               <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
                             ) : cmd.status === 'failed' ? (
                               <XCircle className="h-5 w-5 text-red-500 mr-2" />
                             ) : (
                               <AlertCircle className="h-5 w-5 text-yellow-500 mr-2" />
                             )}
-                            <span className="font-medium">{cmd.commandType}</span>
+                            <span className="font-medium">{cmd.action}</span>
                           </div>
                           <span className="text-xs text-gray-500">
                             {new Date(cmd.timestamp).toLocaleString()}
@@ -769,10 +724,9 @@ const MeterManagement = () => {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-gray-600">
-                          <div>Meter: {cmd.meterName}</div>
-                          <div>DevEUI: {cmd.devEUI}</div>
-                          <div>Payload: <span className="font-mono">{cmd.payload}</span></div>
-                          <div>Port: {cmd.port} | Confirmed: {cmd.confirmed ? 'Yes' : 'No'}</div>
+                          <div>Meter: {selectedMeter.name}</div>
+                          <div>MeterId: {selectedMeter.meterId}</div>
+                          <div>DevEUI: {selectedMeter.deviceId}</div>
                         </div>
                       </div>
                     ))}

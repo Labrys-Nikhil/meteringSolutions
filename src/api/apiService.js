@@ -77,6 +77,9 @@ const meterApi = {
   getAllMeterFromIOT: () => api.get('/meter/get-all-meter-from-iot'),
   getMeterByMeterId: (meterId, params = {}) =>api.get(`/meter/by-meterId/${meterId}`, { params }),
   getAllMeterWithPayment:() => api.get(`meter/get-all-meter-with-payment`),
+  getMeterDataDaily: () => api.get('meter/get-meterdata-daily'),
+  getMeterData30Days: () => api.get('meter/get-meterdata-30days'),
+  sendDownlink:(payload,port)=> api.post('meter/send-downlink-command-iot',{payload,port})
 }
 
 

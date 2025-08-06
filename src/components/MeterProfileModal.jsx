@@ -110,7 +110,7 @@ const MeterProfileModal = ({ meter, isOpen, onClose }) => {
               </h4>
             </div>
 
-            {meter.isAssigned && meter.assingnedUserId ? (
+            {meter.isAssigned && meter.assignedUserId ? (
               <div className="flex items-center space-x-3">
                 <div className="p-1.5 bg-blue-100 rounded-md">
                   <User className="text-blue-600" size={20} />
@@ -120,7 +120,7 @@ const MeterProfileModal = ({ meter, isOpen, onClose }) => {
                     {meter.assignedUser?.name || "Loading user..."}
                   </p>
                   <p className="text-sm text-gray-600">
-                    User ID: {meter.assingnedUserId}
+                    User ID: {meter.assignedUserId}
                   </p>
                 </div>
               </div>
