@@ -74,6 +74,8 @@ import PrivateRoute from "./service/ProtectedRoute";
 import NotFound404 from "./pages/NotFound404";
 import ProfileSection from "./pages/ProfileSection";
 import SuperAdminRechargeHistory from "./components/superAdmin/SuperAdminRechargeHistory";
+import { ToastContainer } from "react-toastify";
+
 
 // Lazy-loaded components
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
@@ -95,11 +97,12 @@ const SignUpForm = lazy(() => import('./components/user/SignUpForm'));
 const SignIn = lazy(() => import('./components/user/LoginForm'));
 const AdminMeterList = lazy(() => import("./pages/AdminMeterList"));
 const AdminUserList = lazy(() => import("./pages/AdminUserList"));
-const FaultyOffline = lazy(() => import('./pages/FaultyOffline'));
+const Faulty = lazy(() => import('./pages/Faulty'));
+const Offline = lazy(() => import('./pages/Offline'));
 const SuperAdminPanel = lazy(() => import('./pages/SuperAdminPanel'));
 const DailyMeterDataUsageHistory = lazy(() => import('./components/superAdmin/DailyMeterDataUsageHistory'));
-const UsageHistoryDashboard = lazy(()=>import("./pages/UsageHistory"));
-
+const UsageHistoryDashboard = lazy(() => import("./pages/UsageHistory"));
+const DueBalanceUser = lazy(() => import("./components/adminDashboard/DueBalanceUser"));
 
 // You can replace this with a Spinner or Skeleton
 const Loader = () => <div>Loading...</div>;
@@ -130,10 +133,11 @@ const App = () => {
               <Route path="dashboard/:id" element={<AdminDashboard />} />
               <Route path='meters-list' element={<AdminMeterList />} />
               <Route path='user-list' element={<AdminUserList />} />
-              <Route path='offline-meters' element={<FaultyOffline />} />
-              <Route path='faulty-meters' element={<FaultyOffline />} />
-              {/* <Route path='due-users' element={<AdminMeterList/>} />
-              <Route path='due-balance' element={<AdminMeterList/>} /> */}
+              <Route path='offline-meters' element={<Offline />} />
+              <Route path='faulty-meters' element={<Faulty />} />
+              {/* <Route path='due-users' element={<AdminMeterList/>} /> */}
+              <Route path="dashboard/duebalanceuser/:adminId" element={<DueBalanceUser />} />
+              <Route path="alert&notification" element={<AlertAndNotification />} />
               <Route path="dashboard/:id" element={<AdminDashboard />} />
               <Route path="user-management/:id" element={<UserManagement />} />
               <Route path="meter-management/:id" element={<MeterManagement />} />
@@ -173,7 +177,20 @@ const App = () => {
           </Route> 
           */}
         </Routes>
+
       </Suspense>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </HashRouter>
   );
 };

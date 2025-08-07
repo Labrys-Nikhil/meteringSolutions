@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 // Import from currentPowerChartSlice (keeping existing functionality)
 import { selectChartsByDashboard } from "../redux/slice/currentPowerChartSlice";
 import { setHeaderTitle, setBreadcrumbs } from "../redux/slice/headerSlice";
+import { toast } from "react-toastify";
 
 // Import from the new userDashboard slice
 import {
@@ -16,7 +17,8 @@ import {
   setLoading,
   setError,
   updateFilterSettings,
-  resetFilterSettings
+  resetFilterSettings,
+  fetchUserInit
 } from "../redux/slice/userDashboardSlice";
 
 import Header from "../components/header/Header";
@@ -60,6 +62,8 @@ function UserDashboard() {
   const [activeTab, setActiveTab] = useState("Daily");
   const [startDate, setStartDate] = useState("2025-04-01");
   const [refreshing, setRefreshing] = useState(false);
+  const [lastRefreshTime, setLastRefreshTime] = useState(null);
+  const [isRefreshingData, setIsRefreshingData] = useState(false);
 
   const today = new Date().toISOString().split("T")[0];
 
@@ -125,16 +129,41 @@ function UserDashboard() {
 
   // Handle refresh functionality
   const handleRefresh = async () => {
-    setRefreshing(true);
-    try {
-      // Add your refresh logic here
-      // For example: await dispatch(fetchDashboardData());
-      setTimeout(() => setRefreshing(false), 2000); // Simulated delay
-    } catch (err) {
-      setRefreshing(false);
-      console.error('Refresh failed:', err);
-    }
-  };
+      const now = new Date();
+      const fourMinutesInMs = 4 * 60 * 1000;
+  
+      // Check cooldown
+      if (lastRefreshTime && now - lastRefreshTime < fourMinutesInMs) {
+        const secondsLeft = Math.ceil(
+          (fourMinutesInMs - (now - lastRefreshTime)) / 1000
+        );
+        toast.error(
+          `Please wait ${Math.floor(secondsLeft / 60)}m ${
+            secondsLeft % 60
+          }s before refreshing again`,
+          { autoClose: 4000 }
+        );
+        return;
+      }
+  
+      setIsRefreshingData(true);
+  
+      try {
+        // Execute refresh sequence
+        
+  
+        await dispatch(fetchUserInit());
+
+        
+        setLastRefreshTime(new Date());
+        // toast.success("Data updated successfully");
+      } catch (error) {
+        console.error("Refresh error:", error);
+        toast.error("Failed to update data");
+      } finally {
+        setIsRefreshingData(false);
+      }
+    };
 
   // Handle loading state
   if (loading) {

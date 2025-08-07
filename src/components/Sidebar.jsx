@@ -285,7 +285,7 @@ const getAdminFavoriteItems = (userId) => [
 
 const getAdminMainMenuItems = (userId) => [
   { name: "Dashboard", path: `/admin/dashboard/${userId}`, icon: FaTachometerAlt, color: "text-blue-600" },
-  { name: "Alerts & Notifications", path: `/alert-and-notification/${userId}`, icon: FaBell, color: "text-red-500" },
+  { name: "Alerts & Notifications", path: `/admin/alert&notification`, icon: FaBell, color: "text-red-500" },
   { name: "User Management", path: `/admin/user-management/${userId}`, icon: FaUsers, color: "text-green-500" },
   { name: "Meter Management", path: `/admin/meter-management/${userId}`, icon: FaCalculator, color: "text-orange-500" },
   { name: "Chat", path: "/chat", icon: FaComments, color: "text-cyan-500" },

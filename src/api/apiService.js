@@ -64,7 +64,7 @@ const authApis = {
 
 const userApi = {
   profile: () => api.get(`/user/profile`),
-  updateProfile: (data) => api.put('/user/update-profile',data)
+  updateProfile: (data) => api.put('/user/update-profile', data)
 }
 
 const meterApi = {
@@ -75,11 +75,11 @@ const meterApi = {
   updateMeter: (id) => api.put(`/meter/update/${id}`),
   deleteMeter: (id) => api.delete(`/meter/update/${id}`),
   getAllMeterFromIOT: () => api.get('/meter/get-all-meter-from-iot'),
-  getMeterByMeterId: (meterId, params = {}) =>api.get(`/meter/by-meterId/${meterId}`, { params }),
-  getAllMeterWithPayment:() => api.get(`meter/get-all-meter-with-payment`),
+  getMeterByMeterId: (meterId, params = {}) => api.get(`/meter/by-meterId/${meterId}`, { params }),
+  getAllMeterWithPayment: () => api.get(`meter/get-all-meter-with-payment`),
   getMeterDataDaily: () => api.get('meter/get-meterdata-daily'),
   getMeterData30Days: () => api.get('meter/get-meterdata-30days'),
-  sendDownlink:(payload,port)=> api.post('meter/send-downlink-command-iot',{payload,port})
+  sendDownlink: (payload, port) => api.post('meter/send-downlink-command-iot', { payload, port })
 }
 
 
@@ -96,8 +96,20 @@ export const adminDashboard = {
   },
   getAdminUserMeterData: (adminId) => api.get(`user/adminDashboard/get-userdata-by-admin/${adminId}`),
   getMeterListByAdmin: (adminId) => api.get(`user/adminDashboard/get-meter-by-admin/${adminId}`),
+  getDueBalanceUser: (adminId) => api.get(`user/negative-payments/${adminId}`)
 };
+
 const paymentApi = {
-  getPaymentHistoryById :(meterId, params={})=> api.get(`user/get-payment-history-by/${meterId}`,{params})
+  getPaymentHistoryById: (meterId, params = {}) => api.get(`user/get-payment-history-by/${meterId}`, { params })
 }
-export { userManagement, meterManagement, authApis, userDashboard, userApi, meterApi,paymentApi }
+
+const notificationApi = {
+  // getAdminNotifications: (adminId) => api.get(`/notifications/admin/${adminId}`),
+  // getSystemNotifications: (adminId) => api.get(`/notifications/system/${adminId}`),
+  getUserNotifications: (userId) => api.get(`/notifications/user/${userId}`), // 
+  // toggleNotificationStatus: ({ notificationId, status }) =>
+  //   api.patch(`/notifications/${notificationId}/status`, { status }),
+};
+
+
+export { userManagement, meterManagement, authApis, userDashboard, userApi, meterApi, paymentApi, notificationApi }
