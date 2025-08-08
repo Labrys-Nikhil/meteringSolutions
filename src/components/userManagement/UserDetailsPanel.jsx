@@ -224,6 +224,7 @@ import {
   getStatusColor,
   getRoleBg,
 } from "../../utils/userUtils";
+import { logout } from "../../redux/slice/authSlice";
 
 const UserDetailsPanel = ({
   selectedUser,
@@ -317,18 +318,7 @@ const UserDetailsPanel = ({
 
 
       if (actionType === "force_logout") {
-        const response = await fetch(
-          "http://localhost:5000/api/v1/auth/user-logout",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              userId: selectedUser._id,
-            }),
-          }
-        );
+        const response = await dispatch(logout());
 
         console.log("=====rrrrrr=====", response);
 
@@ -364,8 +354,8 @@ const UserDetailsPanel = ({
         case "update_role":
           updateData.role = formData.newRole;
           break;
-          // case 'toggle_status':
-          //   updateData.status = formData.newStatus;
+          case 'toggle_status':
+            updateData.status = formData.newStatus;
           break;
         // case 'update_department':
         //   updateData.department = formData.newDepartment;
@@ -646,7 +636,7 @@ const UserDetailsPanel = ({
                 <option value="update_role">Update Role</option>
                 <option value="toggle_status">Update Status</option>
                 {/* <option value="update_department">Update Department</option> */}
-                <option value="send_password_reset">Reset Password </option>
+                {/* <option value="send_password_reset">Reset Password </option> */}
                 <option value="force_logout">Force Logout</option>
               </select>
             </div>

@@ -141,7 +141,7 @@ const AdminMeterList = () => {
                                         <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Assign Date</th>
                                     </tr>
                                 </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
+                                {/* <tbody className="bg-white divide-y divide-gray-200">
                                     {filteredMeters.map((meter) => (
                                         <tr key={meter._id} className="hover:bg-gray-50">
                                             <td className="px-6 py-4 text-sm font-medium text-gray-750">{meter.name}</td>
@@ -178,7 +178,63 @@ const AdminMeterList = () => {
 
                                         </tr>
                                     ))}
-                                </tbody>
+                                </tbody> */}
+                                     <tbody className="bg-white divide-y divide-gray-200">
+                  {filteredMeters.length > 0 ? (
+                    filteredMeters.map((meter) => (
+                      <tr key={meter._id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 text-sm font-medium text-gray-750">
+                          {meter.name}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-500">
+                          {meter.meterId}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-500">
+                          {meter.type}
+                        </td>
+                        <td className="px-6 py-4 text-sm">
+                          <span className={getStatusBadge(meter.status)}>
+                            {meter.status === "online" ? (
+                              <Wifi className="w-3 h-3 mr-1" />
+                            ) : (
+                              <WifiOff className="w-3 h-3 mr-1" />
+                            )}
+                            {meter.status.charAt(0).toUpperCase() +
+                              meter.status.slice(1)}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-sm">
+                          <span
+                            className={getAssignmentBadge(meter.isAssigned)}
+                          >
+                            {meter.isAssigned ? (
+                              <Link className="w-3 h-3 mr-1" />
+                            ) : (
+                              <Link2Off className="w-3 h-3 mr-1" />
+                            )}
+                            {meter.isAssigned ? "Assigned" : "Unassigned"}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-700 text-right">
+                          {meter.userAssignedTimestamp
+                            ? formatDate(meter.userAssignedTimestamp)
+                            : "—"}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan="6"
+                        className="px-6 py-10 text-center text-gray-500 text-sm font-medium"
+                      >
+                           <p className="text-center text-gray-500 p-8 text-xl font-semibold">
+                  Meter not found
+                </p>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
                             </table>
                         </div>
                     </div>

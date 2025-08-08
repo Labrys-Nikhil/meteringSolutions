@@ -76,12 +76,26 @@ const MeterList = ({ meters }) => {
 
             {/* Scrollable Meter List Section */}
             {/* <div className="max-h-[400px] overflow-y-auto space-y-3 pr-2"> */}
-            <div className="  space-y-3 pr-2">
+            {/* <div className="  space-y-3 pr-2">
               {meters.map((meter, ind) => (
                 <div key={meter._id + ind} className="w-full">
                   <MeterCard meter={meter} onClick={openModal} />
                 </div>
               ))}
+            </div> */}
+
+                        <div className=" space-y-3 pr-2">
+              {meters && meters.length > 0 ? (
+                meters.map((meter, ind) => (
+                  <div key={meter._id + ind} className="w-full">
+                    <MeterCard meter={meter} onClick={openModal} />
+                  </div>
+                ))
+              ) : (
+                <p className="text-center text-gray-500 p-8 text-xl font-semibold">
+                  Meter not found
+                </p>
+              )}
             </div>
 
             {/* Meter Modal */}

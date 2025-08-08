@@ -100,7 +100,7 @@ const AdminUserList = () => {
                     <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                {/* <tbody className="bg-white divide-y divide-gray-200">
                   {filteredUsers.map((user) => (
                     <tr key={user.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 text-sm font-medium text-gray-750">{user.name}</td>
@@ -117,6 +117,45 @@ const AdminUserList = () => {
                       </td>
                     </tr>
                   ))}
+                </tbody> */}
+                          <tbody className="bg-white divide-y divide-gray-200">
+                  {filteredUsers.length > 0 ? (
+                    filteredUsers.map((user) => (
+                      <tr key={user.id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 text-sm font-medium text-gray-750">
+                          {user.name}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-500">
+                          {user.userId}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-500">
+                          {user.email || "N/A"}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-500">
+                          {user.meters?.length || 0}
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <button
+                            onClick={() => handleViewUser(user)}
+                            className="text-blue-600 hover:text-blue-800 text-sm font-medium inline-flex items-center"
+                          >
+                            <Eye className="w-4 h-4 mr-1" /> View
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan="5"
+                        className="px-6 py-10 text-center text-gray-500 text-sm font-medium"
+                      >
+                            <p className="text-center text-gray-500 p-8 text-xl font-semibold">
+                  Users not found
+                </p>
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
