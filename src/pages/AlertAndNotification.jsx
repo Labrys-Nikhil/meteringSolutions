@@ -166,7 +166,7 @@
 //               onClick={() => handleToggleGlobalStatus(
 //                 notifications.status === "enabled" ? "disabled" : "enabled"
 //               )}
-//               className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors text-sm ${
+//               className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors body-xs  ${
 //                 notifications.status === "enabled"
 //                   ? "bg-red-600 hover:bg-red-700 text-white"
 //                   : "bg-green-600 hover:bg-green-700 text-white"
@@ -194,13 +194,13 @@
 //                     }
 //                     value={searchTerm}
 //                     onChange={(e) => dispatch(setSearchTerm(e.target.value))}
-//                     className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+//                     className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-xs "
 //                   />
 //                 </div>
 //               )}
 
 //               <div className="flex items-center gap-4">
-//                 <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
+//                 <h2 className="heading-lg sm:heading-xl font-semibold text-gray-900">
 //                   {role === "user"
 //                     ? "Your Notifications"
 //                     : selectedUser
@@ -213,7 +213,7 @@
 //                   <div className="flex bg-gray-100 rounded-lg p-1">
 //                     <button
 //                       onClick={() => dispatch(setActiveTab("users"))}
-//                       className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+//                       className={`px-3 py-1 rounded-md body-xs  font-medium transition-colors ${
 //                         activeTab === "users"
 //                           ? "bg-blue-600 text-white"
 //                           : "text-gray-600 hover:text-gray-900"
@@ -223,7 +223,7 @@
 //                     </button>
 //                     <button
 //                       onClick={() => dispatch(setActiveTab("adminNotifications"))}
-//                       className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+//                       className={`px-3 py-1 rounded-md body-xs  font-medium transition-colors ${
 //                         activeTab === "adminNotifications"
 //                           ? "bg-blue-600 text-white"
 //                           : "text-gray-600 hover:text-gray-900"
@@ -238,7 +238,7 @@
 //               {selectedUser && (
 //                 <button
 //                   onClick={handleBackToList}
-//                   className="flex items-center text-sm text-blue-600 hover:text-blue-800"
+//                   className="flex items-center body-xs  text-blue-600 hover:text-blue-800"
 //                 >
 //                   <ChevronLeft className="h-4 w-4 mr-1" />
 //                   Back to users
@@ -270,7 +270,7 @@
 //                       user.status === "enabled" ? "disabled" : "enabled"
 //                     );
 //                   }}
-//                   className={`px-3 py-1 rounded-md text-xs font-medium ${
+//                   className={`px-3 py-1 rounded-md body-xsfont-medium ${
 //                     user.status === "enabled"
 //                       ? "bg-red-100 hover:bg-red-200 text-red-600"
 //                       : "bg-green-100 hover:bg-green-200 text-green-600"
@@ -283,7 +283,7 @@
 //   <div key={user.userId} className="flex justify-between items-center border-b py-2">
 //     <div>
 //       <p className="font-medium">{user.userDetails.name}</p>
-//       <p className="text-sm text-gray-500">Meter ID: {user.meterId}</p>
+//       <p className="body-xs  text-gray-500">Meter ID: {user.meterId}</p>
 //     </div>
 //     <button
 //       onClick={(e) => {
@@ -293,7 +293,7 @@
 //           user.status === "enabled" ? "disabled" : "enabled"
 //         );
 //       }}
-//       className={`px-3 py-1 rounded-md text-xs font-medium ${
+//       className={`px-3 py-1 rounded-md body-xsfont-medium ${
 //         user.status === "enabled"
 //           ? "bg-red-100 hover:bg-red-200 text-red-600"
 //           : "bg-green-100 hover:bg-green-200 text-green-600"
@@ -1602,7 +1602,7 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
                   <h3 className="font-medium text-gray-900">
                     Notification Status
                   </h3>
-                  <p className="text-sm text-gray-600">
+                  <p className="body-xs  text-gray-600">
                     {notifications.status === "enabled"
                       ? "All notifications are currently enabled"
                       : "Notifications are currently disabled"}
@@ -1615,7 +1615,7 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
                     placeholder="Search notifications..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                    className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-xs "
                   />
                 </div>
               </div>
@@ -1626,7 +1626,7 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
                   notifications.status === "enabled" ? "disabled" : "enabled"
                 )
               }
-              className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors text-sm ${
+              className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors body-xs  ${
                 notifications.status === "enabled"
                   ? "bg-red-600 hover:bg-red-700 text-white"
                   : "bg-green-600 hover:bg-green-700 text-white"
@@ -1658,13 +1658,13 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
                     }
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                    className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-xs "
                   />
                 </div>
               )}
 
               <div className="flex items-center gap-4 ">
-                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
+                <h2 className="heading-lg sm:heading-xl font-semibold text-gray-900">
                   {userType === "user"
                     ? "Your Notifications"
                     : selectedUser
@@ -1677,7 +1677,7 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
                   <div className="flex bg-gray-100 rounded-lg p-1">
                     <button
                       onClick={() => setActiveTab("users")}
-                      className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                      className={`px-3 py-1 rounded-md body-xs  font-medium transition-colors ${
                         activeTab === "users"
                           ? "bg-blue-600 text-white"
                           : "text-gray-600 hover:text-gray-900"
@@ -1687,7 +1687,7 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
                     </button>
                     <button
                       onClick={() => setActiveTab("adminNotifications")}
-                      className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                      className={`px-3 py-1 rounded-md body-xs  font-medium transition-colors ${
                         activeTab === "adminNotifications"
                           ? "bg-blue-600 text-white"
                           : "text-gray-600 hover:text-gray-900"
@@ -1702,7 +1702,7 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
               {selectedUser && (
                 <button
                   onClick={handleBackToList}
-                  className="flex items-center text-sm text-blue-600 hover:text-blue-800"
+                  className="flex items-center body-xs  text-blue-600 hover:text-blue-800"
                 >
                   <ChevronLeft className="h-4 w-4 mr-1" />
                   Back to users
@@ -1739,11 +1739,11 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
                                   <h3 className="font-semibold text-gray-900">
                                     {notification.alertType}
                                   </h3>
-                                  <span className="text-sm text-gray-600">
+                                  <span className="body-xs  text-gray-600">
                                     Meter: {notifications.meterId}
                                   </span>
                                   <span
-                                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                    className={`px-2 py-1 rounded-full body-xsfont-medium ${
                                       notification.mode.includes("Text")
                                         ? "text-blue-600 bg-blue-100"
                                         : "text-purple-600 bg-purple-100"
@@ -1757,7 +1757,7 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
                                   {notification.message}
                                 </p>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mb-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 body-xs  mb-4">
                                   <div>
                                     <span className="font-medium text-gray-600">
                                       Value:
@@ -1787,7 +1787,7 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
                 ) : (
                   <div className="text-center py-12">
                     <Bell className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">
+                    <h3 className="heading-lg font-medium text-gray-900 mb-2">
                       No notifications found
                     </h3>
                     <p className="text-gray-600">
@@ -1823,7 +1823,7 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
                                     {notification.alertType}
                                   </h3>
                                   <span
-                                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                    className={`px-2 py-1 rounded-full body-xsfont-medium ${
                                       notification.mode.includes("Text")
                                         ? "text-blue-600 bg-blue-100"
                                         : "text-purple-600 bg-purple-100"
@@ -1837,7 +1837,7 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
                                   {notification.message}
                                 </p>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mb-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 body-xs  mb-4">
                                   <div>
                                     <span className="font-medium text-gray-600">
                                       Value:
@@ -1867,7 +1867,7 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
                 ) : (
                   <div className="text-center py-12">
                     <Bell className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">
+                    <h3 className="heading-lg font-medium text-gray-900 mb-2">
                       No admin notifications found
                     </h3>
                     <p className="text-gray-600">
@@ -1897,7 +1897,7 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
                               <h3 className="font-semibold text-gray-900">
                                 {user.userId}
                               </h3>
-                              <p className="text-sm text-gray-600">
+                              <p className="body-xs  text-gray-600">
                                 Meter: {user.meterId}
                               </p>
                             </div>
@@ -1905,13 +1905,13 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
 
                           <div className="flex flex-col sm:flex-row items-start sm:items-center sm:space-x-6 w-full sm:w-auto">
                             <div className="text-left sm:text-right mb-3 sm:mb-0">
-                              <div className="text-sm font-medium text-gray-900">
+                              <div className="body-xs  font-medium text-gray-900">
                                 Last Notification:{" "}
                                 {new Date(
                                   user.lastNotificationDate
                                 ).toLocaleDateString()}
                               </div>
-                              <div className="text-xs text-gray-500">
+                              <div className="body-xstext-gray-500">
                                 {user.notificationCount} notifications
                               </div>
                             </div>
@@ -1927,7 +1927,7 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
                                       : "enabled"
                                   );
                                 }}
-                                className={`px-3 py-1 rounded-md text-xs font-medium ${
+                                className={`px-3 py-1 rounded-md body-xsfont-medium ${
                                   user.status === "enabled"
                                     ? "bg-red-100 hover:bg-red-200 text-red-600"
                                     : "bg-green-100 hover:bg-green-200 text-green-600"
@@ -1947,7 +1947,7 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
                 ) : (
                   <div className="text-center py-12">
                     <Bell className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">
+                    <h3 className="heading-lg font-medium text-gray-900 mb-2">
                       No users notifications found
                     </h3>
                     <p className="text-gray-600">
@@ -1967,7 +1967,7 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
               filteredUsers.length > itemsPerPage ||
               filteredAdminNotifications.length > itemsPerPage) && (
               <div className="flex items-center justify-between mt-6">
-                <div className="text-sm text-gray-600">
+                <div className="body-xs  text-gray-600">
                   Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
                   {Math.min(
                     currentPage * itemsPerPage,

@@ -44,7 +44,7 @@
 // //         {/* Header */}
 // //         <div className="p-4 bg-blue-500 text-white rounded-t-lg flex justify-between items-center">
 // //           <button onClick={""}>&larr;</button>
-// //           <h2 className="text-lg font-semibold">Deduction History</h2>
+// //           <h2 className="heading-lg font-semibold">Deduction History</h2>
 // //           <div></div>
 // //         </div>
 
@@ -74,10 +74,10 @@
 // //                   {expandedIndex === index ? "▲" : "▼"}
 // //                 </button>
 // //               </div>
-// //               <p className="text-xl font-semibold text-red-600">₹{item.total.toFixed(2)}</p>
+// //               <p className="heading-xl font-semibold text-red-600">₹{item.total.toFixed(2)}</p>
 
 // //               {expandedIndex === index && (
-// //                 <div className="mt-3 text-gray-700 text-sm">
+// //                 <div className="mt-3 text-gray-700 body-xs ">
 // //                   <p><strong>Common Area Charges:</strong></p>
 // //                   <p>Generator: ₹{item.details.generatorCommon.toFixed(2)}</p>
 // //                   <p>Grid: ₹{item.details.gridCommon.toFixed(2)}</p>
@@ -86,7 +86,7 @@
 // //                   <p>Grid: ₹{item.details.gridRoom.toFixed(2)} ({item.usage})</p>
 // //                   <p><strong>Other Charges:</strong> ₹{item.details.otherCharges.toFixed(2)}</p>
 // //                   <p><strong>Amount Credited:</strong> ₹{item.details.credited.toFixed(2)}</p>
-// //                   <p className="mt-2 text-xs text-gray-500">Start: {item.startTime} | End: {item.endTime}</p>
+// //                   <p className="mt-2 body-xstext-gray-500">Start: {item.startTime} | End: {item.endTime}</p>
 // //                 </div>
 // //               )}
 // //             </div>
@@ -128,7 +128,7 @@
 //       <div className="mx-auto bg-white rounded-lg shadow-md">
 //         {/* Header */}
 //         <div className="p-4 bg-blue-500 text-white rounded-t-lg flex justify-between items-center">
-//           <h2 className="text-lg font-semibold">Deduction History</h2>
+//           <h2 className="heading-lg font-semibold">Deduction History</h2>
 //         </div>
 
 //         {/* Tabs */}
@@ -157,10 +157,10 @@
 //                   {expandedIndex === index ? "▲" : "▼"}
 //                 </button>
 //               </div>
-//               <p className="text-xl font-semibold text-red-600">₹{item.total.toFixed(2)}</p>
+//               <p className="heading-xl font-semibold text-red-600">₹{item.total.toFixed(2)}</p>
 
 //               {expandedIndex === index && (
-//                 <div className="mt-3 text-gray-700 text-sm">
+//                 <div className="mt-3 text-gray-700 body-xs ">
 //                   <p><strong>Grid Room:</strong> ₹{item.details.gridRoom.toFixed(2)} ({item.usage})</p>
 //                   <p><strong>Other Charges:</strong> ₹{item.details.otherCharges.toFixed(2)}</p>
 //                 </div>
@@ -240,7 +240,7 @@
 //         {/* Header */}
 //         <div className="p-4 max-h-screen bg-cyan-600 text-white rounded-t-lg flex justify-between items-center">
 //           <button onClick={""}>&larr;</button>
-//           <h2 className="text-lg font-semibold">Deduction History</h2>
+//           <h2 className="heading-lg font-semibold">Deduction History</h2>
 //           <div></div>
 //         </div>
 
@@ -271,10 +271,10 @@
 //                     {tabIndex === index ? "▲" : "▼"}
 //                   </button>
 //                 </div>
-//                 <p className="text-xl font-semibold text-red-600">₹{item.total.toFixed(2)}</p>
+//                 <p className="heading-xl font-semibold text-red-600">₹{item.total.toFixed(2)}</p>
 
 //                 {tabIndex === index && (
-//                   <div className="mt-3 text-gray-700 text-sm">
+//                   <div className="mt-3 text-gray-700 body-xs ">
 //                     <p><strong>Common Area Charges:</strong></p>
 //                     <p>Generator: ₹{item.details.generatorCommon.toFixed(2)}</p>
 //                     <p>Grid: ₹{item.details.gridCommon.toFixed(2)}</p>
@@ -283,7 +283,7 @@
 //                     <p>Grid: ₹{item.details.gridRoom.toFixed(2)} ({item.usage})</p>
 //                     <p><strong>Other Charges:</strong> ₹{item.details.otherCharges.toFixed(2)}</p>
 //                     <p><strong>Amount Credited:</strong> ₹{item.details.credited.toFixed(2)}</p>
-//                     <p className="mt-2 text-xs text-gray-500">Start: {item.startTime} | End: {item.endTime}</p>
+//                     <p className="mt-2 body-xstext-gray-500">Start: {item.startTime} | End: {item.endTime}</p>
 //                   </div>
 //                 )}
 //               </div>
@@ -298,10 +298,10 @@
 //                     {tabIndex === index ? "▲" : "▼"}
 //                   </button>
 //                 </div>
-//                 <p className="text-xl font-semibold text-red-600">₹{item.total.toFixed(2)}</p>
+//                 <p className="heading-xl font-semibold text-red-600">₹{item.total.toFixed(2)}</p>
 
 //                 {tabIndex === index && (
-//                   <div className="mt-3 text-gray-700 text-sm">
+//                   <div className="mt-3 text-gray-700 body-xs ">
 //                     <p><strong>Common Area Charges:</strong></p>
 //                     <p>Generator: ₹{item.details.generatorCommon.toFixed(2)}</p>
 //                     <p>Grid: ₹{item.details.gridCommon.toFixed(2)}</p>
@@ -310,7 +310,7 @@
 //                     <p>Grid: ₹{item.details.gridRoom.toFixed(2)} ({item.usage})</p>
 //                     <p><strong>Other Charges:</strong> ₹{item.details.otherCharges.toFixed(2)}</p>
 //                     <p><strong>Amount Credited:</strong> ₹{item.details.credited.toFixed(2)}</p>
-//                     <p className="mt-2 text-xs text-gray-500">Start: {item.startTime} | End: {item.endTime}</p>
+//                     <p className="mt-2 body-xstext-gray-500">Start: {item.startTime} | End: {item.endTime}</p>
 //                   </div>
 //                 )}
 //               </div>
@@ -400,9 +400,9 @@ const Chat = () => {
         {/* Header */}
         {/* <div className="p-4 max-h-screen bg-cyan-600 text-white rounded-t-lg flex items-center">
           
-          <h2 className="text-lg font-semibold mr-2">Deduction History</h2>
-          <FaGreaterThan className="text-sm mr-2" />
-          <button onClick={() => {}} className="font-semibold text-lg gap-2">Energy Consumption</button>
+          <h2 className="heading-lg font-semibold mr-2">Deduction History</h2>
+          <FaGreaterThan className="body-xs  mr-2" />
+          <button onClick={() => {}} className="font-semibold heading-lg gap-2">Energy Consumption</button>
           <div></div>
         </div> */}
 
@@ -436,10 +436,10 @@ const Chat = () => {
                     {tabIndex === index ? "Hide Details" : "View Details"}
                   </button>
                 </div>
-                <p className="text-xl font-semibold text-red-600">₹{item.total.toFixed(2)}</p>
+                <p className="heading-xl font-semibold text-red-600">₹{item.total.toFixed(2)}</p>
 
                 {tabIndex === index && (
-                  <div className="mt-3 text-gray-700 text-sm">
+                  <div className="mt-3 text-gray-700 body-xs ">
                     <p><strong>Common Area Charges:</strong></p>
                     <p>Generator: ₹{item.details.generatorCommon.toFixed(2)}</p>
                     <p>Grid: ₹{item.details.gridCommon.toFixed(2)}</p>
@@ -448,7 +448,7 @@ const Chat = () => {
                     <p>Grid: ₹{item.details.gridRoom.toFixed(2)} ({item.usage})</p>
                     <p><strong>Other Charges:</strong> ₹{item.details.otherCharges.toFixed(2)}</p>
                     <p><strong>Amount Credited:</strong> ₹{item.details.credited.toFixed(2)}</p>
-                    <p className="mt-2 text-xs text-gray-500">Start: {item.startTime} | End: {item.endTime}</p>
+                    <p className="mt-2 body-xstext-gray-500">Start: {item.startTime} | End: {item.endTime}</p>
                   </div>
                 )}
               </div>
@@ -466,10 +466,10 @@ const Chat = () => {
                     {tabIndex === index ? "Hide Details" : "View Details"}
                   </button>
                 </div>
-                <p className="text-xl font-semibold text-red-600">₹{item.total.toFixed(2)}</p>
+                <p className="heading-xl font-semibold text-red-600">₹{item.total.toFixed(2)}</p>
 
                 {tabIndex === index && (
-                  <div className="mt-3 text-gray-700 text-sm">
+                  <div className="mt-3 text-gray-700 body-xs ">
                     <p><strong>Common Area Charges:</strong></p>
                     <p>Generator: ₹{item.details.generatorCommon.toFixed(2)}</p>
                     <p>Grid: ₹{item.details.gridCommon.toFixed(2)}</p>
@@ -478,7 +478,7 @@ const Chat = () => {
                     <p>Grid: ₹{item.details.gridRoom.toFixed(2)} ({item.usage})</p>
                     <p><strong>Other Charges:</strong> ₹{item.details.otherCharges.toFixed(2)}</p>
                     <p><strong>Amount Credited:</strong> ₹{item.details.credited.toFixed(2)}</p>
-                    <p className="mt-2 text-xs text-gray-500">Start: {item.startTime} | End: {item.endTime}</p>
+                    <p className="mt-2 body-xstext-gray-500">Start: {item.startTime} | End: {item.endTime}</p>
                   </div>
                 )}
               </div>

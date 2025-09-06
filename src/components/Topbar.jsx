@@ -30,7 +30,7 @@ const Topbar = () => {
         </button>
 
         {/* Breadcrumb */}
-        <div className="hidden md:flex items-center space-x-2 text-sm text-gray-600">
+        <div className="hidden md:flex items-center space-x-2 body-md  text-gray-600">
           <span>Dashboard</span>
           <span>/</span>
           <span className="text-gray-900 font-medium">Overview</span>
@@ -64,7 +64,7 @@ const Topbar = () => {
           {/* Messages */}
           <button className="p-2 rounded-lg hover:bg-gray-50 transition-colors relative">
             <Mail className="text-gray-500" size={18} />
-            <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+            <span className="absolute -top-1 -right-1 bg-blue-500 text-white body-xsrounded-full h-4 w-4 flex items-center justify-center">
               2
             </span>
           </button>
@@ -73,7 +73,7 @@ const Topbar = () => {
           <button className="p-2 rounded-lg hover:bg-gray-50 transition-colors relative">
             <Bell className="text-gray-500" size={18} />
             {notifications > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white body-xsrounded-full h-4 w-4 flex items-center justify-center">
                 {notifications}
               </span>
             )}
@@ -90,12 +90,12 @@ const Topbar = () => {
             onClick={() => setShowDropdown(!showDropdown)}
           >
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center">
-              <span className="text-white text-sm font-medium">{ }</span>
+              <span className="text-white body-md  font-medium">{ }</span>
             </div>
             <div className="hidden md:block">
-              <p className="text-sm font-semibold text-gray-800">{ }</p>
+              <p className="body-md  font-semibold text-gray-800">{ }</p>
               <div className="flex items-center space-x-2">
-                <span className="text-xs text-gray-500">SmartLynk Metering Solutions</span>
+                <span className="body-xstext-gray-500">SmartLynk Metering Solutions</span>
               </div>
             </div>
             <ChevronDown className={`text-gray-400 transition-transform ${showDropdown ? 'rotate-180' : ''}`} size={16} />
@@ -105,19 +105,19 @@ const Topbar = () => {
           {showDropdown && (
             <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
               <div className="px-4 py-3 border-b border-gray-100">
-                <p className="text-sm font-semibold text-gray-800">{firstName.toUpperCase()} {lastName.toUpperCase()}</p>
-                <p className="text-xs font-semibold text-gray-500">{role}</p>
+                <p className="body-md  font-semibold text-gray-800">{firstName.toUpperCase()} {lastName.toUpperCase()}</p>
+                <p className="body-xsfont-semibold text-gray-500">{role}</p>
               </div>
               <div className="py-2">
-                <div onClick={()=>navigate(`/${role}/profile`)} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                <div onClick={()=>navigate(`/${role}/profile`)} className="flex items-center px-4 py-2 body-md  text-gray-700 hover:bg-gray-50">
                   <UserCircle className="mr-3 text-gray-400" size={16} />
                   My Profile
                 </div>
-                <Link to='' className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                <Link to='' className="flex items-center px-4 py-2 body-md  text-gray-700 hover:bg-gray-50">
                   <Bell className="mr-3 text-gray-400" size={16} />
                   Notifications
                 </Link>
-                <Link onClick={() => handleLogout()} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                <Link onClick={() => handleLogout()} className="flex items-center px-4 py-2 body-md  text-gray-700 hover:bg-gray-50">
                   <LogOutIcon className="mr-3 text-gray-400" size={16} />
                   logout
                 </Link>

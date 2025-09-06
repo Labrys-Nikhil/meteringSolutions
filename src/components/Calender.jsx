@@ -7,7 +7,7 @@
 
 // //     return (
 // //         <div className="h-[50%] bg-red-500 text-white p-6 rounded-2xl shadow-md">
-// //             <h3 className="text-lg font-semibold mb-4">Calendar Schedule</h3>
+// //             <h3 className="heading-lg font-semibold mb-4">Calendar Schedule</h3>
 // //             <div className=" h-full bg-white rounded-lg overflow-hidden shadow-md p-2">
 // //                 <Calendar
 // //                     onChange={setDate}
@@ -27,7 +27,7 @@
 // //   return (
 // //     <div className=" bg-radial from-yellow-400 from-20% to-orange-500 text-white p-6 rounded-2xl shadow-md w-full">
 // //       {/* Title */}
-// //       <h3 className="text-lg font-semibold mb-4">Calendar Schedule</h3>
+// //       <h3 className="heading-lg font-semibold mb-4">Calendar Schedule</h3>
 
 // //       {/* Calendar Container with Responsive Size */}
 // //       <div className="bg-white rounded-lg overflow-hidden shadow-md p-2 w-full max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl mx-auto">
@@ -54,7 +54,7 @@
 //   return (
 //     <div className=" absolute h-[60%] bg-radial bg-gradient-to-br from-red-900 via-red-500 to-orange-500 text-white p-6 rounded-2xl shadow-md w-full">
 //       {/* Title */}
-//       <h3 className="text-lg font-semibold mb-4">Calendar Schedule</h3>
+//       <h3 className="heading-lg font-semibold mb-4">Calendar Schedule</h3>
 
 //       {/* Calendar Container with Gradient Background */}
 

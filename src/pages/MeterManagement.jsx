@@ -5,9 +5,184 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addActionHistoryToMeter, selectIotMeters, selectMeteringMeters } from '../redux/slice/meterManagementSlice';
 import { fetchMeters, fetchUnassignedIoTMeters } from '../redux/thunks/meterThunks';
 import { sendDownlinlkCommand } from '../redux/thunks/meterManagementThunks';
-import { userAllData,userQueryData } from '../redux/slice/userMangementSlice';
+import { userAllData, userQueryData } from '../redux/slice/userMangementSlice';
 import { toast } from 'react-toastify';
+import { fetchUsersByQuery } from '../redux/thunks/userManagementThunks';
+import { selectUserId, selectUserRole } from '../redux/slice/authSlice';
 
+
+// Status options array
+const meterStatusOptions = [
+  {
+    value: 'active',
+    label: 'Active',
+    description: 'Meter is functioning normally',
+    color: 'bg-green-500',
+    bgColor: 'bg-green-100',
+    textColor: 'text-green-800'
+  },
+  {
+    value: 'faulty',
+    label: 'Faulty',
+    description: 'Meter has technical issues',
+    color: 'bg-red-500',
+    bgColor: 'bg-red-100',
+    textColor: 'text-red-800'
+  },
+  {
+    value: 'offline',
+    label: 'Offline',
+    description: 'Meter is not communicating',
+    color: 'bg-gray-500',
+    bgColor: 'bg-gray-100',
+    textColor: 'text-gray-800'
+  },
+  {
+    value: 'maintenance',
+    label: 'Maintenance',
+    description: 'Meter is under maintenance',
+    color: 'bg-yellow-500',
+    bgColor: 'bg-yellow-100',
+    textColor: 'text-yellow-800'
+  },
+  {
+    value: 'suspended',
+    label: 'Suspended',
+    description: 'Meter service temporarily suspended',
+    color: 'bg-purple-500',
+    bgColor: 'bg-purple-100',
+    textColor: 'text-purple-800'
+  },
+  {
+    value: 'decommissioned',
+    label: 'Decommissioned',
+    description: 'Meter permanently removed from service',
+    color: 'bg-black',
+    bgColor: 'bg-gray-200',
+    textColor: 'text-gray-900'
+  }
+];
+
+// Helper function to get status styling
+const getStatusStyling = (status) => {
+  const statusOption = meterStatusOptions.find(option => option.value === status);
+  return statusOption || {
+    color: 'bg-gray-500',
+    bgColor: 'bg-gray-100',
+    textColor: 'text-gray-800'
+  };
+};
+
+// Add this function to handle status updates
+const handleUpdateMeterStatus = async () => {
+  if (!selectedMeter || !meterStatus) {
+    toast.error("Please select a meter and status");
+    return;
+  }
+
+  if (!statusChangeReason.trim()) {
+    toast.error("Please provide a reason for status change");
+    return;
+  }
+
+  setUpdatingStatus(true);
+
+  try {
+    const payload = {
+      meterId: selectedMeter._id,
+      newStatus: meterStatus,
+      reason: statusChangeReason.trim(),
+      changedBy: adminId, // or current user ID
+      timestamp: new Date().toISOString(),
+      previousStatus: selectedMeter.status
+    };
+
+    // Dispatch your status update thunk here
+    //const result = await dispatch(updateMeterStatus(payload)).unwrap();
+    //api call
+
+    // Update the selected meter locally to reflect the change
+    const updatedMeter = {
+      ...selectedMeter,
+      status: meterStatus,
+      lastStatusChange: {
+        previousStatus: selectedMeter.status,
+        newStatus: meterStatus,
+        reason: statusChangeReason,
+        timestamp: new Date().toISOString(),
+        changedBy: adminId
+      }
+    };
+    setSelectedMeter(updatedMeter);
+
+    // Add to command history with more detailed information
+    const historyEntry = {
+      id: Date.now().toString(),
+      commandType: 'Status Update',
+      action: `Status Changed: ${selectedMeter.status.toUpperCase()} → ${meterStatus.toUpperCase()}`,
+      meterName: selectedMeter.name,
+      meterId: selectedMeter.meterId,
+      devEUI: selectedMeter.deviceId || selectedMeter.meterSerialNumber,
+      payload: `Previous: ${selectedMeter.status} | New: ${meterStatus} | Reason: ${statusChangeReason}`,
+      port: 'N/A',
+      confirmed: true,
+      timestamp: new Date().toISOString(),
+      status: 'success',
+      statusChange: {
+        from: selectedMeter.status,
+        to: meterStatus,
+        reason: statusChangeReason
+      }
+    };
+
+    setCommandHistory(prev => [historyEntry, ...prev]);
+
+    // Also update the meter in Redux store if needed
+    dispatch(addActionHistoryToMeter({
+      meterId: selectedMeter._id,
+      actionHistory: historyEntry
+    }));
+
+    // Reset form
+    setMeterStatus('');
+    setStatusChangeReason('');
+
+    setUpdatingStatus(false);
+    toast.success(`Meter status successfully updated from ${selectedMeter.status} to ${meterStatus}`);
+
+    // Optionally refresh meters list to get updated data
+    // dispatch(fetchMeters());
+
+  } catch (error) {
+    console.error("Error updating meter status:", error);
+
+    // Add failed status update to history
+    const failedHistoryEntry = {
+      id: Date.now().toString(),
+      commandType: 'Status Update',
+      action: `Failed Status Change: ${selectedMeter.status.toUpperCase()} → ${meterStatus.toUpperCase()}`,
+      meterName: selectedMeter.name,
+      meterId: selectedMeter.meterId,
+      devEUI: selectedMeter.deviceId || selectedMeter.meterSerialNumber,
+      payload: `Attempted: ${selectedMeter.status} → ${meterStatus} | Reason: ${statusChangeReason}`,
+      port: 'N/A',
+      confirmed: false,
+      timestamp: new Date().toISOString(),
+      status: 'failed',
+      error: error.message || 'Unknown error occurred',
+      statusChange: {
+        from: selectedMeter.status,
+        to: meterStatus,
+        reason: statusChangeReason
+      }
+    };
+
+    setCommandHistory(prev => [failedHistoryEntry, ...prev]);
+
+    setUpdatingStatus(false);
+    toast.error(`Failed to update meter status: ${error.message || 'Unknown error'}`);
+  }
+};
 
 
 const MeterManagement = () => {
@@ -27,13 +202,26 @@ const MeterManagement = () => {
   const [newMeters, setNewMeters] = useState([{ meterId: '', rs485Id: '' }]);
   const [selectedUser, setSelectedUser] = useState('');
   const [userSearch, setUserSearch] = useState('');
+  const [commandToggle, setCommandToggle] = useState('Downlink Commands');
+  // Add this to your existing state declarations at the top of the component
+  const [meterStatus, setMeterStatus] = useState('');
+  const [statusChangeReason, setStatusChangeReason] = useState('');
+  const [updatingStatus, setUpdatingStatus] = useState(false);
 
 
-
+  const adminId = useSelector(selectUserId);
+  const role = useSelector(selectUserRole);
+  const superAdminId = import.meta.env.VITE_SUPER_ADMIN_ID;
 
   useEffect(() => {
     dispatch(fetchMeters());
     dispatch(fetchUnassignedIoTMeters());
+    console.log('--------------------------> calling the dispatch of userManagement')
+    const queryParams = {};
+    if (superAdminId) queryParams.superAdminId = superAdminId;
+    if (adminId) queryParams.adminId = adminId;
+
+    dispatch(fetchUsersByQuery(queryParams));
   }, []);
 
   // Selectors
@@ -42,7 +230,7 @@ const MeterManagement = () => {
   const users = useSelector(userQueryData);
   console.log("all users------------------>", users);
 
-  
+
   useEffect(() => {
     if (selectedMeter && selectedMeter.actionHistory) {
       // Convert meter's actionHistory to commandHistory format
@@ -507,21 +695,21 @@ const MeterManagement = () => {
                       }`}
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <div className="text-sm font-medium text-gray-900">{meter.name}</div>
+                      <div className="body-xs  font-medium text-gray-900">{meter.name}</div>
                       <div className={`flex items-center ${getStatusColor(meter.status)}`}>
                         <div className={`w-2 h-2 rounded-full mr-2 ${meter.status === 'online' ? 'bg-green-500' : 'bg-red-500'}`} />
                         {meter.status}
                       </div>
                     </div>
 
-                    <div className="text-xs text-gray-600 mb-2">
+                    <div className="body-xstext-gray-600 mb-2">
                       <div>ID: {meter.meterId}</div>
                       <div>DevEUI: {meter.meterSerialNumber}</div>
                       <div>RS485: {meter.slaveId}</div>
                       <div>{meter.type}</div>
                     </div>
 
-                    <div className="flex items-center justify-between text-xs text-gray-500">
+                    <div className="flex items-center justify-between body-xstext-gray-500">
                       <div className="flex items-center">
                         <Battery className={`h-3 w-3 mr-1 ${getBatteryColor(meter.battery)}`} />
                         {meter.battery}%
@@ -553,81 +741,108 @@ const MeterManagement = () => {
               <div className="p-6">
                 <h2 className="font-semibold text-gray-900 mb-4">Command Configuration</h2>
 
-                {selectedMeter ? (
-                  <div className="space-y-6">
-                    {/* Selected Meter Info */}
-                    <div className="bg-blue-50 p-4 rounded-lg">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <h3 className="font-medium text-blue-900">{selectedMeter.name}</h3>
-                          <p className="text-xs text-blue-700">DevEUI: {selectedMeter.devEUI}</p>
-                          <p className="text-xs text-blue-700">RS485 ID: {selectedMeter.rs485Id}</p>
+                {selectedMeter ?
+                  (
+                    <div className="space-y-6">
+                      
+                      <div className="mb-6">
+                        <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
+                          <button
+                            onClick={() => setCommandToggle('Downlink Commands')}
+                            className={`flex-1 px-4 py-2 body-xs  font-medium rounded-md transition-colors ${commandToggle === 'Downlink Commands'
+                                ? 'bg-white text-blue-600 shadow-sm'
+                                : 'text-gray-600 hover:text-gray-900'
+                              }`}
+                          >
+                            Downlink Commands
+                          </button>
+                          <button
+                            onClick={() => setCommandToggle('Meter status')}
+                            className={`flex-1 px-4 py-2 body-xs  font-medium rounded-md transition-colors ${commandToggle === 'Meter status'
+                                ? 'bg-white text-orange-600 shadow-sm'
+                                : 'text-gray-600 hover:text-gray-900'
+                              }`}
+                          >
+                            Meter Status
+                          </button>
                         </div>
                       </div>
-                    </div>
+                      {commandToggle === 'Downlink Commands' &&
+                        (
+                          <div>
+                            {/* Selected Meter Info */}
+                            <div className="bg-blue-50 p-4 rounded-lg">
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <h3 className="font-medium text-blue-900">{selectedMeter.name}</h3>
+                                  <p className="body-xstext-blue-700">DevEUI: {selectedMeter.devEUI}</p>
+                                  <p className="body-xstext-blue-700">RS485 ID: {selectedMeter.rs485Id}</p>
+                                </div>
+                              </div>
+                            </div>
 
-                    {/* Command Type Selection */}
-                    <div>
-                      <label className="block text-xs font-medium text-gray-700 mb-2">Command Type</label>
-                      <select
-                        value={commandType}
-                        onChange={(e) => {
-                          setCommandType(e.target.value);
-                          setSelectedParams({});
-                          setCustomPayload('');
-                        }}
-                        className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      >
-                        <option value="">Select a command...</option>
-                        {Object.entries(commandTemplates).map(([key, template]) => (
-                          <option key={key} value={key}>{template.name}</option>
-                        ))}
-                      </select>
-                      {commandType && (
-                        <p className="mt-2 text-xs text-gray-600">{commandTemplates[commandType].description}</p>
-                      )}
-                    </div>
-
-                    {/* Command Parameters */}
-                    {commandType && commandTemplates[commandType].params.length > 0 && (
-                      <div className="space-y-4">
-                        <h4 className="font-medium text-gray-700">Parameters</h4>
-                        {commandTemplates[commandType].params.map((param) => (
-                          <div key={param.name}>
-                            <label className="block text-xs font-medium text-gray-700 mb-1 capitalize">
-                              {param.name.replace('_', ' ')}
-                            </label>
-                            {param.type === 'select' ? (
+                            {/* Command Type Selection */}
+                            <div>
+                              <label className="block body-xsfont-medium text-gray-700 mb-2">Command Type</label>
                               <select
-                                value={selectedParams[param.name] || ''}
-                                onChange={(e) => handleParamChange(param.name, e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                value={commandType}
+                                onChange={(e) => {
+                                  setCommandType(e.target.value);
+                                  setSelectedParams({});
+                                  setCustomPayload('');
+                                }}
+                                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                               >
-                                <option value="">Select {param.name}...</option>
-                                {param.options.map((option) => (
-                                  <option key={option.value} value={option.value}>{option.label}</option>
+                                <option value="">Select a command...</option>
+                                {Object.entries(commandTemplates).map(([key, template]) => (
+                                  <option key={key} value={key}>{template.name}</option>
                                 ))}
                               </select>
-                            ) : (
-                              <input
-                                type={param.type}
-                                min={param.min}
-                                max={param.max}
-                                step={param.step}
-                                value={selectedParams[param.name] || param.default || ''}
-                                onChange={(e) => handleParamChange(param.name, e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                              />
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                              {commandType && (
+                                <p className="mt-2 body-xstext-gray-600">{commandTemplates[commandType].description}</p>
+                              )}
+                            </div>
 
-                    {/* Custom Payload
+                            {/* Command Parameters */}
+                            {commandType && commandTemplates[commandType].params.length > 0 && (
+                              <div className="space-y-4">
+                                <h4 className="font-medium text-gray-700">Parameters</h4>
+                                {commandTemplates[commandType].params.map((param) => (
+                                  <div key={param.name}>
+                                    <label className="block body-xsfont-medium text-gray-700 mb-1 capitalize">
+                                      {param.name.replace('_', ' ')}
+                                    </label>
+                                    {param.type === 'select' ? (
+                                      <select
+                                        value={selectedParams[param.name] || ''}
+                                        onChange={(e) => handleParamChange(param.name, e.target.value)}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                      >
+                                        <option value="">Select {param.name}...</option>
+                                        {param.options.map((option) => (
+                                          <option key={option.value} value={option.value}>{option.label}</option>
+                                        ))}
+                                      </select>
+                                    ) : (
+                                      <input
+                                        type={param.type}
+                                        min={param.min}
+                                        max={param.max}
+                                        step={param.step}
+                                        value={selectedParams[param.name] || param.default || ''}
+                                        onChange={(e) => handleParamChange(param.name, e.target.value)}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                      />
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+
+                            {/* Custom Payload
                     {commandType === 'custom' && (
                       <div>
-                        <label className="block text-xs font-medium text-gray-700 mb-2">Custom Hex Payload</label>
+                        <label className="block body-xsfont-medium text-gray-700 mb-2">Custom Hex Payload</label>
                         <input
                           type="text"
                           value={customPayload}
@@ -638,63 +853,179 @@ const MeterManagement = () => {
                       </div>
                     )} */}
 
-                    {/* Port and Confirmation Settings */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs font-medium text-gray-700 mb-2">Port</label>
-                        <input
-                          type="number"
-                          min="1"
-                          max="255"
-                          value={port}
-                          onChange={(e) => setPort(parseInt(e.target.value))}
-                          className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                      </div>
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id="confirmed"
-                          checked={confirmed}
-                          onChange={(e) => setConfirmed(e.target.checked)}
-                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                        />
-                        <label htmlFor="confirmed" className="ml-2 text-xs text-gray-700">
-                          Require confirmation (ACK)
-                        </label>
-                      </div>
-                    </div>
+                            {/* Port and Confirmation Settings */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div>
+                                <label className="block body-xsfont-medium text-gray-700 mb-2">Port</label>
+                                <input
+                                  type="number"
+                                  min="1"
+                                  max="255"
+                                  value={port}
+                                  onChange={(e) => setPort(parseInt(e.target.value))}
+                                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                />
+                              </div>
+                              <div className="flex items-center">
+                                <input
+                                  type="checkbox"
+                                  id="confirmed"
+                                  checked={confirmed}
+                                  onChange={(e) => setConfirmed(e.target.checked)}
+                                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                />
+                                <label htmlFor="confirmed" className="ml-2 body-xstext-gray-700">
+                                  Require confirmation (ACK)
+                                </label>
+                              </div>
+                            </div>
 
-                    {/* Payload Preview */}
-                    {/* {commandType && (
+                            {/* Payload Preview */}
+                            {/* {commandType && (
                       <div className="bg-gray-50 p-4 rounded-lg">
                         <h4 className="font-medium text-gray-700 mb-2">Payload Preview</h4>
-                        <div className="font-mono text-xs bg-white p-3 rounded border">
+                        <div className="font-mono body-xsbg-white p-3 rounded border">
                           {generatePayload() || 'No payload generated'}
                         </div>
                       </div>
                     )} */}
 
-                    {/* Send Button */}
-                    <button
-                      onClick={handleSendCommand}
-                      disabled={!commandType || sending || selectedMeter?.status === 'offline'}
-                      className="w-full flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-                    >
-                      {sending ? (
-                        <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                      ) : (
-                        <Send className="h-5 w-5 mr-2" />
+                            {/* Send Button */}
+                            <button
+                              onClick={handleSendCommand}
+                              disabled={!commandType || sending || selectedMeter?.status === 'offline'}
+                              className="w-full flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+                            >
+                              {sending ? (
+                                <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                              ) : (
+                                <Send className="h-5 w-5 mr-2" />
+                              )}
+                              {sending ? 'Sending...' : 'Send Command'}
+                            </button>
+                          </div>
+
+                        )
+                      }
+                      
+                      {commandToggle === 'Meter status' && (
+                        <div>
+                          {/* Selected Meter Info */}
+                          <div className="bg-blue-50 p-4 rounded-lg">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <h3 className="font-medium text-blue-900">{selectedMeter.name}</h3>
+                                <p className="body-xstext-blue-700">DevEUI: {selectedMeter.devEUI}</p>
+                                <p className="body-xstext-blue-700">RS485 ID: {selectedMeter.rs485Id}</p>
+                                <p className="body-xstext-blue-700">Current Status:
+                                  <span className={`ml-1 px-2 py-1 rounded-full body-xsfont-medium ${getStatusStyling(selectedMeter.status).bgColor} ${getStatusStyling(selectedMeter.status).textColor}`}>
+                                    {selectedMeter.status}
+                                  </span>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Meter Status Update Form */}
+                          <div className="space-y-6">
+                            {/* Status Selection */}
+                            <div>
+                              <label className="block body-xs  font-medium text-gray-700 mb-2">
+                                Change Status To
+                              </label>
+                              <select
+                                value={meterStatus}
+                                onChange={(e) => setMeterStatus(e.target.value)}
+                                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                              >
+                                <option value="">Select new status...</option>
+                                {meterStatusOptions.map((option) => (
+                                  <option key={option.value} value={option.value}>
+                                    {option.label}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+
+                            {/* Reason for Status Change */}
+                            <div>
+                              <label className="block body-xs  font-medium text-gray-700 mb-2">
+                                Reason for Change
+                              </label>
+                              <textarea
+                                value={statusChangeReason}
+                                onChange={(e) => setStatusChangeReason(e.target.value)}
+                                placeholder="Enter reason for status change..."
+                                rows={3}
+                                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                              />
+                            </div>
+
+                            {/* Status Indicators */}
+                            <div className="bg-gray-50 p-4 rounded-lg">
+                              <h4 className="font-medium text-gray-700 mb-3">Status Definitions</h4>
+                              <div className="space-y-2 body-xs ">
+                                {meterStatusOptions.map((option) => (
+                                  <div key={option.value} className="flex items-center">
+                                    <div className={`w-3 h-3 ${option.color} rounded-full mr-2`}></div>
+                                    <span className="font-medium">{option.label}:</span>
+                                    <span className="ml-2 text-gray-600">{option.description}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                            {/* Current Meter Information
+                            <div className="bg-blue-50 p-4 rounded-lg">
+                              <h4 className="font-medium text-blue-700 mb-3">Current Meter Information</h4>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 body-xs ">
+                                <div>
+                                  <span className="text-gray-600">Last Seen:</span>
+                                  <span className="ml-2 font-medium">
+                                    {new Date(selectedMeter.lastSeen).toLocaleString()}
+                                  </span>
+                                </div>
+                                <div>
+                                  <span className="text-gray-600">Battery:</span>
+                                  <span className={`ml-2 font-medium ${getBatteryColor(selectedMeter.battery)}`}>
+                                    {selectedMeter.battery}%
+                                  </span>
+                                </div>
+                                <div>
+                                  <span className="text-gray-600">Signal Strength:</span>
+                                  <span className="ml-2 font-medium">{selectedMeter.signal} dBm</span>
+                                </div>
+                                <div>
+                                  <span className="text-gray-600">Meter Type:</span>
+                                  <span className="ml-2 font-medium">{selectedMeter.type}</span>
+                                </div>
+                              </div>
+                            </div> */}
+
+                            {/* Update Status Button */}
+                            <button
+                              onClick={handleUpdateMeterStatus}
+                              disabled={!meterStatus || updatingStatus}
+                              className="w-full flex items-center justify-center px-4 py-3 bg-orange-600 text-white rounded-md hover:bg-orange-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+                            >
+                              {updatingStatus ? (
+                                <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                              ) : (
+                                <Settings className="h-5 w-5 mr-2" />
+                              )}
+                              {updatingStatus ? 'Updating Status...' : 'Update Meter Status'}
+                            </button>
+                          </div>
+                        </div>
                       )}
-                      {sending ? 'Sending...' : 'Send Command'}
-                    </button>
-                  </div>
-                ) : (
-                  <div className="text-center py-12">
-                    <Settings className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-500">Select a meter to configure commands</p>
-                  </div>
-                )}
+                    </div>
+                  )
+                  : (
+                    <div className="text-center py-12">
+                      <Settings className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                      <p className="text-gray-500">Select a meter to configure commands</p>
+                    </div>
+                  )}
               </div>
             </div>
 
@@ -705,7 +1036,7 @@ const MeterManagement = () => {
 
                 {commandHistory.length > 0 ? (
                   <div className="space-y-4 max-h-76 overflow-y-scroll px-2 pb-2">
-                    {[...commandHistory].reverse().slice(0, 10).map((cmd,idx) => (
+                    {[...commandHistory].reverse().slice(0, 10).map((cmd, idx) => (
                       <div key={idx} className="border border-gray-200 rounded-lg p-4">
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center">
@@ -718,12 +1049,12 @@ const MeterManagement = () => {
                             )}
                             <span className="font-medium">{cmd.action}</span>
                           </div>
-                          <span className="text-xs text-gray-500">
+                          <span className="body-xstext-gray-500">
                             {new Date(cmd.timestamp).toLocaleString()}
                           </span>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-gray-600">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 body-xstext-gray-600">
                           <div>Meter: {selectedMeter.name}</div>
                           <div>MeterId: {selectedMeter.meterId}</div>
                           <div>DevEUI: {selectedMeter.deviceId}</div>

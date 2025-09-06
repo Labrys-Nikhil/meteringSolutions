@@ -1,39 +1,104 @@
+
+
 @import "tailwindcss";
 
-:root{
+/* Extra Large Heading (H1 / Page Title) */
+@utility heading-xl {
+  font-family: Poppins, sans-serif;
+  font-size: 1.5rem;     /* 24px */
+  line-height: 2rem;     /* 32px */
+  font-weight: 700;
+  color: #111827; /* text-gray-900 */
+}
+
+/* Large Heading (H2 / Section Title) */
+@utility heading-lg {
+  font-family: Poppins, sans-serif;
+  font-size: 1.25rem;    /* 20px */
+  line-height: 1.75rem;  /* 28px */
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Medium Heading (H3 / Subheading) */
+@utility heading-md {
+  font-family: Poppins, sans-serif;
+  font-size: 1.125rem;   /* 18px */
+  line-height: 1.5rem;   /* 24px */
+  font-weight: 600;
+  color: #1f2937; /* text-gray-800 */
+}
+
+/* Body Text (default, paragraphs) */
+@utility body-md {
+  font-family: Inter, sans-serif;
+  font-size: 0.9375rem;  /* 15px */
+  line-height: 1.375rem; /* 22px */
+  font-weight: 400;
+  color: #374151; /* text-gray-700 */
+}
+
+/* Small Body Text (labels, secondary info) */
+@utility body-xs {
+  font-family: Inter, sans-serif;
+  font-size: 0.875rem;   /* 14px */
+  line-height: 1.25rem;  /* 20px */
+  font-weight: 400;
+  color: #4b5563; /* text-gray-600 */
+}
+
+/* Extra Small Body Text (metadata, captions) */
+@utility body-xs {
+  font-family: Inter, sans-serif;
+  font-size: 0.75rem;    /* 12px */
+  line-height: 1rem;     /* 16px */
+  font-weight: 400;
+  color: #6b7280; /* text-gray-500 */
+}
+
+/* Caption (uppercase, labels) */
+@utility caption {
+  font-family: Inter, sans-serif;
+  font-size: 0.75rem;    /* 12px */
+  line-height: 1rem;     /* 16px */
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b7280; /* text-gray-500 */
+}
+
+/* --- Root Reset --- */
+:root {
   padding: 0;
   margin: 0;
-  overflow: hidden;
   font-family: sans-serif;
+  overflow: hidden;
 }
-/* Beautiful Custom Scrollbar with Orange to Blue Gradient */
+
+/* --- Custom Scrollbar --- */
 ::-webkit-scrollbar {
   width: 12px;
   height: 12px;
 }
 
-/* Scrollbar Track */
 ::-webkit-scrollbar-track {
-  background: linear-gradient(180deg, #f9fafb, #e7eaf0); /* Light gradient */
+  background: linear-gradient(180deg, #f9fafb, #e7eaf0);
   border-radius: 10px;
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1); /* Soft inner shadow */
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Scrollbar Thumb */
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #ffa500, #007bff); /* Vibrant orange to blue */
+  background: linear-gradient(180deg, #ffa500, #007bff);
   border-radius: 10px;
   transition: background 0.3s ease-in-out;
-  border: 3px solid #f9fafb; /* Border for a floating effect */
+  border: 3px solid #f9fafb;
 }
 
-/* Hover Effect */
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #ff7700, #0056b3); /* Darker orange to blue */
+  background: linear-gradient(180deg, #ff7700, #0056b3);
   border: 2px solid #e7eaf0;
 }
 
-/* Corner where horizontal and vertical scrollbars meet */
 ::-webkit-scrollbar-corner {
   background-color: #f9fafb;
 }

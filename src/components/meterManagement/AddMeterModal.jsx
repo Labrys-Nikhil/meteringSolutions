@@ -49,7 +49,7 @@ const AddMeterModal = ({
 
           {/* Modal Header */}
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-bold text-gray-900">Assign Meter</h2>
+            <h2 className="heading-lg font-bold text-gray-900">Assign Meter</h2>
             <button
               onClick={() => setShowAddMeterModal(false)}
               className="text-gray-500 hover:text-gray-700"
@@ -64,7 +64,7 @@ const AddMeterModal = ({
 
               {/* User Selection */}
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-2">Select User</label>
+                <label className="block body-xsfont-medium text-gray-700 mb-2">Select User</label>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <input
@@ -77,12 +77,13 @@ const AddMeterModal = ({
                 </div>
 
                 <div className="mt-2 max-h-60 overflow-y-auto border border-gray-200 rounded-md">
-                  {filteredUsers.map(user => (
+                  {console.log(filteredUsers)}
+                  {filteredUsers.map((user,idx) => (
                     <div
-                      key={user.id}
-                      onClick={() => setSelectedUser(user.id)}
+                      key={idx}
+                      onClick={() => setSelectedUser(user._id)}
                       className={`p-3 border-b border-gray-100 cursor-pointer transition-colors ${
-                        selectedUser === user.id ? 'bg-green-100 border-green-300' : 'hover:bg-gray-50'
+                        selectedUser === user._id ? 'bg-green-100 border-green-300' : 'hover:bg-gray-50'
                       }`}
                     >
                       <div className="flex items-center justify-between">
@@ -92,11 +93,11 @@ const AddMeterModal = ({
                           </div>
                           <div>
                             <div className="font-medium text-gray-900">{user.name}</div>
-                            <div className="text-xs text-gray-500">{user.email}</div>
-                            <div className="text-xs text-gray-500">Meters: {user.meters?.length || 0}</div>
+                            <div className="body-xstext-gray-500">{user.email}</div>
+                            <div className="body-xstext-gray-500">Meters: {user.meters?.length || 0}</div>
                           </div>
                         </div>
-                        {selectedUser === user.id && (
+                        {selectedUser === user._id && (
                           <div className="flex items-center space-x-1 text-green-600 text-xs">
                             <CheckCircle className="h-4 w-4" />
                             <span>Selected</span>
@@ -113,7 +114,7 @@ const AddMeterModal = ({
 
               {/* Meter Selection */}
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-2">Select a Meter</label>
+                <label className="block body-xsfont-medium text-gray-700 mb-2">Select a Meter</label>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <input
@@ -141,7 +142,7 @@ const AddMeterModal = ({
                           </div>
                           <div>
                             <div className="font-medium text-gray-900">Device ID: {meter.deviceId}</div>
-                            <div className="text-xs text-gray-500">Status: Unassigned</div>
+                            <div className="body-xstext-gray-500">Status: Unassigned</div>
                           </div>
                         </div>
                         {selectedMeterId === meter.deviceId && (

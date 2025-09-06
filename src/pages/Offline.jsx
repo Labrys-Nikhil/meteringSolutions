@@ -72,7 +72,7 @@ const Offline = () => {
 
   const getStatusBadge = (status) => {
     const baseClasses =
-      "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium";
+      "inline-flex items-center px-2.5 py-0.5 rounded-full body-xsfont-medium";
     if (status === "online") {
       return `${baseClasses} bg-green-100 text-green-800`;
     } else {
@@ -82,7 +82,7 @@ const Offline = () => {
 
   const getAssignmentBadge = (isAssigned) => {
     const baseClasses =
-      "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium";
+      "inline-flex items-center px-2.5 py-0.5 rounded-full body-xsfont-medium";
     if (isAssigned) {
       return `${baseClasses} bg-blue-100 text-blue-800`;
     } else {
@@ -103,7 +103,7 @@ const Offline = () => {
 
           <div className=" min-h-screen bg-white rounded-lg shadow mb-6">
             <div className="px-6 py-4 border-b flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-              <h2 className="text-xl font-semibold text-gray-800">
+              <h2 className="heading-xl font-semibold text-gray-800">
                 Meters List
               </h2>
               <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
@@ -112,7 +112,7 @@ const Offline = () => {
                                     <select
                                         value={statusFilter}
                                         onChange={(e) => setStatusFilter(e.target.value)}
-                                        className="text-sm border border-gray-300 rounded-md px-2 py-1"
+                                        className="body-xs  border border-gray-300 rounded-md px-2 py-1"
                                     >
                                         <option value="all">All Status</option>
                                         <option value="online">Faulty</option>
@@ -125,7 +125,7 @@ const Offline = () => {
                   placeholder="Search by Name, Meter ID or Serial"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full sm:w-72 border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700"
+                  className="w-full sm:w-72 border border-gray-300 rounded-md px-3 py-2 body-xs  text-gray-700"
                 />
               </div>
             </div>
@@ -134,22 +134,22 @@ const Offline = () => {
               <table className="w-full">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left body-xsfont-medium text-gray-500 uppercase tracking-wider">
                       Meter Name
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left body-xsfont-medium text-gray-500 uppercase tracking-wider">
                       Meter ID
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left body-xsfont-medium text-gray-500 uppercase tracking-wider">
                       Type
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left body-xsfont-medium text-gray-500 uppercase tracking-wider">
                       Status
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left body-xsfont-medium text-gray-500 uppercase tracking-wider">
                       Assignment
                     </th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-right body-xsfont-medium text-gray-500 uppercase tracking-wider">
                       Assign Date
                     </th>
                   </tr>
@@ -157,16 +157,16 @@ const Offline = () => {
                 {/* <tbody className="bg-white divide-y divide-gray-200">
                   {filteredMeters.map((meter) => (
                     <tr key={meter._id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 text-sm font-medium text-gray-750">
+                      <td className="px-6 py-4 body-xs  font-medium text-gray-750">
                         {meter.name}
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-500">
+                      <td className="px-6 py-4 body-xs  text-gray-500">
                         {meter.meterId}
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-500">
+                      <td className="px-6 py-4 body-xs  text-gray-500">
                         {meter.type}
                       </td>
-                      <td className="px-6 py-4 text-sm">
+                      <td className="px-6 py-4 body-xs ">
                         <span className={getStatusBadge(meter.status)}>
                           {meter.status === "online" ? (
                             <Wifi className="w-3 h-3 mr-1" />
@@ -177,7 +177,7 @@ const Offline = () => {
                             meter.status.slice(1)}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-sm">
+                      <td className="px-6 py-4 body-xs ">
                         <span className={getAssignmentBadge(meter.isAssigned)}>
                           {meter.isAssigned ? (
                             <Link className="w-3 h-3 mr-1" />
@@ -188,7 +188,7 @@ const Offline = () => {
                         </span>
                       </td>
 
-                      <td className="px-6 py-4 text-sm text-gray-700 text-right">
+                      <td className="px-6 py-4 body-xs  text-gray-700 text-right">
                         {meter.userAssignedTimestamp
                           ? formatDate(meter.userAssignedTimestamp)
                           : "—"}
@@ -201,10 +201,10 @@ const Offline = () => {
   {filteredMeters.length > 0 ? (
     filteredMeters.map((meter) => (
       <tr key={meter._id} className="hover:bg-gray-50">
-        <td className="px-6 py-4 text-sm font-medium text-gray-750">{meter.name}</td>
-        <td className="px-6 py-4 text-sm text-gray-500">{meter.meterId}</td>
-        <td className="px-6 py-4 text-sm text-gray-500">{meter.type}</td>
-        <td className="px-6 py-4 text-sm">
+        <td className="px-6 py-4 body-xs  font-medium text-gray-750">{meter.name}</td>
+        <td className="px-6 py-4 body-xs  text-gray-500">{meter.meterId}</td>
+        <td className="px-6 py-4 body-xs  text-gray-500">{meter.type}</td>
+        <td className="px-6 py-4 body-xs ">
           <span className={getStatusBadge(meter.status)}>
             {meter.status === 'online' ? (
               <Wifi className="w-3 h-3 mr-1" />
@@ -214,7 +214,7 @@ const Offline = () => {
             {meter.status.charAt(0).toUpperCase() + meter.status.slice(1)}
           </span>
         </td>
-        <td className="px-6 py-4 text-sm">
+        <td className="px-6 py-4 body-xs ">
           <span className={getAssignmentBadge(meter.isAssigned)}>
             {meter.isAssigned ? (
               <Link className="w-3 h-3 mr-1" />
@@ -224,14 +224,14 @@ const Offline = () => {
             {meter.isAssigned ? 'Assigned' : 'Unassigned'}
           </span>
         </td>
-        <td className="px-6 py-4 text-sm text-gray-700 text-right">
+        <td className="px-6 py-4 body-xs  text-gray-700 text-right">
           {meter.userAssignedTimestamp ? formatDate(meter.userAssignedTimestamp) : '—'}
         </td>
       </tr>
     ))
   ) : (
     <tr>
-      <td colSpan="6" className="px-6 py-10 text-center text-gray-500 text-sm font-medium">
+      <td colSpan="6" className="px-6 py-10 text-center text-gray-500 body-xs  font-medium">
         No Offline Meters Found
       </td>
     </tr>

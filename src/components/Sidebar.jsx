@@ -116,13 +116,13 @@
 //     onClick={onToggle}
 //   >
 //     <div className="flex items-center space-x-2">
-//       <span className="text-sm font-bold text-gray-600 uppercase tracking-wider">{title}</span>
-//       <span className="text-sm bg-gray-200 text-gray-600 px-2 py-1 rounded-full">{count}</span>
+//       <span className="body-md  font-bold text-gray-600 uppercase tracking-wider">{title}</span>
+//       <span className="body-md  bg-gray-200 text-gray-600 px-2 py-1 rounded-full">{count}</span>
 //     </div>
 //     {isExpanded ? (
-//       <FaChevronDown className="text-gray-400 text-sm" />
+//       <FaChevronDown className="text-gray-400 body-md " />
 //     ) : (
-//       <FaChevronRight className="text-gray-400 text-sm" />
+//       <FaChevronRight className="text-gray-400 body-md " />
 //     )}
 //   </div>
 // );
@@ -141,7 +141,7 @@
 //           }`}>
 //           <item.icon className={`${navIsActive ? 'text-blue-600' : item.color} group-hover:scale-110 transition-transform`} size={16} />
 //         </div>
-//         <span className={`font-medium text-sm transition-colors ${navIsActive
+//         <span className={`font-medium body-md  transition-colors ${navIsActive
 //           ? 'text-blue-600 font-semibold'
 //           : 'text-gray-700 group-hover:text-gray-900'
 //           }`}>
@@ -186,8 +186,8 @@
 //           </div>
 //           <div className="text-center mt-4">
 //             <h3 className="font-bold text-gray-800">Welcome Back</h3>
-//             <p className="text-sm text-gray-500 capitalize">{role} Dashboard</p>
-//             <p className="text-sm text-gray-400 mt-1">ID: {id}</p>
+//             <p className="body-md  text-gray-500 capitalize">{role} Dashboard</p>
+//             <p className="body-md  text-gray-400 mt-1">ID: {id}</p>
 //           </div>
 //         </div>
 
@@ -254,7 +254,7 @@
 //             <div className="p-2 rounded-lg bg-red-100 group-hover:bg-red-200 transition-colors">
 //               <FaSignOutAlt className="text-red-500 group-hover:text-red-600" size={16} />
 //             </div>
-//             <span className="font-medium text-sm text-red-500 group-hover:text-red-600 transition-colors">
+//             <span className="font-medium body-md  text-red-500 group-hover:text-red-600 transition-colors">
 //               Log Out
 //             </span>
 //           </NavLink>
@@ -278,7 +278,7 @@ import { fetchUserProfile } from '../redux/thunks/profileThunks';
 
 const getAdminFavoriteItems = (userId) => [
   { name: "Billing & Payments", path: "/billing-payment", icon: FaFileInvoiceDollar, color: "text-emerald-500" },
-  { name: "Support & Logs", path: "/supportandlogs", icon: FaLifeRing, color: "text-blue-500" },
+  { name: "Support & Logs", path: `/admin/supportandlogs/${userId}`, icon: FaLifeRing, color: "text-blue-500" },
   { name: "Energy Consumption", path: "/energyConsumption", icon: FaBolt, color: "text-yellow-500" },
   { name: "Onboarding", path: "/onboarding", icon: FaUserPlus, color: "text-purple-500" }
 ];
@@ -308,7 +308,7 @@ const getUserMainMenuItems = (userId) => [
   { name: "Account Recharge", path: "/rechage-meter", icon: FaCreditCard, color: "text-green-500" },
   { name: "Reports", path: "/reports", icon: FaChartBar, color: "text-orange-500" },
   { name: "Account Settings", path: "/account-setting", icon: FaCog, color: "text-gray-500" },
-  { name: "Support", path: "/support", icon: FaHeadset, color: "text-cyan-500" },
+  { name: "Support", path: `/user/support/${userId}`, icon: FaLifeRing, color: "text-blue-500" },
   { name: "Chat", path: "/chat", icon: FaComments, color: "text-cyan-500" },
   { name: "Invoice", path: "/invoice", icon: FaFileInvoiceDollar, color: "text-pink-500" },
   { name: "Notifications", path: "/notifications", icon: FaBell, color: "text-red-500" }
@@ -322,10 +322,10 @@ const getSettingsItems = () => [
 const SectionHeader = ({ title, isExpanded, onToggle, count }) => (
   <div className="flex items-center justify-between py-2 px-3 cursor-pointer hover:bg-gray-50 rounded-lg transition-colors" onClick={onToggle}>
     <div className="flex items-center space-x-2">
-      <span className="text-sm font-bold text-gray-600 uppercase tracking-wider">{title}</span>
-      <span className="text-sm bg-gray-200 text-gray-600 px-2 py-1 rounded-full">{count}</span>
+      <span className="body-md  font-bold text-gray-600 uppercase tracking-wider">{title}</span>
+      <span className="body-md  bg-gray-200 text-gray-600 px-2 py-1 rounded-full">{count}</span>
     </div>
-    {isExpanded ? <FaChevronDown className="text-gray-400 text-sm" /> : <FaChevronRight className="text-gray-400 text-sm" />}
+    {isExpanded ? <FaChevronDown className="text-gray-400 body-md " /> : <FaChevronRight className="text-gray-400 body-md " />}
   </div>
 );
 
@@ -336,7 +336,7 @@ const MenuItem = ({ item }) => (
         <div className={`p-2 rounded-lg transition-colors ${isActive ? 'bg-blue-100' : 'bg-gray-100 group-hover:bg-gray-200'}`}>
           <item.icon className={`${isActive ? 'text-blue-600' : item.color} group-hover:scale-110 transition-transform`} size={16} />
         </div>
-        <span className={`font-bold text-sm transition-colors ${isActive ? 'text-blue-600 font-semibold' : 'text-gray-700 group-hover:text-gray-900'}`}>{item.name}</span>
+        <span className={`font-bold body-md  transition-colors ${isActive ? 'text-blue-600 font-semibold' : 'text-gray-700 group-hover:text-gray-900'}`}>{item.name}</span>
         {isActive && <div className="absolute right-3 w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>}
       </div>
     )}
@@ -379,9 +379,9 @@ const Sidebar = () => {
             <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-green-500 rounded-full border-3 border-white shadow-sm"></div>
           </div>
           <div className="text-center items-center mt-6 p-4 bg-white">
-            <h3 className="text-xl font-semibold text-gray-800">Welcome Back 👋</h3>
-            <p className="text-sm text-gray-500 capitalize mt-1">{role} Dashboard</p>
-            <p className="text-base font-bold text-gray-700 mt-1 tracking-wide">{firstName.toUpperCase()} {lastName.toUpperCase()}</p>
+            <h3 className="heading-xl font-semibold text-gray-800">Welcome Back 👋</h3>
+            <p className="body-md  text-gray-500 capitalize mt-1">{role} Dashboard</p>
+            <p className="body-md font-bold text-gray-700 mt-1 tracking-wide">{firstName.toUpperCase()} {lastName.toUpperCase()}</p>
           </div>
         </div>
 
@@ -407,7 +407,7 @@ const Sidebar = () => {
             <div className="p-2 rounded-lg bg-red-100 group-hover:bg-red-200 transition-colors">
               <FaSignOutAlt className="text-red-500 group-hover:text-red-600" size={16} />
             </div>
-            <span className="font-medium text-sm text-red-500 group-hover:text-red-600 transition-colors">Log Out</span>
+            <span className="font-medium body-md  text-red-500 group-hover:text-red-600 transition-colors">Log Out</span>
           </NavLink>
         </div>
       </div>

@@ -19,7 +19,7 @@
 //       <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-screen overflow-y-auto">
 //         <div className="p-6">
 //           <div className="flex justify-between items-center mb-4">
-//             <h2 className="text-xl font-bold text-gray-900">Edit User</h2>
+//             <h2 className="heading-xl font-bold text-gray-900">Edit User</h2>
 //             <button 
 //               onClick={() => setEditingUserId(null)}
 //               className="text-gray-400 hover:text-gray-500"
@@ -30,7 +30,7 @@
 
 //           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
 //             <div>
-//               <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+//               <label className="block body-xs  font-medium text-gray-700 mb-1">First Name</label>
 //               <input
 //                 type="text"
 //                 value={editUserData.firstName}
@@ -39,7 +39,7 @@
 //               />
 //             </div>
 //             <div>
-//               <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+//               <label className="block body-xs  font-medium text-gray-700 mb-1">Last Name</label>
 //               <input
 //                 type="text"
 //                 value={editUserData.lastName}
@@ -48,7 +48,7 @@
 //               />
 //             </div>
 //             <div>
-//               <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+//               <label className="block body-xs  font-medium text-gray-700 mb-1">Email</label>
 //               <input
 //                 type="email"
 //                 value={editUserData.email}
@@ -57,7 +57,7 @@
 //               />
 //             </div>
 //             <div>
-//               <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+//               <label className="block body-xs  font-medium text-gray-700 mb-1">Phone</label>
 //               <input
 //                 type="tel"
 //                 value={editUserData.phone}
@@ -66,7 +66,7 @@
 //               />
 //             </div>
 //             <div>
-//               <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
+//               <label className="block body-xs  font-medium text-gray-700 mb-1">Department</label>
 //               <select
 //                 value={editUserData.department}
 //                 onChange={(e) => setEditUserData(prev => ({...prev, department: e.target.value}))}
@@ -79,7 +79,7 @@
 //               </select>
 //             </div>
 //             <div>
-//               <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+//               <label className="block body-xs  font-medium text-gray-700 mb-1">Role</label>
 //               <select
 //                 value={editUserData.role}
 //                 onChange={(e) => setEditUserData(prev => ({...prev, role: e.target.value}))}
@@ -91,7 +91,7 @@
 //               </select>
 //             </div>
 //             <div>
-//               <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+//               <label className="block body-xs  font-medium text-gray-700 mb-1">Status</label>
 //               <select
 //                 value={editUserData.status}
 //                 onChange={(e) => setEditUserData(prev => ({...prev, status: e.target.value}))}
@@ -319,7 +319,7 @@ const EditUserModal = ({
       <div className="bg-white/90 backdrop-blur-lg rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         <div className="p-4 sm:p-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg sm:text-xl font-bold text-gray-900">Edit User</h2>
+            <h2 className="heading-lg sm:heading-xl font-bold text-gray-900">Edit User</h2>
             <button
               onClick={() => setEditingUserId(null)}
               className="text-gray-400 hover:text-gray-500"
@@ -329,60 +329,60 @@ const EditUserModal = ({
           </div>
 
           {editUserErrors.general && (
-            <div className="mb-4 p-2 bg-red-100 text-red-700 rounded-md text-sm">
+            <div className="mb-4 p-2 bg-red-100 text-red-700 rounded-md body-xs ">
               {editUserErrors.general}
             </div>
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Name*</label>
+              <label className="block body-xs  font-medium text-gray-700 mb-1">Name*</label>
               <input
                 type="text"
                 value={editUserData.name}
                 onChange={(e) => handleEditUserChange('name', e.target.value)}
-                className={`w-full p-2 border ${editUserErrors.name ? 'border-red-500' : 'border-gray-300'} rounded-md text-sm`}
+                className={`w-full p-2 border ${editUserErrors.name ? 'border-red-500' : 'border-gray-300'} rounded-md body-xs `}
               />
               {editUserErrors.name && (
-                <p className="mt-1 text-xs text-red-500">{editUserErrors.name}</p>
+                <p className="mt-1 body-xstext-red-500">{editUserErrors.name}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email*</label>
+              <label className="block body-xs  font-medium text-gray-700 mb-1">Email*</label>
               <input
                 type="email"
                 value={editUserData.email}
                 onChange={(e) => handleEditUserChange('email', e.target.value)}
-                className={`w-full p-2 border ${editUserErrors.email ? 'border-red-500' : 'border-gray-300'} rounded-md text-sm`}
+                className={`w-full p-2 border ${editUserErrors.email ? 'border-red-500' : 'border-gray-300'} rounded-md body-xs `}
               />
               {editUserErrors.email && (
-                <p className="mt-1 text-xs text-red-500">{editUserErrors.email}</p>
+                <p className="mt-1 body-xstext-red-500">{editUserErrors.email}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block body-xs  font-medium text-gray-700 mb-1">
                 Phone{(editUserData.role === "user" || editUserData.role === "admin") ? "*" : ""}
               </label>
               <input
                 type="tel"
                 value={editUserData.phone}
                 onChange={(e) => handleEditUserChange('phone', e.target.value)}
-                className={`w-full p-2 border ${editUserErrors.phone ? 'border-red-500' : 'border-gray-300'} rounded-md text-sm`}
+                className={`w-full p-2 border ${editUserErrors.phone ? 'border-red-500' : 'border-gray-300'} rounded-md body-xs `}
                 placeholder="10 digits only"
               />
               {editUserErrors.phone && (
-                <p className="mt-1 text-xs text-red-500">{editUserErrors.phone}</p>
+                <p className="mt-1 body-xstext-red-500">{editUserErrors.phone}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Role*</label>
+              <label className="block body-xs  font-medium text-gray-700 mb-1">Role*</label>
               <select
                 value={editUserData.role}
                 onChange={(e) => handleEditUserChange('role', e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                className="w-full p-2 border border-gray-300 rounded-md body-xs "
               >
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
@@ -391,11 +391,11 @@ const EditUserModal = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Status*</label>
+              <label className="block body-xs  font-medium text-gray-700 mb-1">Status*</label>
               <select
                 value={editUserData.status}
                 onChange={(e) => handleEditUserChange('status', e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                className="w-full p-2 border border-gray-300 rounded-md body-xs "
               >
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>
@@ -405,32 +405,32 @@ const EditUserModal = ({
 
             {editUserData.role === "user" && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Admin ID*</label>
+                <label className="block body-xs  font-medium text-gray-700 mb-1">Admin ID*</label>
                 <input
                   type="text"
                   value={editUserData.adminId}
                   onChange={(e) => handleEditUserChange('adminId', e.target.value)}
-                  className={`w-full p-2 border ${editUserErrors.adminId ? 'border-red-500' : 'border-gray-300'} rounded-md text-sm`}
+                  className={`w-full p-2 border ${editUserErrors.adminId ? 'border-red-500' : 'border-gray-300'} rounded-md body-xs `}
                   disabled={!!currentAdmin?.adminId || !!currentAdmin?._id}
                 />
                 {editUserErrors.adminId && (
-                  <p className="mt-1 text-xs text-red-500">{editUserErrors.adminId}</p>
+                  <p className="mt-1 body-xstext-red-500">{editUserErrors.adminId}</p>
                 )}
               </div>
             )}
 
             {(editUserData.role === "user" || editUserData.role === "admin") && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Super Admin ID*</label>
+                <label className="block body-xs  font-medium text-gray-700 mb-1">Super Admin ID*</label>
                 <input
                   type="text"
                   value={editUserData.superAdminId}
                   onChange={(e) => handleEditUserChange('superAdminId', e.target.value)}
-                  className={`w-full p-2 border ${editUserErrors.superAdminId ? 'border-red-500' : 'border-gray-300'} rounded-md text-sm`}
+                  className={`w-full p-2 border ${editUserErrors.superAdminId ? 'border-red-500' : 'border-gray-300'} rounded-md body-xs `}
                   disabled={!!currentAdmin?.superAdminId || !!currentAdmin?._id}
                 />
                 {editUserErrors.superAdminId && (
-                  <p className="mt-1 text-xs text-red-500">{editUserErrors.superAdminId}</p>
+                  <p className="mt-1 body-xstext-red-500">{editUserErrors.superAdminId}</p>
                 )}
               </div>
             )}
@@ -445,7 +445,7 @@ const EditUserModal = ({
                          border border-gray-300 
                          rounded-md text-gray-700 
                          hover:bg-gray-50 
-                         text-sm sm:text-base md:text-lg 
+                         body-xs  sm:text-base md:heading-lg 
                          whitespace-nowrap"
             >
               Cancel
@@ -460,7 +460,7 @@ const EditUserModal = ({
                          rounded-md 
                          hover:bg-blue-700 
                          disabled:bg-blue-400 
-                         text-sm sm:text-base md:text-lg 
+                         body-xs  sm:text-base md:heading-lg 
                          whitespace-nowrap"
             >
               {isUpdatingUser ? (

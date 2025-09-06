@@ -68,6 +68,7 @@ function UserDashboard() {
   const today = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
+    dispatch(fetchUserInit());
     dispatch(setHeaderTitle("User Dashboard"));
     dispatch(setBreadcrumbs([{ label: "User Dashboard" }]));
   }, [dispatch]);
@@ -174,7 +175,7 @@ function UserDashboard() {
           <div className="flex items-center justify-center h-64">
             <div className="flex flex-col items-center space-y-4">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-              <div className="text-lg text-gray-600">Loading dashboard data...</div>
+              <div className="heading-lg text-gray-600">Loading dashboard data...</div>
             </div>
           </div>
         </div>
@@ -221,7 +222,7 @@ function UserDashboard() {
               <p className="text-gray-600">
                 Monitor your energy consumption and manage your account
                 {activeMeters.length > 0 && (
-                  <span className="ml-2 text-sm bg-green-100 text-green-800 px-2 py-1 rounded">
+                  <span className="ml-2 body-xs  bg-green-100 text-green-800 px-2 py-1 rounded">
                     {activeMeters.length} active meter{activeMeters.length > 1 ? 's' : ''}
                   </span>
                 )}
@@ -299,7 +300,7 @@ function UserDashboard() {
         {/* Real-time Meter Data */}
         {firstMeterData && (
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
-            <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center">
+            <h3 className="heading-xl font-semibold text-gray-900 mb-6 flex items-center">
               Real-time Meter Data
               <span className="ml-2 h-2 w-2 bg-green-500 rounded-full animate-pulse"></span>
             </h3>
@@ -338,7 +339,7 @@ function UserDashboard() {
 
         {/* Quick Actions */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
+          <h2 className="heading-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
           <div className="flex flex-wrap gap-4">
             <ActionButton
               icon={<CreditCard className="h-5 w-5" />}
@@ -373,12 +374,12 @@ function UserDashboard() {
           <div className="p-6">
             <div className="flex justify-between items-start mb-6">
               <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">Usage Trends</h2>
+                <h2 className="heading-xl font-semibold text-gray-900 mb-2">Usage Trends</h2>
                 <p className="text-gray-600">Track your energy consumption patterns over time</p>
               </div>
               <div className="flex items-center space-x-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block body-xs  font-medium text-gray-700 mb-1">
                     <Calendar className="h-4 w-4 inline mr-1" />
                     From Date
                   </label>
@@ -387,11 +388,11 @@ function UserDashboard() {
                     value={startDate}
                     max={today}
                     onChange={(e) => setStartDate(e.target.value)}
-                    className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                    className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-xs "
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block body-xs  font-medium text-gray-700 mb-1">
                     Reset Filters
                   </label>
                   <button
@@ -399,7 +400,7 @@ function UserDashboard() {
                       dispatch(resetFilterSettings());
                       setStartDate("2025-04-01");
                     }}
-                    className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300 rounded-md text-sm transition-colors"
+                    className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300 rounded-md body-xs  transition-colors"
                   >
                     Reset
                   </button>
@@ -414,8 +415,8 @@ function UserDashboard() {
                 <div className="flex items-center justify-center h-64 text-gray-500">
                   <div className="text-center">
                     <TrendingUp className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-                    <p className="text-lg font-medium">No chart data available</p>
-                    <p className="text-sm">Please check your meter configuration or try refreshing the page.</p>
+                    <p className="heading-lg font-medium">No chart data available</p>
+                    <p className="body-xs ">Please check your meter configuration or try refreshing the page.</p>
                     <button
                       onClick={handleRefresh}
                       className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -441,7 +442,7 @@ const StatsCard = ({ title, value, icon, subText, content, trend, bgColor, iconC
         <span className={iconColor}>{icon}</span>
       </div>
       {trend === "up" && (
-        <div className="flex items-center text-green-600 text-sm">
+        <div className="flex items-center text-green-600 body-xs ">
           <TrendingUp className="h-4 w-4 mr-1" />
           <span>+2.3%</span>
         </div>
@@ -449,7 +450,7 @@ const StatsCard = ({ title, value, icon, subText, content, trend, bgColor, iconC
     </div>
 
     <div className="mb-2">
-      <h3 className="text-sm font-medium text-gray-600 mb-1">{title}</h3>
+      <h3 className="body-xs  font-medium text-gray-600 mb-1">{title}</h3>
       {content ? (
         <div>{content}</div>
       ) : (
@@ -458,7 +459,7 @@ const StatsCard = ({ title, value, icon, subText, content, trend, bgColor, iconC
     </div>
 
     {subText && (
-      <p className={`text-sm ${trend === "up" ? "text-green-600" :
+      <p className={`body-xs  ${trend === "up" ? "text-green-600" :
           trend === "down" ? "text-red-600" :
             "text-gray-500"
         }`}>
@@ -470,7 +471,7 @@ const StatsCard = ({ title, value, icon, subText, content, trend, bgColor, iconC
 
 const PowerQualityItem = ({ label, value, isGood }) => (
   <div className="flex justify-between items-center">
-    <span className="text-sm text-gray-600">{label}</span>
+    <span className="body-xs  text-gray-600">{label}</span>
     <div className="flex items-center space-x-1">
       <span className="font-semibold text-gray-900">{value}</span>
       {isGood ? (
@@ -484,12 +485,12 @@ const PowerQualityItem = ({ label, value, isGood }) => (
 
 const MeterDataCard = ({ title, value, unit, statusColor, bgColor = "bg-gray-50", borderColor = "border-gray-200", subText }) => (
   <div className={`${bgColor} rounded-lg p-5 shadow-sm border ${borderColor}`}>
-    <div className="text-sm text-gray-500 mb-1">{title}</div>
+    <div className="body-xs  text-gray-500 mb-1">{title}</div>
     <div className={`text-2xl font-bold ${statusColor || 'text-gray-800'}`}>
       {value}
-      {unit && <span className="text-sm text-gray-600 ml-1">{unit}</span>}
+      {unit && <span className="body-xs  text-gray-600 ml-1">{unit}</span>}
     </div>
-    {subText && <span className="text-gray-800 text-sm">{subText}</span>}
+    {subText && <span className="text-gray-800 body-xs ">{subText}</span>}
   </div>
 );
 

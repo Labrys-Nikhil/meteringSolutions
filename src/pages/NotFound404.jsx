@@ -65,8 +65,8 @@ const NotFound404 = () => {
           <div className="text-center mb-12">
             <div className="inline-flex items-center bg-white/10 backdrop-blur-md rounded-full px-6 py-3 mb-8 border border-white/20">
               <div className={`w-3 h-3 rounded-full mr-3 ${connectionPulse ? 'bg-red-400' : 'bg-red-500'} animate-pulse`}></div>
-              <span className="text-white/90 text-sm font-medium">System Connection Lost</span>
-              <div className="ml-4 text-white/60 text-xs font-mono">
+              <span className="text-white/90 body-xs  font-medium">System Connection Lost</span>
+              <div className="ml-4 text-white/60 body-xsfont-mono">
                 {currentTime.toLocaleTimeString()}
               </div>
             </div>
@@ -85,7 +85,7 @@ const NotFound404 = () => {
                 <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
                   Endpoint Not Found
                 </h2>
-                <p className="text-xl text-blue-200 mb-2">
+                <p className="heading-xl text-blue-200 mb-2">
                   The metering endpoint you requested is currently unavailable
                 </p>
                 <p className="text-blue-300/80">

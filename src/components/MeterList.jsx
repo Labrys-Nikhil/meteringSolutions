@@ -42,11 +42,11 @@ const MeterList = ({ meters }) => {
           <div className="p-2 bg-orange-100 rounded-sm">
             <Zap className="text-orange-600" size={20} />
           </div>
-          <div>
-            <h3 className="text-lg font-semibold text-gray-800">
+          <div >
+            <h3 className="heading-lg font-semibold text-gray-800">
               Meters Overview
             </h3>
-            <p className="text-sm text-gray-500">{meters.length} meters</p>
+            <p className="body-xs  text-gray-500">{meters.length} meters</p>
           </div>
         </div>
 
@@ -61,7 +61,7 @@ const MeterList = ({ meters }) => {
             <input
               type="text"
               placeholder="Search meters..."
-              className="w-full border border-gray-300 rounded-md pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full border border-gray-300 rounded-md pl-10 pr-3 py-3 body-xs  focus:outline-none focus:ring-2 focus:ring-orange-400"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -84,7 +84,7 @@ const MeterList = ({ meters }) => {
               ))}
             </div> */}
 
-                        <div className=" space-y-3 pr-2">
+            <div className=" space-y-3 pr-2">
               {meters && meters.length > 0 ? (
                 meters.map((meter, ind) => (
                   <div key={meter._id + ind} className="w-full">
@@ -92,7 +92,7 @@ const MeterList = ({ meters }) => {
                   </div>
                 ))
               ) : (
-                <p className="text-center text-gray-500 p-8 text-xl font-semibold">
+                <p className="text-center text-gray-500 p-8 heading-lg font-semibold">
                   Meter not found
                 </p>
               )}

@@ -16,8 +16,8 @@ export const EGStatusDisplay = ({ status }) => {
 
   return (
 <div className="bg-gray-50 rounded-lg p-5 shadow-sm border border-gray-200">
-      <div className="text-sm text-gray-600 mb-2">EG/DG Status</div>
-      <div className={`text-xl font-bold flex items-center gap-2 ${getStatusColor()}`}>
+      <div className="body-xs  text-gray-600 mb-2">EG/DG Status</div>
+      <div className={`heading-xl font-bold flex items-center gap-2 ${getStatusColor()}`}>
         {status === 0 && (
           <Circle className="h-3 w-3 fill-green-600 animate-pulse" />
         )}

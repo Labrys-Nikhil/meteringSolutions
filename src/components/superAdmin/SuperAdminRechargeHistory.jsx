@@ -105,7 +105,7 @@ const SuperAdminRechargeHistory = () => {
     <div className="p-bg-blue-200/10 min-h-screen">
       <Header />
       <div className="p-6 max-w-7xl mx-auto">
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
+        <h2 className="heading-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
           Recharge History
         </h2>
 
@@ -113,7 +113,7 @@ const SuperAdminRechargeHistory = () => {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-4">
           <div className="flex flex-col justify-between sm:flex-row sm:items-end gap-4 flex-wrap">
             <div>
-              <label className="text-sm font-medium text-gray-700 mb-1 block">
+              <label className="body-xs  font-medium text-gray-700 mb-1 block">
                 Search
               </label>
               <input
@@ -124,13 +124,13 @@ const SuperAdminRechargeHistory = () => {
                   setSearchTerm(e.target.value);
                   setPage(1);
                 }}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md body-xs  focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
 
             <div className="flex gap-6">
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">
+                <label className="body-xs  font-medium text-gray-700 mb-1 block">
                   Start Date
                 </label>
                 <input
@@ -140,12 +140,12 @@ const SuperAdminRechargeHistory = () => {
                     setStartDate(e.target.value);
                     setPage(1);
                   }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md body-xs  focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">
+                <label className="body-xs  font-medium text-gray-700 mb-1 block">
                   End Date
                 </label>
                 <input
@@ -155,7 +155,7 @@ const SuperAdminRechargeHistory = () => {
                     setEndDate(e.target.value);
                     setPage(1);
                   }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md body-xs  focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
             </div>
@@ -164,7 +164,7 @@ const SuperAdminRechargeHistory = () => {
 
         {/* Data List */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-          <p className="text-md font-semibold text-blue-600 mb-2">
+          <p className="heading-md font-semibold text-blue-600 mb-2">
             Meter ID: {meterId}
           </p>
 
@@ -189,7 +189,7 @@ const SuperAdminRechargeHistory = () => {
                     key={item._id || index}
                     className="flex flex-col sm:flex-row sm:items-center justify-between px-4 py-4 mb-3 bg-gray-100 rounded-lg gap-2"
                   >
-                    <div className="text-sm text-gray-600 font-medium sm:w-1/4 w-full">
+                    <div className="body-xs  text-gray-600 font-medium sm:w-1/4 w-full">
                       {rechargeDate}
                     </div>
 
@@ -237,17 +237,17 @@ const SuperAdminRechargeHistory = () => {
                 <button
                   onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
                   disabled={page <= 1}
-                  className="px-4 py-2 bg-gray-200 cursor-pointer text-sm rounded-md disabled:opacity-50"
+                  className="px-4 py-2 bg-gray-200 cursor-pointer body-xs  rounded-md disabled:opacity-50"
                 >
                   Prev
                 </button>
-                <span className="text-sm">
+                <span className="body-xs ">
                   Page {page} of {totalPages}
                 </span>
                 <button
                   onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
                   disabled={page >= totalPages}
-                  className="px-4 py-2 bg-gray-200 text-sm cursor-pointer rounded-md disabled:opacity-50"
+                  className="px-4 py-2 bg-gray-200 body-xs  cursor-pointer rounded-md disabled:opacity-50"
                 >
                   Next
                 </button>

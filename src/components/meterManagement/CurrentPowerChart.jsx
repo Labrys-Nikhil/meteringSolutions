@@ -176,7 +176,7 @@
 //         {hasData ? (
 //           <Bar data={chartData} options={options} />
 //         ) : (
-//           <p className="text-gray-500 text-lg font-medium">Data Not Found</p>
+//           <p className="text-gray-500 heading-lg font-medium">Data Not Found</p>
 //         )}
 //       </div>
 //     </div>
@@ -265,7 +265,7 @@ const CurrentPowerChart = ({
       {hasData ? (
         <Bar data={data} options={options} />
       ) : (
-        <p className="text-gray-500 text-lg font-medium">Data Not Found</p>
+        <p className="text-gray-500 heading-lg font-medium">Data Not Found</p>
       )}
     </div>
   </div>

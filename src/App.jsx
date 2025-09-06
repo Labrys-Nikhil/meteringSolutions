@@ -160,7 +160,7 @@ const App = () => {
               <Route path="billingandpayment/:id" element={<BillingAndPayment />} />
               <Route path="chat/:id" element={<Chat />} />
               <Route path="invoice/:id" element={<Invoice />} />
-
+              <Route path="support/:id" element={<SupportAndLogs />} />
               <Route path="energyConsumption/:id">
                 <Route index element={<EnergyConsumption />} />
                 <Route path="recenthistoricaldata" element={<RecentAndHistoricalData />} />

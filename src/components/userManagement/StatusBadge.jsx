@@ -4,7 +4,7 @@ import { getStatusBg } from '../../utils/userUtils';
 
 const StatusBadge = ({ status }) => {
   return (
-    <div className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBg(status)}`}>
+    <div className={`px-2 py-1 rounded-full body-xsfont-medium ${getStatusBg(status)}`}>
       {status}
     </div>
   );

@@ -91,7 +91,7 @@ export default BillingAndPayment;
 //     <div className="p-6 space-y-6 bg-white shadow rounded-lg">
 //       <div className="flex justify-between items-center">
 //         <div>
-//           <h2 className="text-xl font-semibold">Billing & Payments</h2>
+//           <h2 className="heading-xl font-semibold">Billing & Payments</h2>
 //           <p className="text-gray-500">Manage invoices and payment tracking</p>
 //         </div>
 //         <Button className="bg-blue-600 text-white">+ Generate Invoice</Button>
@@ -102,7 +102,7 @@ export default BillingAndPayment;
 //           <FaDollarSign className="text-green-500 text-3xl" />
 //           <div>
 //             <p className="text-gray-500">Total Revenue</p>
-//             <h3 className="text-xl font-bold">$45,289</h3>
+//             <h3 className="heading-xl font-bold">$45,289</h3>
 //             <p className="text-green-500">+12% this month</p>
 //           </div>
 //         </div>
@@ -110,7 +110,7 @@ export default BillingAndPayment;
 //           <FaDollarSign className="text-yellow-500 text-3xl" />
 //           <div>
 //             <p className="text-gray-500">Pending Payments</p>
-//             <h3 className="text-xl font-bold">$12,450</h3>
+//             <h3 className="heading-xl font-bold">$12,450</h3>
 //             <p className="text-yellow-500">23 invoices pending</p>
 //           </div>
 //         </div>
@@ -118,7 +118,7 @@ export default BillingAndPayment;
 //           <AiOutlineAlert className="text-red-500 text-3xl" />
 //           <div>
 //             <p className="text-gray-500">Overdue Payments</p>
-//             <h3 className="text-xl font-bold">$5,890</h3>
+//             <h3 className="heading-xl font-bold">$5,890</h3>
 //             <p className="text-red-500">8 overdue invoices</p>
 //           </div>
 //         </div>
@@ -172,7 +172,7 @@ export default BillingAndPayment;
 //     <div className="p-6 space-y-6 bg-white shadow rounded-lg">
 //       <div className="flex justify-between">
 //       <div>
-//         <h2 className="text-xl font-semibold">Billing & Payments</h2>
+//         <h2 className="heading-xl font-semibold">Billing & Payments</h2>
 //         <p className="text-gray-500">Manage invoices and payment tracking</p>
 //         </div>
 //         <button className="bg-blue-600 text-white px-4 py-2 rounded flex items-center shadow-md">
@@ -185,7 +185,7 @@ export default BillingAndPayment;
 //           <FaDollarSign className="text-green-500 text-3xl" />
 //           <div>
 //             <p className="text-gray-500">Total Revenue</p>
-//             <h3 className="text-xl font-bold">$45,289</h3>
+//             <h3 className="heading-xl font-bold">$45,289</h3>
 //             <p className="text-green-500">+12% this month</p>
 //           </div>
 //         </div>
@@ -193,7 +193,7 @@ export default BillingAndPayment;
 //           <FaDollarSign className="text-yellow-500 text-3xl" />
 //           <div>
 //             <p className="text-gray-500">Pending Payments</p>
-//             <h3 className="text-xl font-bold">$12,450</h3>
+//             <h3 className="heading-xl font-bold">$12,450</h3>
 //             <p className="text-yellow-500">23 invoices pending</p>
 //           </div>
 //         </div> */}
@@ -201,7 +201,7 @@ export default BillingAndPayment;
 //           <AiOutlineAlert className="text-red-500 text-3xl" />
 //           <div>
 //             <p className="text-gray-500">Overdue Payments</p>
-//             <h3 className="text-xl font-bold">$5,890</h3>
+//             <h3 className="heading-xl font-bold">$5,890</h3>
 //             <p className="text-red-500">8 overdue invoices</p>
 //           </div>
 //         </div>

@@ -88,7 +88,7 @@
 //           <img src="./logo.svg" alt="Logo" className="w-40 h-20" />
 //         </div>
 
-//         <h2 className="text-xl font-semibold mb-6 text-center">Get Started Now</h2>
+//         <h2 className="heading-xl font-semibold mb-6 text-center">Get Started Now</h2>
 
 //         <form onSubmit={handleSubmit} className="space-y-4">
 //           {/* Name Fields */}
@@ -276,12 +276,12 @@ const SignUpForm = () => {
         <div className="bg-gradient-to-br from-cyan-400 to-blue-600 text-white flex flex-col justify-center items-center p-8">
           <img src="./logo.svg" alt="Logo" className="w-36 mb-6" />
           <h2 className="text-3xl font-bold mb-2">Welcome!</h2>
-          <p className="text-center text-sm">Start your journey by creating a free account with us.</p>
+          <p className="text-center body-xs ">Start your journey by creating a free account with us.</p>
         </div>
 
         {/* Right Side */}
         <div className="p-8">
-          <h2 className="text-xl font-semibold mb-4 text-center text-gray-700">Sign Up</h2>
+          <h2 className="heading-xl font-semibold mb-4 text-center text-gray-700">Sign Up</h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex gap-4">
@@ -411,7 +411,7 @@ const SignUpForm = () => {
             </button>
           </form>
 
-          <p className="text-center mt-4 text-sm">
+          <p className="text-center mt-4 body-xs ">
             Already have an account?{' '}
             <Link to="/" className="text-blue-600 hover:underline">
               Log In

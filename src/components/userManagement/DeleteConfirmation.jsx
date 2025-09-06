@@ -13,7 +13,7 @@ const DeleteConfirmation = ({
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
         <div className="p-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold text-gray-900">Confirm Delete</h2>
+            <h2 className="heading-xl font-bold text-gray-900">Confirm Delete</h2>
             <button 
               onClick={() => setShowDeleteConfirm(false)}
               className="text-gray-400 hover:text-gray-500"
@@ -31,7 +31,7 @@ const DeleteConfirmation = ({
                 <div className="font-medium text-red-800">
                   {user.firstName} {user.lastName}
                 </div>
-                <div className="text-sm text-red-700">
+                <div className="body-xs  text-red-700">
                   @{user.username}
                 </div>
               </div>

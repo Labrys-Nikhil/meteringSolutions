@@ -9,7 +9,7 @@ function Footer() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-between">
                 {/* Small Footer Content */}
                 <div className="flex justify-between items-center h-full px-4">
-                    <p className="text-sm">© {new Date().getFullYear()} SmartLynk</p>
+                    <p className="body-xs ">© {new Date().getFullYear()} SmartLynk</p>
                     <div className="flex space-x-4">
                         <FaFacebookF className="text-cyan-600 hover:text-cyan-500" />
                         <FaTwitter className="text-cyan-600 hover:text-cyan-500" />

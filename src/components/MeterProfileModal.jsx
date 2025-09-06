@@ -37,7 +37,7 @@ const MeterProfileModal = ({ meter, isOpen, onClose }) => {
       >
         {/* Modal Header */}
         <div className="flex justify-between items-start">
-          <h3 className="text-lg font-semibold text-gray-800">Meter Details</h3>
+          <h3 className="heading-lg font-semibold text-gray-800">Meter Details</h3>
           <button
             type="button"
             className="text-gray-400 hover:text-gray-500"
@@ -60,20 +60,20 @@ const MeterProfileModal = ({ meter, isOpen, onClose }) => {
                   <p className="text-[15px] font-semibold text-gray-800">
                     {meter.name}
                   </p>
-                  <p className="text-sm text-gray-600 font-medium">
+                  <p className="body-xs  text-gray-600 font-medium">
                     ID: {meter.meterId}
                   </p>
                 </div>
               </div>
               <div className="flex items-center space-x-2">
                 {getStatusIcon()}
-                <span className="capitalize text-sm font-medium text-gray-700">
+                <span className="capitalize body-xs  font-medium text-gray-700">
                   {meter.status}
                 </span>
               </div>
             </div>
 
-            <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
+            <div className="mt-4 grid grid-cols-2 gap-4 body-xs ">
               <div>
                 <p className="text-gray-600 font-medium">Type</p>
                 <p className="text-gray-800">{meter.type}</p>
@@ -105,7 +105,7 @@ const MeterProfileModal = ({ meter, isOpen, onClose }) => {
               ) : (
                 <Unlink className="text-gray-400" size={20} />
               )}
-              <h4 className="font-semibold text-gray-800 text-sm">
+              <h4 className="font-semibold text-gray-800 body-xs ">
                 {meter.isAssigned ? "Assigned to User" : "Unassigned Meter"}
               </h4>
             </div>
@@ -119,13 +119,13 @@ const MeterProfileModal = ({ meter, isOpen, onClose }) => {
                   <p className="text-gray-800 font-medium">
                     {meter.assignedUserId?.name || "Loading user..."}
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="body-xs  text-gray-600">
                     User ID: {meter.assignedUserId?._id}
                   </p>
                 </div>
               </div>
             ) : (
-              <p className="text-gray-500 text-sm">
+              <p className="text-gray-500 body-xs ">
                 This meter is not currently assigned to any user.
               </p>
             )}

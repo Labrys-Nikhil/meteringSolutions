@@ -65,10 +65,10 @@
 
 //   const Field = ({ label, name, value, type = 'text', Icon, placeholder, readOnly = false }) => (
 //     <div className="group">
-//       <label className="block text-xs font-semibold text-gray-700 mb-2 flex items-center gap-2">
+//       <label className="block body-xsfont-semibold text-gray-700 mb-2 flex items-center gap-2">
 //         {Icon && <Icon className="w-4 h-4 text-indigo-500" />}
 //         {label}
-//         {readOnly && <span className="text-xs text-gray-400 italic">(Read-only)</span>}
+//         {readOnly && <span className="body-xstext-gray-400 italic">(Read-only)</span>}
 //       </label>
 //       {isEditing && !readOnly ? (
 //         <input
@@ -76,7 +76,7 @@
 //           value={value || ''}
 //           onChange={handleChange}
 //           placeholder={placeholder}
-//           className="w-full px-4 py-3 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 bg-white hover:border-gray-300"
+//           className="w-full px-4 py-3 border border-gray-200 rounded-xl body-xsfocus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 bg-white hover:border-gray-300"
 //           type={type}
 //         />
 //       ) : (
@@ -145,13 +145,13 @@
 //               <div className="flex-1 lg:mb-4">
 //                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
 //                   <div>
-//                     <h1 className="text-xl font-bold text-gray-900 mb-2">
+//                     <h1 className="heading-xl font-bold text-gray-900 mb-2">
 //                       {formData.firstName && formData.lastName 
 //                         ? `${formData.firstName.toUpperCase()} ${formData.lastName.toUpperCase()}` 
 //                         : 'Your Name'}
 //                     </h1>
-//                     <p className="text-gray-600 text-md mb-4">{formData.bio || 'Professional Profile'}</p>
-//                     <div className="flex flex-wrap gap-4 text-xs text-gray-500">
+//                     <p className="text-gray-600 heading-md mb-4">{formData.bio || 'Professional Profile'}</p>
+//                     <div className="flex flex-wrap gap-4 body-xstext-gray-500">
 //                       {formData.email && (
 //                         <div className="flex items-center gap-1">
 //                           <Mail className="w-4 h-4" />
@@ -212,7 +212,7 @@
 //                 <div className="p-2 bg-indigo-100 rounded-lg">
 //                   <User className="w-5 h-5 text-indigo-600" />
 //                 </div>
-//                 <h2 className="text-lg font-bold text-gray-900">Personal Information</h2>
+//                 <h2 className="heading-lg font-bold text-gray-900">Personal Information</h2>
 //               </div>
 
 //               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -267,7 +267,7 @@
 
 //               {/* Bio Section */}
 //               <div className="mt-8 pt-8 border-t border-gray-100">
-//                 <label className="block text-xs font-semibold text-gray-700 mb-2 flex items-center gap-2">
+//                 <label className="block body-xsfont-semibold text-gray-700 mb-2 flex items-center gap-2">
 //                   <Briefcase className="w-4 h-4 text-indigo-500" />
 //                   Professional Bio
 //                 </label>
@@ -277,12 +277,12 @@
 //                     value={formData.bio || ''}
 //                     onChange={handleChange}
 //                     placeholder="Tell us about yourself, your role, and what you're passionate about..."
-//                     className="w-full px-4 py-3 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 bg-white hover:border-gray-300 resize-none"
+//                     className="w-full px-4 py-3 border border-gray-200 rounded-xl body-xsfocus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 bg-white hover:border-gray-300 resize-none"
 //                     rows="4"
 //                   />
 //                 ) : (
 //                   <div className="px-4 py-3 bg-gray-50 rounded-xl border border-gray-100">
-//                     <p className="text-gray-800 text-xs leading-relaxed">
+//                     <p className="text-gray-800 body-xsleading-relaxed">
 //                       {formData.bio || <span className="text-gray-400 italic">No bio added yet</span>}
 //                     </p>
 //                   </div>
@@ -299,7 +299,7 @@
 //                 <div className="p-2 bg-blue-100 rounded-lg">
 //                   <Globe className="w-5 h-5 text-blue-600" />
 //                 </div>
-//                 <h2 className="text-lg font-bold text-gray-900">Social Profiles</h2>
+//                 <h2 className="heading-lg font-bold text-gray-900">Social Profiles</h2>
 //               </div>
 
 //               <div className="space-y-6">
@@ -322,11 +322,11 @@
 
 //             {/* Quick Stats */}
 //             <div className="bg-white rounded-2xl shadow-md p-8">
-//               <h3 className="text-lg font-bold text-gray-900 mb-6">Profile Completion</h3>
+//               <h3 className="heading-lg font-bold text-gray-900 mb-6">Profile Completion</h3>
 //               <div className="space-y-4">
 //                 <div className="flex justify-between items-center">
-//                   <span className="text-xs text-gray-600">Profile Info</span>
-//                   <span className="text-xs font-semibold text-indigo-600">
+//                   <span className="body-xstext-gray-600">Profile Info</span>
+//                   <span className="body-xsfont-semibold text-indigo-600">
 //                     {Math.round(Object.values(formData).filter(Boolean).length / 8 * 100)}%
 //                   </span>
 //                 </div>
@@ -336,7 +336,7 @@
 //                     style={{ width: `${Math.round(Object.values(formData).filter(Boolean).length / 8 * 100)}%` }}
 //                   ></div>
 //                 </div>
-//                 <p className="text-xs text-gray-500">Complete your profile to unlock all features</p>
+//                 <p className="body-xstext-gray-500">Complete your profile to unlock all features</p>
 //               </div>
 //             </div>
 //           </div>
@@ -497,10 +497,10 @@ const ProfileSection = () => {
 
   const Field = ({ label, name, value, type = 'text', Icon, placeholder, readOnly = false }) => (
     <div className="group">
-      <label className="block text-xs font-semibold text-gray-700 mb-2 flex items-center gap-2">
+      <label className="block body-xsfont-semibold text-gray-700 mb-2 flex items-center gap-2">
         {Icon && <Icon className="w-4 h-4 text-indigo-500" />}
         {label}
-        {readOnly && <span className="text-xs text-gray-400 italic">(Read-only)</span>}
+        {readOnly && <span className="body-xstext-gray-400 italic">(Read-only)</span>}
       </label>
       {isEditing && !readOnly ? (
         <input
@@ -508,7 +508,7 @@ const ProfileSection = () => {
           value={value || ''}
           onChange={handleChange}
           placeholder={placeholder}
-          className="w-full px-4 py-3 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 bg-white hover:border-gray-300"
+          className="w-full px-4 py-3 border border-gray-200 rounded-xl body-xsfocus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 bg-white hover:border-gray-300"
           type={type}
         />
       ) : (
@@ -585,13 +585,13 @@ const ProfileSection = () => {
               <div className="flex-1 lg:mb-4">
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                   <div>
-                    <h1 className="text-xl font-bold text-gray-900 mb-2">
+                    <h1 className="heading-xl font-bold text-gray-900 mb-2">
                       {formData.firstName && formData.lastName 
                         ? `${formData.firstName.toUpperCase()} ${formData.lastName.toUpperCase()}` 
                         : 'Your Name'}
                     </h1>
-                    <p className="text-gray-600 text-md mb-4">{formData.bio || 'Professional Profile'}</p>
-                    <div className="flex flex-wrap gap-4 text-xs text-gray-500">
+                    <p className="text-gray-600 heading-md mb-4">{formData.bio || 'Professional Profile'}</p>
+                    <div className="flex flex-wrap gap-4 body-xstext-gray-500">
                       {formData.email && (
                         <div className="flex items-center gap-1">
                           <Mail className="w-4 h-4" />
@@ -652,7 +652,7 @@ const ProfileSection = () => {
                 <div className="p-2 bg-indigo-100 rounded-lg">
                   <User className="w-5 h-5 text-indigo-600" />
                 </div>
-                <h2 className="text-lg font-bold text-gray-900">Personal Information</h2>
+                <h2 className="heading-lg font-bold text-gray-900">Personal Information</h2>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -706,7 +706,7 @@ const ProfileSection = () => {
 
               {/* Bio Section */}
               <div className="mt-8 pt-8 border-t border-gray-100">
-                <label className="block text-xs font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                <label className="block body-xsfont-semibold text-gray-700 mb-2 flex items-center gap-2">
                   <Briefcase className="w-4 h-4 text-indigo-500" />
                   Professional Bio
                 </label>
@@ -716,12 +716,12 @@ const ProfileSection = () => {
                     value={formData.bio || ''}
                     onChange={handleChange}
                     placeholder="Tell us about yourself, your role, and what you're passionate about..."
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 bg-white hover:border-gray-300 resize-none"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl body-xsfocus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 bg-white hover:border-gray-300 resize-none"
                     rows="4"
                   />
                 ) : (
                   <div className="px-4 py-3 bg-gray-50 rounded-xl border border-gray-100">
-                    <p className="text-gray-800 text-xs leading-relaxed">
+                    <p className="text-gray-800 body-xsleading-relaxed">
                       {formData.bio || <span className="text-gray-400 italic">No bio added yet</span>}
                     </p>
                   </div>
@@ -738,7 +738,7 @@ const ProfileSection = () => {
                 <div className="p-2 bg-blue-100 rounded-lg">
                   <Globe className="w-5 h-5 text-blue-600" />
                 </div>
-                <h2 className="text-lg font-bold text-gray-900">Social Profiles</h2>
+                <h2 className="heading-lg font-bold text-gray-900">Social Profiles</h2>
               </div>
 
               <div className="space-y-6">
@@ -761,11 +761,11 @@ const ProfileSection = () => {
 
             {/* Quick Stats */}
             <div className="bg-white rounded-2xl shadow-md p-8">
-              <h3 className="text-lg font-bold text-gray-900 mb-6">Profile Completion</h3>
+              <h3 className="heading-lg font-bold text-gray-900 mb-6">Profile Completion</h3>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-xs text-gray-600">Profile Info</span>
-                  <span className="text-xs font-semibold text-indigo-600">
+                  <span className="body-xstext-gray-600">Profile Info</span>
+                  <span className="body-xsfont-semibold text-indigo-600">
                     {Math.round(Object.values(formData).filter(val => 
                       val && (typeof val === 'string' ? val.trim() : true)
                     ).length / 8 * 100)}%
@@ -781,7 +781,7 @@ const ProfileSection = () => {
                     }}
                   ></div>
                 </div>
-                <p className="text-xs text-gray-500">Complete your profile to unlock all features</p>
+                <p className="body-xstext-gray-500">Complete your profile to unlock all features</p>
               </div>
             </div>
           </div>

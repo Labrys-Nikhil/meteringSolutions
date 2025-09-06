@@ -98,7 +98,7 @@ const DailyMeterDataUsageHistory = () => {
     <div className="bg-blue-200/10 min-h-screen">
       <Header />
       <div className="p-4 max-w-7xl mx-auto">
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
+        <h2 className="heading-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
           Meter Data
         </h2>
 
@@ -108,7 +108,7 @@ const DailyMeterDataUsageHistory = () => {
             {/* Search Input */}
             <div>
               <div className="w-full">
-                <label className="text-sm font-medium text-gray-700 mb-1 block">
+                <label className="body-xs  font-medium text-gray-700 mb-1 block">
                   Search by kWh
                 </label>
                 <input
@@ -119,7 +119,7 @@ const DailyMeterDataUsageHistory = () => {
                     setSearchTerm(e.target.value);
                     setPage(1);
                   }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md body-xs  focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
             </div>
@@ -127,7 +127,7 @@ const DailyMeterDataUsageHistory = () => {
             {/* Date Filters */}
             <div className="flex gap-6 w-full sm:w-auto">
               <div className="w-full sm:w-1/2">
-                <label className="text-sm font-medium text-gray-700 mb-1 block">
+                <label className="body-xs  font-medium text-gray-700 mb-1 block">
                   Start Date
                 </label>
                 <input
@@ -137,11 +137,11 @@ const DailyMeterDataUsageHistory = () => {
                     setStartDate(e.target.value);
                     setPage(1);
                   }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md body-xs  focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
               <div className="w-full sm:w-1/2">
-                <label className="text-sm font-medium text-gray-700 mb-1 block">
+                <label className="body-xs  font-medium text-gray-700 mb-1 block">
                   End Date
                 </label>
                 <input
@@ -151,7 +151,7 @@ const DailyMeterDataUsageHistory = () => {
                     setEndDate(e.target.value);
                     setPage(1);
                   }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md body-xs  focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
             </div>
@@ -161,7 +161,7 @@ const DailyMeterDataUsageHistory = () => {
         {/* Data Display */}
         <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-3 min-h-[400px]">
           <div className="sm:w-1/4 mb-3">
-            <p className="text-md font-semibold text-blue-600">
+            <p className="heading-md font-semibold text-blue-600">
               Meter ID: {meterId}
             </p>
           </div>
@@ -191,13 +191,13 @@ const DailyMeterDataUsageHistory = () => {
                     key={index}
                     className="flex flex-col sm:flex-row justify-between items-start sm:items-center px-4 py-4 mb-3 bg-gray-100 rounded-lg"
                   >
-                    <div className="text-sm text-gray-700 font-medium sm:w-1/4 w-full mb-2 sm:mb-0">
+                    <div className="body-xs  text-gray-700 font-medium sm:w-1/4 w-full mb-2 sm:mb-0">
                       {usageDate}
                     </div>
 
-                    <div className="text-sm w-full sm:w-3/4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                    <div className="body-xs  w-full sm:w-3/4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
                       <div className="min-w-0">
-                        <p className="text-md font-semibold text-gray-500">
+                        <p className="heading-md font-semibold text-gray-500">
                           Total kWh
                         </p>
                         <p className="font-semibold text-gray-800">
@@ -205,7 +205,7 @@ const DailyMeterDataUsageHistory = () => {
                         </p>
                       </div>
                       <div className="min-w-0">
-                        <p className="text-md font-semibold text-gray-500">
+                        <p className="heading-md font-semibold text-gray-500">
                           Total EG
                         </p>
                         <p className="font-semibold text-green-600">
@@ -213,7 +213,7 @@ const DailyMeterDataUsageHistory = () => {
                         </p>
                       </div>
                       <div className="min-w-0">
-                        <p className="text-md font-semibold text-gray-500">
+                        <p className="heading-md font-semibold text-gray-500">
                           Total DG
                         </p>
                         <p className="font-semibold text-yellow-600">
@@ -221,7 +221,7 @@ const DailyMeterDataUsageHistory = () => {
                         </p>
                       </div>
                       <div className="min-w-0">
-                        <p className="text-md font-semibold text-gray-500">
+                        <p className="heading-md font-semibold text-gray-500">
                           Deduction
                         </p>
                         <p className="font-semibold text-red-600">
@@ -238,11 +238,11 @@ const DailyMeterDataUsageHistory = () => {
                 <button
                   onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
                   disabled={page <= 1}
-                  className="px-4 py-2 bg-gray-200 cursor-pointer text-sm rounded-md disabled:opacity-50"
+                  className="px-4 py-2 bg-gray-200 cursor-pointer body-xs  rounded-md disabled:opacity-50"
                 >
                   Prev
                 </button>
-                <span className="text-sm">
+                <span className="body-xs ">
                   Page {page} of {totalPages}
                 </span>
                 <button
@@ -250,7 +250,7 @@ const DailyMeterDataUsageHistory = () => {
                     setPage((prev) => Math.min(prev + 1, totalPages))
                   }
                   disabled={page >= totalPages}
-                  className="px-4 py-2 bg-gray-200 text-sm cursor-pointer rounded-md disabled:opacity-50"
+                  className="px-4 py-2 bg-gray-200 body-xs  cursor-pointer rounded-md disabled:opacity-50"
                 >
                   Next
                 </button>

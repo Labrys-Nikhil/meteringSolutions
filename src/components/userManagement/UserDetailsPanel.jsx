@@ -37,8 +37,8 @@
 //                   </div>
 //                   <div>
 //                     <h3 className="font-medium text-blue-900">{selectedUser.firstName} {selectedUser.lastName}</h3>
-//                     <p className="text-sm text-blue-700">{selectedUser.email}</p>
-//                     <p className="text-sm text-blue-600">{selectedUser.department}</p>
+//                     <p className="body-xs  text-blue-700">{selectedUser.email}</p>
+//                     <p className="body-xs  text-blue-600">{selectedUser.department}</p>
 //                   </div>
 //                 </div>
 //                 <Icons.Users className="h-8 w-8 text-blue-600" />
@@ -46,26 +46,26 @@
 
 //               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 pt-4 border-t border-blue-200">
 //                 <div>
-//                   <div className="text-xs text-blue-600 uppercase tracking-wide">Status</div>
-//                   <div className={`text-sm font-medium ${getStatusColor(selectedUser.status)}`}>
+//                   <div className="body-xstext-blue-600 uppercase tracking-wide">Status</div>
+//                   <div className={`body-xs  font-medium ${getStatusColor(selectedUser.status)}`}>
 //                     {selectedUser.status}
 //                   </div>
 //                 </div>
 //                 <div>
-//                   <div className="text-xs text-blue-600 uppercase tracking-wide">Role</div>
-//                   <div className="text-sm font-medium text-blue-900">
+//                   <div className="body-xstext-blue-600 uppercase tracking-wide">Role</div>
+//                   <div className="body-xs  font-medium text-blue-900">
 //                     {roleTemplates[selectedUser.role]?.name || selectedUser.role}
 //                   </div>
 //                 </div>
 //                 <div>
-//                   <div className="text-xs text-blue-600 uppercase tracking-wide">Last Login</div>
-//                   <div className="text-sm font-medium text-blue-900">
+//                   <div className="body-xstext-blue-600 uppercase tracking-wide">Last Login</div>
+//                   <div className="body-xs  font-medium text-blue-900">
 //                     {selectedUser.lastLogin ? formatDate(selectedUser.lastLogin) : 'Never'}
 //                   </div>
 //                 </div>
 //                 <div>
-//                   <div className="text-xs text-blue-600 uppercase tracking-wide">Member Since</div>
-//                   <div className="text-sm font-medium text-blue-900">
+//                   <div className="body-xstext-blue-600 uppercase tracking-wide">Member Since</div>
+//                   <div className="body-xs  font-medium text-blue-900">
 //                     {formatDate(selectedUser.createdAt)}
 //                   </div>
 //                 </div>
@@ -74,7 +74,7 @@
 
 //             {/* Action Type Selection */}
 //             <div>
-//               <label className="block text-sm font-medium text-gray-700 mb-2">Action Type</label>
+//               <label className="block body-xs  font-medium text-gray-700 mb-2">Action Type</label>
 //               <select
 //                 value={actionType}
 //                 onChange={(e) => {
@@ -88,14 +88,14 @@
 //                 ))}
 //               </select>
 //               {actionType && (
-//                 <p className="mt-2 text-sm text-gray-600">{actionTemplates[actionType].description}</p>
+//                 <p className="mt-2 body-xs  text-gray-600">{actionTemplates[actionType].description}</p>
 //               )}
 //             </div>
 
 //             {/* Action-Specific Forms */}
 //             {actionType === 'update_role' && (
 //               <div>
-//                 <label className="block text-sm font-medium text-gray-700 mb-2">New Role</label>
+//                 <label className="block body-xs  font-medium text-gray-700 mb-2">New Role</label>
 //                 <select
 //                   value={formData.newRole || ''}
 //                   onChange={(e) => handleFormChange('newRole', e.target.value)}
@@ -108,10 +108,10 @@
 //                 </select>
 //                 {formData.newRole && (
 //                   <div className="mt-3 p-3 bg-gray-50 rounded-md">
-//                     <div className="text-sm font-medium text-gray-700 mb-2">Permissions for this role:</div>
+//                     <div className="body-xs  font-medium text-gray-700 mb-2">Permissions for this role:</div>
 //                     <div className="space-y-1">
 //                       {roleTemplates[formData.newRole].permissions.map((permission) => (
-//                         <div key={permission} className="flex items-center text-sm text-gray-600">
+//                         <div key={permission} className="flex items-center body-xs  text-gray-600">
 //                           <Icons.CheckCircle className="h-4 w-4 text-green-500 mr-2" />
 //                           {permissionsList[permission]}
 //                         </div>
@@ -124,7 +124,7 @@
 
 //             {actionType === 'toggle_status' && (
 //               <div>
-//                 <label className="block text-sm font-medium text-gray-700 mb-2">New Status</label>
+//                 <label className="block body-xs  font-medium text-gray-700 mb-2">New Status</label>
 //                 <select
 //                   value={formData.newStatus || ''}
 //                   onChange={(e) => handleFormChange('newStatus', e.target.value)}
@@ -136,7 +136,7 @@
 //                   <option value="suspended">Suspended</option>
 //                 </select>
 //                 {formData.newStatus && (
-//                   <div className="mt-2 text-sm text-gray-600">
+//                   <div className="mt-2 body-xs  text-gray-600">
 //                     {formData.newStatus === 'active' && 'User will have full access according to their role.'}
 //                     {formData.newStatus === 'inactive' && 'User will not be able to log in.'}
 //                     {formData.newStatus === 'suspended' && 'User account will be temporarily suspended.'}
@@ -148,7 +148,7 @@
 //             {actionType === 'send_notification' && (
 //               <div className="space-y-4">
 //                 <div>
-//                   <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+//                   <label className="block body-xs  font-medium text-gray-700 mb-2">Subject</label>
 //                   <input
 //                     type="text"
 //                     value={formData.subject || ''}
@@ -158,7 +158,7 @@
 //                   />
 //                 </div>
 //                 <div>
-//                   <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
+//                   <label className="block body-xs  font-medium text-gray-700 mb-2">Message</label>
 //                   <textarea
 //                     value={formData.message || ''}
 //                     onChange={(e) => handleFormChange('message', e.target.value)}
@@ -176,7 +176,7 @@
 //                 <h4 className="font-medium text-gray-700 mb-3">Current Permissions</h4>
 //                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
 //                   {selectedUser.permissions.map((permission) => (
-//                     <div key={permission} className="flex items-center text-sm text-gray-600">
+//                     <div key={permission} className="flex items-center body-xs  text-gray-600">
 //                       <Icons.CheckCircle className="h-4 w-4 text-green-500 mr-2" />
 //                       {permissionsList[permission]}
 //                     </div>
@@ -429,7 +429,7 @@ const UserDetailsPanel = ({
       case "update_role":
         return (
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block body-xs  font-medium text-gray-700 mb-2">
               New Role
             </label>
             <select
@@ -450,7 +450,7 @@ const UserDetailsPanel = ({
       case "toggle_status":
         return (
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block body-xs  font-medium text-gray-700 mb-2">
               New Status
             </label>
             <select
@@ -466,7 +466,7 @@ const UserDetailsPanel = ({
 
             {/* Reason field for all status changes */}
             <div className="mt-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block body-xs  font-medium text-gray-700 mb-2">
                 {formData.newStatus === "suspended"
                   ? "Suspension Reason"
                   : "Change Reason"}
@@ -485,11 +485,11 @@ const UserDetailsPanel = ({
 
               {/* Character count and limit */}
               <div className="flex justify-between items-center mt-1">
-                <span className="text-xs text-gray-500">
+                <span className="body-xstext-gray-500">
                   {formData.statusReason?.length || 0}/500 characters
                 </span>
                 {formData.statusReason?.length > 500 && (
-                  <span className="text-xs text-red-500">
+                  <span className="body-xstext-red-500">
                     Maximum length exceeded
                   </span>
                 )}
@@ -497,7 +497,7 @@ const UserDetailsPanel = ({
 
               {/* Common reasons suggestions */}
               <div className="mt-2">
-                <p className="text-xs text-gray-500 mb-1">Common reasons:</p>
+                <p className="body-xstext-gray-500 mb-1">Common reasons:</p>
                 <div className="flex flex-wrap gap-2">
                   {[
                     "Onboarding",
@@ -509,7 +509,7 @@ const UserDetailsPanel = ({
                       key={reason}
                       type="button"
                       onClick={() => handleFormChange("statusReason", reason)}
-                      className="text-xs px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded"
+                      className="body-xspx-2 py-1 bg-gray-100 hover:bg-gray-200 rounded"
                     >
                       {reason}
                     </button>
@@ -524,7 +524,7 @@ const UserDetailsPanel = ({
       case "force_logout":
         return (
           <div className="p-3 bg-yellow-50 rounded-md">
-            <p className="text-sm text-yellow-700">
+            <p className="body-xs  text-yellow-700">
               {actionType === "send_password_reset"
                 ? "This will send a password reset email to the user"
                 : "This will immediately log the user out of all active sessions"}
@@ -551,7 +551,7 @@ const UserDetailsPanel = ({
                   {/* <div className={`w-12 h-12 ${getRoleBg(selectedUser.role, roleTemplates)} rounded-full flex items-center justify-center text-white font-medium mr-4`}>
                     {getInitials(selectedUser.name)}
                   </div> */}
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-medium text-sm mr-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-medium body-xs  mr-3">
                     {/* {getInitials(user.firstName, user.lastName)} */}
                     {getInitials(
                       selectedUser.firstName,
@@ -563,17 +563,17 @@ const UserDetailsPanel = ({
                     <h3 className="font-medium text-blue-900">
                       {selectedUser.name}
                     </h3>
-                    <p className="text-sm text-blue-700">
+                    <p className="body-xs  text-blue-700">
                       {selectedUser.email}
                     </p>
-                    <p className="text-sm text-blue-600">
+                    <p className="body-xs  text-blue-600">
                       {roleTemplates[selectedUser.role]?.name ||
                         selectedUser.role}
                     </p>
                   </div>
                 </div>
                 <div
-                  className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
+                  className={`px-3 py-1 rounded-full body-xsfont-medium ${getStatusColor(
                     selectedUser.status
                   )}`}
                 >
@@ -583,36 +583,36 @@ const UserDetailsPanel = ({
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 pt-4 border-t border-blue-200">
                 <div>
-                  <div className="text-xs text-blue-600 uppercase tracking-wide">
+                  <div className="body-xstext-blue-600 uppercase tracking-wide">
                     Last Login
                   </div>
-                  <div className="text-sm font-medium text-blue-900">
+                  <div className="body-xs  font-medium text-blue-900">
                     {selectedUser.lastLogin
                       ? formatDate(selectedUser.lastLogin)
                       : "Never"}
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-blue-600 uppercase tracking-wide">
+                  <div className="body-xstext-blue-600 uppercase tracking-wide">
                     Member Since
                   </div>
-                  <div className="text-sm font-medium text-blue-900">
+                  <div className="body-xs  font-medium text-blue-900">
                     {formatDate(selectedUser.createdAt)}
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-blue-600 uppercase tracking-wide">
+                  <div className="body-xstext-blue-600 uppercase tracking-wide">
                     Actions Taken
                   </div>
-                  <div className="text-sm font-medium text-blue-900">
+                  <div className="body-xs  font-medium text-blue-900">
                     {selectedUser.actionHistory?.length || 0}
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-blue-600 uppercase tracking-wide">
+                  <div className="body-xstext-blue-600 uppercase tracking-wide">
                     Admin
                   </div>
-                  <div className="text-sm font-medium text-blue-900">
+                  <div className="body-xs  font-medium text-blue-900">
                     {currentAdmin?.name || "System"}
                   </div>
                 </div>
@@ -621,7 +621,7 @@ const UserDetailsPanel = ({
 
             {/* Action Selection */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block body-xs  font-medium text-gray-700 mb-2">
                 Action Type
               </label>
               <select

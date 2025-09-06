@@ -90,7 +90,7 @@ const EnergyConsumption = ({ className }) => {
       <div className="grid grid-cols-2 gap-6 mt-6">
         <div className="p-4 flex justify-between bg-gray-100 rounded-lg items-center">
         <div>
-          <h3 className="text-gray-600 text-sm">Current Balance</h3>
+          <h3 className="text-gray-600 body-xs ">Current Balance</h3>
           <p className="text-2xl font-bold">$ {balance}</p>   
           </div>
 
@@ -98,7 +98,7 @@ const EnergyConsumption = ({ className }) => {
           <Link  className="cursor-pointer" to='/energyConsumption/recentHistoricalData'><SlArrowRight /></Link>
         </div>
         <div className="p-4 bg-gray-100 rounded-lg">
-          <h3 className="text-gray-600 text-sm">Last Deduction</h3>
+          <h3 className="text-gray-600 body-xs ">Last Deduction</h3>
           <p className="text-2xl font-bold text-red-500">$ {lastDeduction}</p>
           <p className="text-gray-500 text-xs">{deductionDate}</p>
         </div>
@@ -106,7 +106,7 @@ const EnergyConsumption = ({ className }) => {
 
       {/* Usage History Graph */}
       {/* <div className="mt-6 p-4 bg-gray-100 rounded-lg">
-        <h3 className="text-lg font-semibold">Usage History</h3>
+        <h3 className="heading-lg font-semibold">Usage History</h3>
         <div className="h-64">
           <Line data={chartData} options={chartOptions} />
         </div>

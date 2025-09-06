@@ -133,13 +133,13 @@ const AccountSettings = () => {
       <section className="bg-white rounded-xl shadow-md p-6 mb-6">
         <div className="flex items-center mb-6">
           <User className="text-blue-600 w-5 h-5 mr-2" />
-          <h2 className="text-xl font-semibold text-gray-800">Profile Information</h2>
+          <h2 className="heading-xl font-semibold text-gray-800">Profile Information</h2>
         </div>
         
         <form onSubmit={handleProfileSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+              <label className="block body-xs  font-medium text-gray-700 mb-1 flex items-center">
                 <User className="w-4 h-4 mr-1 text-gray-500" /> Full Name
               </label>
               <input
@@ -152,7 +152,7 @@ const AccountSettings = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+              <label className="block body-xs  font-medium text-gray-700 mb-1 flex items-center">
                 <Mail className="w-4 h-4 mr-1 text-gray-500" /> Email Address
               </label>
               <input
@@ -165,7 +165,7 @@ const AccountSettings = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+              <label className="block body-xs  font-medium text-gray-700 mb-1 flex items-center">
                 <Phone className="w-4 h-4 mr-1 text-gray-500" /> Phone Number
               </label>
               <input
@@ -177,7 +177,7 @@ const AccountSettings = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+              <label className="block body-xs  font-medium text-gray-700 mb-1 flex items-center">
                 <Building className="w-4 h-4 mr-1 text-gray-500" /> Company
               </label>
               <input
@@ -203,13 +203,13 @@ const AccountSettings = () => {
       <section className="bg-white rounded-xl shadow-md p-6 mb-6">
         <div className="flex items-center mb-6">
           <Lock className="text-blue-600 w-5 h-5 mr-2" />
-          <h2 className="text-xl font-semibold text-gray-800">Password & Security</h2>
+          <h2 className="heading-xl font-semibold text-gray-800">Password & Security</h2>
         </div>
         
         <form onSubmit={handlePasswordSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+              <label className="block body-xs  font-medium text-gray-700 mb-1">Current Password</label>
               <div className="relative">
                 <input
                   type="password"
@@ -223,7 +223,7 @@ const AccountSettings = () => {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+              <label className="block body-xs  font-medium text-gray-700 mb-1">New Password</label>
               <div className="relative">
                 <input
                   type="password"
@@ -237,7 +237,7 @@ const AccountSettings = () => {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
+              <label className="block body-xs  font-medium text-gray-700 mb-1">Confirm New Password</label>
               <div className="relative">
                 <input
                   type="password"
@@ -253,7 +253,7 @@ const AccountSettings = () => {
           </div>
           <div className="flex items-center mb-4 p-3 bg-blue-50 rounded-lg">
             <Shield className="text-blue-600 mr-3 flex-shrink-0" />
-            <span className="text-sm text-gray-700">
+            <span className="body-xs  text-gray-700">
               Use 8+ characters with a mix of uppercase, lowercase, numbers, and symbols
             </span>
           </div>
@@ -271,7 +271,7 @@ const AccountSettings = () => {
       <section className="bg-white rounded-xl shadow-md p-6 mb-6">
         <div className="flex items-center mb-6">
           <Bell className="text-blue-600 w-5 h-5 mr-2" />
-          <h2 className="text-xl font-semibold text-gray-800">Notification Preferences</h2>
+          <h2 className="heading-xl font-semibold text-gray-800">Notification Preferences</h2>
         </div>
         
         <div className="space-y-4">
@@ -307,12 +307,12 @@ const AccountSettings = () => {
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center">
             <CreditCard className="text-blue-600 w-5 h-5 mr-2" />
-            <h2 className="text-xl font-semibold text-gray-800">Billing Information</h2>
+            <h2 className="heading-xl font-semibold text-gray-800">Billing Information</h2>
           </div>
           {!showAddPayment && (
             <button 
               onClick={() => setShowAddPayment(true)}
-              className="text-blue-600 hover:text-blue-800 font-medium flex items-center text-sm"
+              className="text-blue-600 hover:text-blue-800 font-medium flex items-center body-xs "
             >
               <Plus className="w-4 h-4 mr-1" /> Add Payment
             </button>
@@ -324,7 +324,7 @@ const AccountSettings = () => {
             <h3 className="font-medium mb-3">Add New Payment Method</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
               <div>
-                <label className="block text-sm text-gray-700 mb-1">Card Number</label>
+                <label className="block body-xs  text-gray-700 mb-1">Card Number</label>
                 <input
                   type="text"
                   value={newPayment.cardNumber}
@@ -334,7 +334,7 @@ const AccountSettings = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm text-gray-700 mb-1">Cardholder Name</label>
+                <label className="block body-xs  text-gray-700 mb-1">Cardholder Name</label>
                 <input
                   type="text"
                   value={newPayment.cardName}
@@ -344,7 +344,7 @@ const AccountSettings = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm text-gray-700 mb-1">Expiry Date</label>
+                <label className="block body-xs  text-gray-700 mb-1">Expiry Date</label>
                 <input
                   type="text"
                   value={newPayment.expiry}
@@ -354,7 +354,7 @@ const AccountSettings = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm text-gray-700 mb-1">CVV</label>
+                <label className="block body-xs  text-gray-700 mb-1">CVV</label>
                 <input
                   type="text"
                   value={newPayment.cvv}
@@ -367,13 +367,13 @@ const AccountSettings = () => {
             <div className="flex space-x-2">
               <button 
                 onClick={handleAddPayment}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm flex items-center"
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg body-xs  flex items-center"
               >
                 <Check className="w-4 h-4 mr-1" /> Save Card
               </button>
               <button 
                 onClick={() => setShowAddPayment(false)}
-                className="border border-gray-300 px-4 py-2 rounded-lg text-sm"
+                className="border border-gray-300 px-4 py-2 rounded-lg body-xs "
               >
                 Cancel
               </button>
@@ -396,25 +396,25 @@ const AccountSettings = () => {
                   <p className="font-medium">
                     •••• {method.last4}
                   </p>
-                  <p className="text-sm text-gray-500">Exp {method.expiry}</p>
+                  <p className="body-xs  text-gray-500">Exp {method.expiry}</p>
                 </div>
               </div>
               <div className="flex space-x-3">
                 {method.primary ? (
-                  <span className="px-3 py-1 bg-green-100 text-green-800 text-xs rounded-full flex items-center">
+                  <span className="px-3 py-1 bg-green-100 text-green-800 body-xsrounded-full flex items-center">
                     <Check className="w-3 h-3 mr-1" /> Primary
                   </span>
                 ) : (
                   <button 
                     onClick={() => setPrimaryMethod(method.id)}
-                    className="text-blue-600 hover:text-blue-800 text-sm flex items-center"
+                    className="text-blue-600 hover:text-blue-800 body-xs  flex items-center"
                   >
                     <Check className="w-4 h-4 mr-1" /> Set primary
                   </button>
                 )}
                 <button 
                   onClick={() => deletePaymentMethod(method.id)}
-                  className="text-red-600 hover:text-red-800 text-sm flex items-center"
+                  className="text-red-600 hover:text-red-800 body-xs  flex items-center"
                 >
                   <Trash2 className="w-4 h-4 mr-1" /> Remove
                 </button>
@@ -426,20 +426,20 @@ const AccountSettings = () => {
 
       {/* Account Actions */}
       <section className="bg-white rounded-xl shadow-md p-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">Account Actions</h2>
+        <h2 className="heading-xl font-semibold text-gray-800 mb-4">Account Actions</h2>
         <div className="space-y-3">
           <button className="w-full text-left p-3 hover:bg-gray-50 rounded-lg flex items-center border border-gray-200">
             <Power className="mr-3 text-gray-600" />
             <div>
               <p className="font-medium">Logout from all devices</p>
-              <p className="text-sm text-gray-500">Secure your account by signing out everywhere</p>
+              <p className="body-xs  text-gray-500">Secure your account by signing out everywhere</p>
             </div>
           </button>
           <button className="w-full text-left p-3 hover:bg-red-50 text-red-600 rounded-lg flex items-center border border-red-100">
             <Trash2 className="mr-3" />
             <div>
               <p className="font-medium">Request account deletion</p>
-              <p className="text-sm">Permanently delete your account and all data</p>
+              <p className="body-xs ">Permanently delete your account and all data</p>
             </div>
           </button>
         </div>

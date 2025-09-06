@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
+
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
@@ -26,8 +28,21 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-  response => response,
-  error => {
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      const message = error.response?.data?.message;
+
+      if (message === "Token expired") {
+        toast.error("Your session has expired. Please login again.");
+      } else {
+        toast.error("Unauthorized. Please login again.");
+      }
+
+      // Clear tokens + redirect
+      store.dispatch(logoutUser());
+    }
+
     return Promise.reject(error);
   }
 );
@@ -111,5 +126,21 @@ const notificationApi = {
   //   api.patch(`/notifications/${notificationId}/status`, { status }),
 };
 
+const ticketApi = {
+  create: (data) => api.post("/ticket/create", data),
+  getAll: () => api.get("/ticket"),//for the superAdmin
+  getById: (id) => api.get(`/ticket/${id}`),
+  getByAdminId: (adminId) => api.get(`/ticket/admin/${adminId}`),
+  getByUserId: (userId) => api.get(`/ticket/user/${userId}`),
+  getByMeterId: (meterId) => api.get(`/ticket/meter/${meterId}`),
+  addComment: (id, data) => api.post(`/ticket/${id}/comment`, data),
+  changeStatus: (id, status, notes) => api.patch(`/ticket/${id}/status`, { status,notes }),
+  escalate: (id) => api.patch(`/ticket/${id}/escalate`),
+  clearEscalation: (id) => api.patch(`/ticket/${id}/clear-escalation`),
+  reopen: (id) => api.patch(`/ticket/${id}/reopen`),
+  closeTicket: (id) => api.patch(`/ticket/${id}/close`),
+  changePriority: (id,notes,priority) =>api.patch(`/ticket/${id}/change-priority`,{priority,notes})
+};
 
-export { userManagement, meterManagement, authApis, userDashboard, userApi, meterApi, paymentApi, notificationApi }
+
+export { userManagement, meterManagement, authApis, userDashboard, userApi, meterApi, paymentApi, notificationApi,ticketApi }

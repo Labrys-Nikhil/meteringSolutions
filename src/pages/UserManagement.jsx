@@ -126,10 +126,10 @@ const UserManagement = () => {
         <div className="mb-8">
           <div className="flex  items-center justify-between gap-4">
             <div>
-              <h1 className="text-xl sm:text-xl md:text-3xl font-semibold text-gray-900">
+              <h1 className="heading-xl sm:heading-xl md:text-3xl font-semibold text-gray-900">
                 User Management
               </h1>
-              <p className="text-sm sm:text-base text-gray-600">
+              <p className="body-xs  sm:text-base text-gray-600">
                 Manage user accounts, roles, and permissions
               </p>
             </div>
@@ -142,7 +142,7 @@ const UserManagement = () => {
              bg-blue-600 text-white 
              rounded-md 
              hover:bg-blue-700 transition-colors 
-             text-sm sm:text-base md:text-lg 
+             body-xs  sm:text-base md:heading-lg 
              whitespace-nowrap"
               >
                 <Icons.UserPlus className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 mr-2" />
