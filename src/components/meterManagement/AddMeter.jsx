@@ -96,8 +96,8 @@ const AddMeter = ({ isOpen, handleCancel, addMeter }) => {
             </div>
             <div>
               <div className="font-medium text-gray-900">{user.name}</div>
-              <div className="body-xs  text-gray-500">{user.email}</div>
-              <div className="body-xstext-gray-500">Meters: {user.meters.length}</div>
+              <div className="body-sm   text-gray-500">{user.email}</div>
+              <div className="body-xs  text-gray-500">Meters: {user.meters.length}</div>
             </div>
           </div>
         </div>

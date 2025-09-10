@@ -17,7 +17,7 @@ const Header = () => {
         </NavLink>
         {breadcrumbs?.map((item, index) => (
           <div key={index} className="flex items-center gap-2">
-            <FaGreaterThan className="body-xs " />
+            <FaGreaterThan className="body-sm  " />
             {item.link ? (
               <NavLink to={item.link} className="hover:text-gray-700">
                 {item.label}
@@ -31,7 +31,7 @@ const Header = () => {
 
       {/* Title Section */}
       {/* <div className="flex items-center px-5 my-4">
-        <h1 className="heading-lg lg:heading-xl font-semibold text-black">{title}</h1>
+        <h1 className="text-lg lg:heading-xl   font-semibold text-black">{title}</h1>
       </div> */}
     </div>
   );

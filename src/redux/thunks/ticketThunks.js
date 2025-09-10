@@ -74,7 +74,8 @@ export const changePriority = createAsyncThunk(
         try{
             console.log('inside the thunk of change priority');
             const res = await ticketApi.changePriority(id,notes,priority);
-            return res.data;
+            console.log('->res',res.data.ticket);
+            return res.data.ticket;
         }catch(error){
             return rejectWithValue(error.response?.data || error.message);
         }
@@ -177,3 +178,5 @@ export const fetchTicketsByMeter = createAsyncThunk(
         }
     }
 );
+
+

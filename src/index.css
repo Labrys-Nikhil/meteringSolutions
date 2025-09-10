@@ -39,7 +39,7 @@
 }
 
 /* Small Body Text (labels, secondary info) */
-@utility body-xs {
+@utility body-sm {
   font-family: Inter, sans-serif;
   font-size: 0.875rem;   /* 14px */
   line-height: 1.25rem;  /* 20px */

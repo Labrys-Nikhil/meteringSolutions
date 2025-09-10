@@ -17,7 +17,7 @@
 //             <div className="bg-white/90 backdrop-blur-lg rounded-xl shadow-2xl w-full max-w-2xl max-h-screen overflow-y-auto">
 //                 <div className="p-6" >
 //                     <div className="flex justify-between items-center mb-4">
-//                         <h2 className="heading-xl font-bold text-gray-900">Create New User</h2>
+//                         <h2 className="heading-xl   font-bold text-gray-900">Create New User</h2>
 //                         <button
 //                             onClick={() => setShowCreateForm(false)}
 //                             className="text-gray-400 hover:text-gray-500"
@@ -28,7 +28,7 @@
 
 //                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
 //                         <div>
-//                             <label className="block body-xs  font-medium text-gray-700 mb-1">First Name</label>
+//                             <label className="block body-sm   font-medium text-gray-700 mb-1">First Name</label>
 //                             <input
 //                                 type="text"
 //                                 value={createUserData.firstName}
@@ -37,11 +37,11 @@
 //                                     } rounded-md`}
 //                             />
 //                             {createUserErrors.firstName && (
-//                                 <p className="mt-1 body-xstext-red-500">{createUserErrors.firstName}</p>
+//                                 <p className="mt-1 body-xs  text-red-500">{createUserErrors.firstName}</p>
 //                             )}
 //                         </div>
 //                         <div>
-//                             <label className="block body-xs  font-medium text-gray-700 mb-1">Last Name</label>
+//                             <label className="block body-sm   font-medium text-gray-700 mb-1">Last Name</label>
 //                             <input
 //                                 type="text"
 //                                 value={createUserData.lastName}
@@ -50,11 +50,11 @@
 //                                     } rounded-md`}
 //                             />
 //                             {createUserErrors.lastName && (
-//                                 <p className="mt-1 body-xstext-red-500">{createUserErrors.lastName}</p>
+//                                 <p className="mt-1 body-xs  text-red-500">{createUserErrors.lastName}</p>
 //                             )}
 //                         </div>
 //                         <div>
-//                             <label className="block body-xs  font-medium text-gray-700 mb-1">Username</label>
+//                             <label className="block body-sm   font-medium text-gray-700 mb-1">Username</label>
 //                             <input
 //                                 type="text"
 //                                 value={createUserData.username}
@@ -63,11 +63,11 @@
 //                                     } rounded-md`}
 //                             />
 //                             {createUserErrors.username && (
-//                                 <p className="mt-1 body-xstext-red-500">{createUserErrors.username}</p>
+//                                 <p className="mt-1 body-xs  text-red-500">{createUserErrors.username}</p>
 //                             )}
 //                         </div>
 //                         <div>
-//                             <label className="block body-xs  font-medium text-gray-700 mb-1">Email</label>
+//                             <label className="block body-sm   font-medium text-gray-700 mb-1">Email</label>
 //                             <input
 //                                 type="email"
 //                                 value={createUserData.email}
@@ -76,11 +76,11 @@
 //                                     } rounded-md`}
 //                             />
 //                             {createUserErrors.email && (
-//                                 <p className="mt-1 body-xstext-red-500">{createUserErrors.email}</p>
+//                                 <p className="mt-1 body-xs  text-red-500">{createUserErrors.email}</p>
 //                             )}
 //                         </div>
 //                         <div>
-//                             <label className="block body-xs  font-medium text-gray-700 mb-1">Phone</label>
+//                             <label className="block body-sm   font-medium text-gray-700 mb-1">Phone</label>
 //                             <input
 //                                 type="tel"
 //                                 value={createUserData.phone}
@@ -89,11 +89,11 @@
 //                                     } rounded-md`}
 //                             />
 //                             {createUserErrors.phone && (
-//                                 <p className="mt-1 body-xstext-red-500">{createUserErrors.phone}</p>
+//                                 <p className="mt-1 body-xs  text-red-500">{createUserErrors.phone}</p>
 //                             )}
 //                         </div>
 //                         <div>
-//                             <label className="block body-xs  font-medium text-gray-700 mb-1">Department</label>
+//                             <label className="block body-sm   font-medium text-gray-700 mb-1">Department</label>
 //                             <select
 //                                 value={createUserData.department}
 //                                 onChange={(e) => handleCreateUserChange('department', e.target.value)}
@@ -106,11 +106,11 @@
 //                                 ))}
 //                             </select>
 //                             {createUserErrors.department && (
-//                                 <p className="mt-1 body-xstext-red-500">{createUserErrors.department}</p>
+//                                 <p className="mt-1 body-xs  text-red-500">{createUserErrors.department}</p>
 //                             )}
 //                         </div>
 //                         <div>
-//                             <label className="block body-xs  font-medium text-gray-700 mb-1">Role</label>
+//                             <label className="block body-sm   font-medium text-gray-700 mb-1">Role</label>
 //                             <select
 //                                 value={createUserData.role}
 //                                 onChange={(e) => handleCreateUserChange('role', e.target.value)}
@@ -122,7 +122,7 @@
 //                             </select>
 //                         </div>
 //                         <div>
-//                             <label className="block body-xs  font-medium text-gray-700 mb-1">Status</label>
+//                             <label className="block body-sm   font-medium text-gray-700 mb-1">Status</label>
 //                             <select
 //                                 value={createUserData.status}
 //                                 onChange={(e) => handleCreateUserChange('status', e.target.value)}
@@ -144,7 +144,7 @@
 //                                 onChange={(e) => handleCreateUserChange('sendWelcomeEmail', e.target.checked)}
 //                                 className="h-4 w-4 text-blue-600 rounded"
 //                             />
-//                             <label htmlFor="sendWelcomeEmail" className="ml-2 body-xs  text-gray-700">
+//                             <label htmlFor="sendWelcomeEmail" className="ml-2 body-sm   text-gray-700">
 //                                 Send welcome email
 //                             </label>
 //                         </div>
@@ -156,7 +156,7 @@
 //                                 onChange={(e) => handleCreateUserChange('requirePasswordReset', e.target.checked)}
 //                                 className="h-4 w-4 text-blue-600 rounded"
 //                             />
-//                             <label htmlFor="requirePasswordReset" className="ml-2 body-xs  text-gray-700">
+//                             <label htmlFor="requirePasswordReset" className="ml-2 body-sm   text-gray-700">
 //                                 Require password reset on first login
 //                             </label>
 //                         </div>
@@ -352,7 +352,7 @@ const CreateUserModal = ({
     //       <div className="bg-white/90 backdrop-blur-lg rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh]">
     //         <div className="p-4 sm:p-6 h-full w-full overflow-y-scroll" >
     //           <div className="flex justify-between items-center mb-4">
-    //             <h2 className="heading-lg sm:heading-xl font-bold text-gray-900">Create New User</h2>
+    //             <h2 className="text-lg sm:heading-xl   font-bold text-gray-900">Create New User</h2>
     //             <button
     //               onClick={() => setShowCreateForm(false)}
     //               className="text-gray-400 hover:text-gray-500"
@@ -362,62 +362,62 @@ const CreateUserModal = ({
     //           </div>
 
     //           {createUserErrors.general && (
-    //             <div className="mb-4 p-2 bg-red-100 text-red-700 rounded-md body-xs ">
+    //             <div className="mb-4 p-2 bg-red-100 text-red-700 rounded-md body-sm  ">
     //               {createUserErrors.general}
     //             </div>
     //           )}
 
     //           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
     //             <div>
-    //               <label className="block body-xs  font-medium text-gray-700 mb-1">Name*</label>
+    //               <label className="block body-sm   font-medium text-gray-700 mb-1">Name*</label>
     //               <input
     //                 type="text"
     //                 value={createUserData.name}
     //                 onChange={(e) => handleCreateUserChange('name', e.target.value)}
-    //                 className={`w-full p-2 border ${createUserErrors.name ? 'border-red-500' : 'border-gray-300'} rounded-md body-xs `}
+    //                 className={`w-full p-2 border ${createUserErrors.name ? 'border-red-500' : 'border-gray-300'} rounded-md body-sm  `}
     //               />
     //               {createUserErrors.name && (
-    //                 <p className="mt-1 body-xstext-red-500">{createUserErrors.name}</p>
+    //                 <p className="mt-1 body-xs  text-red-500">{createUserErrors.name}</p>
     //               )}
     //             </div>
 
     //             <div>
-    //               <label className="block body-xs  font-medium text-gray-700 mb-1">Email*</label>
+    //               <label className="block body-sm   font-medium text-gray-700 mb-1">Email*</label>
     //               <input
     //                 type="email"
     //                 value={createUserData.email}
     //                 onChange={(e) => handleCreateUserChange('email', e.target.value)}
-    //                 className={`w-full p-2 border ${createUserErrors.email ? 'border-red-500' : 'border-gray-300'} rounded-md body-xs `}
+    //                 className={`w-full p-2 border ${createUserErrors.email ? 'border-red-500' : 'border-gray-300'} rounded-md body-sm  `}
     //               />
     //               {createUserErrors.email && (
-    //                 <p className="mt-1 body-xstext-red-500">{createUserErrors.email}</p>
+    //                 <p className="mt-1 body-xs  text-red-500">{createUserErrors.email}</p>
     //               )}
     //             </div>
 
 
 
     //             <div>
-    //               <label className="block body-xs  font-medium text-gray-700 mb-1">
+    //               <label className="block body-sm   font-medium text-gray-700 mb-1">
     //                 Phone{(createUserData.role === "user" || createUserData.role === "admin") ? "*" : ""}
     //               </label>
     //               <input
     //                 type="tel"
     //                 value={createUserData.phone}
     //                 onChange={(e) => handleCreateUserChange('phone', e.target.value)}
-    //                 className={`w-full p-2 border ${createUserErrors.phone ? 'border-red-500' : 'border-gray-300'} rounded-md body-xs `}
+    //                 className={`w-full p-2 border ${createUserErrors.phone ? 'border-red-500' : 'border-gray-300'} rounded-md body-sm  `}
     //                 placeholder="10 digits only"
     //               />
     //               {createUserErrors.phone && (
-    //                 <p className="mt-1 body-xstext-red-500">{createUserErrors.phone}</p>
+    //                 <p className="mt-1 body-xs  text-red-500">{createUserErrors.phone}</p>
     //               )}
     //             </div>
 
     //             <div>
-    //               <label className="block body-xs  font-medium text-gray-700 mb-1">Role*</label>
+    //               <label className="block body-sm   font-medium text-gray-700 mb-1">Role*</label>
     //               <select
     //                 value={createUserData.role}
     //                 onChange={(e) => handleCreateUserChange('role', e.target.value)}
-    //                 className="w-full p-2 border border-gray-300 rounded-md body-xs "
+    //                 className="w-full p-2 border border-gray-300 rounded-md body-sm  "
     //               >
     //                 <option value="user">User</option>
     //               </select>
@@ -425,32 +425,32 @@ const CreateUserModal = ({
 
     //             {createUserData.role === "user" && (
     //               <div>
-    //                 <label className="block body-xs  font-medium text-gray-700 mb-1">Admin ID*</label>
+    //                 <label className="block body-sm   font-medium text-gray-700 mb-1">Admin ID*</label>
     //                 <input
     //                   type="text"
     //                   value={createUserData.adminId}
     //                   onChange={(e) => handleCreateUserChange('adminId', e.target.value)}
-    //                   className={`w-full p-2 border ${createUserErrors.adminId ? 'border-red-500' : 'border-gray-300'} rounded-md body-xs `}
+    //                   className={`w-full p-2 border ${createUserErrors.adminId ? 'border-red-500' : 'border-gray-300'} rounded-md body-sm  `}
     //                   disabled={!!currentAdmin?.adminId || !!currentAdmin?._id}
     //                 />
     //                 {createUserErrors.adminId && (
-    //                   <p className="mt-1 body-xstext-red-500">{createUserErrors.adminId}</p>
+    //                   <p className="mt-1 body-xs  text-red-500">{createUserErrors.adminId}</p>
     //                 )}
     //               </div>
     //             )}
 
     //             {(createUserData.role === "user") && (
     //               <div>
-    //                 <label className="block body-xs  font-medium text-gray-700 mb-1">Super Admin ID*</label>
+    //                 <label className="block body-sm   font-medium text-gray-700 mb-1">Super Admin ID*</label>
     //                 <input
     //                   type="text"
     //                   value={createUserData.superAdminId}
     //                   onChange={(e) => handleCreateUserChange('superAdminId', e.target.value)}
-    //                   className={`w-full p-2 border ${createUserErrors.superAdminId ? 'border-red-500' : 'border-gray-300'} rounded-md body-xs `}
+    //                   className={`w-full p-2 border ${createUserErrors.superAdminId ? 'border-red-500' : 'border-gray-300'} rounded-md body-sm  `}
     //                   disabled={!!currentAdmin?.superAdminId || !!currentAdmin?._id}
     //                 />
     //                 {createUserErrors.superAdminId && (
-    //                   <p className="mt-1 body-xstext-red-500">{createUserErrors.superAdminId}</p>
+    //                   <p className="mt-1 body-xs  text-red-500">{createUserErrors.superAdminId}</p>
     //                 )}
     //               </div>
     //             )}
@@ -465,7 +465,7 @@ const CreateUserModal = ({
     //                 onChange={(e) => handleCreateUserChange('sendWelcomeEmail', e.target.checked)}
     //                 className="h-4 w-4 text-blue-600"
     //               />
-    //               <label htmlFor="sendWelcomeEmail" className="ml-2 body-xs  text-gray-700">
+    //               <label htmlFor="sendWelcomeEmail" className="ml-2 body-sm   text-gray-700">
     //                 Send welcome email
     //               </label>
     //             </div>
@@ -477,10 +477,10 @@ const CreateUserModal = ({
     //                 onChange={(e) => handleCreateUserChange('requirePasswordReset', e.target.checked)}
     //                 className="h-4 w-4 text-blue-600"
     //               />
-    //               {/* <label htmlFor="requirePasswordReset" className="ml-2 body-xs  text-gray-700">
+    //               {/* <label htmlFor="requirePasswordReset" className="ml-2 body-sm   text-gray-700">
     //                 Require password reset on first login
     //               </label> */}
-    //                     <label htmlFor="requirePasswordReset" className="ml-2 body-xs  text-gray-700">
+    //                     <label htmlFor="requirePasswordReset" className="ml-2 body-sm   text-gray-700">
     //                 Require Verify otp on login
     //               </label>
     //             </div>
@@ -495,7 +495,7 @@ const CreateUserModal = ({
     //                          border border-gray-300 
     //                          rounded-md text-gray-700 
     //                          hover:bg-gray-50 
-    //                          body-xs  sm:text-base md:heading-lg 
+    //                          body-sm   sm:text-base md:text-lg 
     //                          whitespace-nowrap"
     //             >
     //               Cancel
@@ -510,7 +510,7 @@ const CreateUserModal = ({
     //                          rounded-md 
     //                          hover:bg-blue-700 
     //                          disabled:bg-blue-400 
-    //                          body-xs  sm:text-base md:heading-lg 
+    //                          body-sm   sm:text-base md:text-lg 
     //                          whitespace-nowrap"
     //             >
     //               {isCreatingUser ? (
@@ -537,7 +537,7 @@ const CreateUserModal = ({
                 {/* Header (fixed) */}
                 <div className="p-4 sm:p-6 border-b border-gray-200">
                     <div className="flex justify-between items-center">
-                        <h2 className="heading-lg sm:heading-xl font-bold text-gray-900">Create New User</h2>
+                        <h2 className="text-lg sm:heading-xl   font-bold text-gray-900">Create New User</h2>
                         <button
                             onClick={() => setShowCreateForm(false)}
                             className="text-gray-400 hover:text-gray-500"
@@ -547,7 +547,7 @@ const CreateUserModal = ({
                     </div>
 
                     {createUserErrors.general && (
-                        <div className="mt-4 p-2 bg-red-100 text-red-700 rounded-md body-xs ">
+                        <div className="mt-4 p-2 bg-red-100 text-red-700 rounded-md body-sm  ">
                             {createUserErrors.general}
                         </div>
                     )}
@@ -558,53 +558,53 @@ const CreateUserModal = ({
                     {/* Form Fields */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label className="block body-xs  font-medium text-gray-700 mb-1">Name*</label>
+                            <label className="block body-sm   font-medium text-gray-700 mb-1">Name*</label>
                             <input
                                 type="text"
                                 value={createUserData.name}
                                 onChange={(e) => handleCreateUserChange('name', e.target.value)}
-                                className={`w-full p-2 border ${createUserErrors.name ? 'border-red-500' : 'border-gray-300'} rounded-md body-xs `}
+                                className={`w-full p-2 border ${createUserErrors.name ? 'border-red-500' : 'border-gray-300'} rounded-md body-sm  `}
                             />
                             {createUserErrors.name && (
-                                <p className="mt-1 body-xstext-red-500">{createUserErrors.name}</p>
+                                <p className="mt-1 body-xs  text-red-500">{createUserErrors.name}</p>
                             )}
                         </div>
 
                         <div>
-                            <label className="block body-xs  font-medium text-gray-700 mb-1">Email*</label>
+                            <label className="block body-sm   font-medium text-gray-700 mb-1">Email*</label>
                             <input
                                 type="email"
                                 value={createUserData.email}
                                 onChange={(e) => handleCreateUserChange('email', e.target.value)}
-                                className={`w-full p-2 border ${createUserErrors.email ? 'border-red-500' : 'border-gray-300'} rounded-md body-xs `}
+                                className={`w-full p-2 border ${createUserErrors.email ? 'border-red-500' : 'border-gray-300'} rounded-md body-sm  `}
                             />
                             {createUserErrors.email && (
-                                <p className="mt-1 body-xstext-red-500">{createUserErrors.email}</p>
+                                <p className="mt-1 body-xs  text-red-500">{createUserErrors.email}</p>
                             )}
                         </div>
 
                         <div>
-                            <label className="block body-xs  font-medium text-gray-700 mb-1">
+                            <label className="block body-sm   font-medium text-gray-700 mb-1">
                                 Phone{(createUserData.role === "user" || createUserData.role === "admin") ? "*" : ""}
                             </label>
                             <input
                                 type="tel"
                                 value={createUserData.phone}
                                 onChange={(e) => handleCreateUserChange('phone', e.target.value)}
-                                className={`w-full p-2 border ${createUserErrors.phone ? 'border-red-500' : 'border-gray-300'} rounded-md body-xs `}
+                                className={`w-full p-2 border ${createUserErrors.phone ? 'border-red-500' : 'border-gray-300'} rounded-md body-sm  `}
                                 placeholder="10 digits only"
                             />
                             {createUserErrors.phone && (
-                                <p className="mt-1 body-xstext-red-500">{createUserErrors.phone}</p>
+                                <p className="mt-1 body-xs  text-red-500">{createUserErrors.phone}</p>
                             )}
                         </div>
 
                         <div>
-                            <label className="block body-xs  font-medium text-gray-700 mb-1">Role*</label>
+                            <label className="block body-sm   font-medium text-gray-700 mb-1">Role*</label>
                             <select
                                 value={createUserData.role}
                                 onChange={(e) => handleCreateUserChange('role', e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded-md body-xs "
+                                className="w-full p-2 border border-gray-300 rounded-md body-sm  "
                             >
                                 <option value="user">User</option>
                             </select>
@@ -613,30 +613,30 @@ const CreateUserModal = ({
                         {createUserData.role === "user" && (
                             <>
                                 <div>
-                                    <label className="block body-xs  font-medium text-gray-700 mb-1">Admin ID*</label>
+                                    <label className="block body-sm   font-medium text-gray-700 mb-1">Admin ID*</label>
                                     <input
                                         type="text"
                                         value={createUserData.adminId}
                                         onChange={(e) => handleCreateUserChange('adminId', e.target.value)}
-                                        className={`w-full p-2 border ${createUserErrors.adminId ? 'border-red-500' : 'border-gray-300'} rounded-md body-xs `}
+                                        className={`w-full p-2 border ${createUserErrors.adminId ? 'border-red-500' : 'border-gray-300'} rounded-md body-sm  `}
                                         disabled={!!currentAdmin?.adminId || !!currentAdmin?._id}
                                     />
                                     {createUserErrors.adminId && (
-                                        <p className="mt-1 body-xstext-red-500">{createUserErrors.adminId}</p>
+                                        <p className="mt-1 body-xs  text-red-500">{createUserErrors.adminId}</p>
                                     )}
                                 </div>
 
                                 <div>
-                                    <label className="block body-xs  font-medium text-gray-700 mb-1">Super Admin ID*</label>
+                                    <label className="block body-sm   font-medium text-gray-700 mb-1">Super Admin ID*</label>
                                     <input
                                         type="text"
                                         value={createUserData.superAdminId}
                                         onChange={(e) => handleCreateUserChange('superAdminId', e.target.value)}
-                                        className={`w-full p-2 border ${createUserErrors.superAdminId ? 'border-red-500' : 'border-gray-300'} rounded-md body-xs `}
+                                        className={`w-full p-2 border ${createUserErrors.superAdminId ? 'border-red-500' : 'border-gray-300'} rounded-md body-sm  `}
                                         disabled={!!currentAdmin?.superAdminId || !!currentAdmin?._id}
                                     />
                                     {createUserErrors.superAdminId && (
-                                        <p className="mt-1 body-xstext-red-500">{createUserErrors.superAdminId}</p>
+                                        <p className="mt-1 body-xs  text-red-500">{createUserErrors.superAdminId}</p>
                                     )}
                                 </div>
                             </>
@@ -653,7 +653,7 @@ const CreateUserModal = ({
                                 onChange={(e) => handleCreateUserChange('sendWelcomeEmail', e.target.checked)}
                                 className="h-4 w-4 text-blue-600"
                             />
-                            <label htmlFor="sendWelcomeEmail" className="ml-2 body-xs  text-gray-700">
+                            <label htmlFor="sendWelcomeEmail" className="ml-2 body-sm   text-gray-700">
                                 Send welcome email
                             </label>
                         </div>
@@ -665,7 +665,7 @@ const CreateUserModal = ({
                                 onChange={(e) => handleCreateUserChange('requirePasswordReset', e.target.checked)}
                                 className="h-4 w-4 text-blue-600"
                             />
-                            <label htmlFor="requirePasswordReset" className="ml-2 body-xs  text-gray-700">
+                            <label htmlFor="requirePasswordReset" className="ml-2 body-sm   text-gray-700">
                                 Require Verify OTP on login
                             </label>
                         </div>
@@ -682,7 +682,7 @@ const CreateUserModal = ({
                        border border-gray-300 
                        rounded-md text-gray-700 
                        hover:bg-gray-50 
-                       body-xs  sm:text-base md:heading-lg 
+                       body-sm   sm:text-base md:text-lg 
                        whitespace-nowrap"
                     >
                         Cancel
@@ -697,7 +697,7 @@ const CreateUserModal = ({
                        rounded-md 
                        hover:bg-blue-700 
                        disabled:bg-blue-400 
-                       body-xssm:body-xsmd:body-xs 
+                       body-xs  sm:body-xs  md:body-sm  
                        whitespace-nowrap"
                     >
                         {isCreatingUser ? (

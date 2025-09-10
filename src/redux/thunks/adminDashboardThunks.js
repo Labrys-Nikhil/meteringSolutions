@@ -40,11 +40,24 @@ export const fetchFilteredChartData = createAsyncThunk(
   }
 );
 
+// export const fetchAdminUserMeterData = createAsyncThunk(
+//   'adminDashboard/fetchAdminUserMeterData',
+//   async (adminId, thunkAPI) => {
+//     try {
+//       const response = await adminDashboard.getAdminUserMeterData(adminId);
+//       console.log("------response------",response)
+//       return response.data.data;
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(error.response?.data || error.message);
+//     }
+//   }
+// );
+
 export const fetchAdminUserMeterData = createAsyncThunk(
   'adminDashboard/fetchAdminUserMeterData',
-  async (adminId, thunkAPI) => {
+  async ({ adminId, startDate, endDate }, thunkAPI) => {
     try {
-      const response = await adminDashboard.getAdminUserMeterData(adminId);
+      const response = await adminDashboard.getAdminUserMeterData(adminId, startDate, endDate);
       return response.data.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
@@ -58,6 +71,35 @@ export const fetchMeterListByAdmin = createAsyncThunk(
     try {
       const response = await adminDashboard.getMeterListByAdmin(adminId);
       return response.data.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+
+
+export const getTemperedMeter= createAsyncThunk(
+  'adminDashboard/getTemperedMeter',
+  async (adminId, thunkAPI) => {
+    try {
+      const response = await adminDashboard.getTemperedMeter(adminId);
+      return response.data.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+
+
+
+export const fetchOfflineOnlineFaultyMeter = createAsyncThunk(
+  "adminDashboard/getofflineOnlineFaultyMeter",
+  async ({ adminId, page = 1, limit = 10 }, thunkAPI) => {
+    try {
+      const response = await adminDashboard.getofflineOnlineFaultyMeter(adminId, page, limit);
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }

@@ -1,130 +1,1264 @@
 
 
-// import React, { useEffect } from "react";
-// import { Bell, AlertTriangle, Search, ChevronLeft } from "lucide-react";
 
+
+// import React, { useState, useEffect } from "react";
+// import {
+//   Bell,
+//   AlertTriangle,
+//   Zap,
+//   TrendingUp,
+//   Battery,
+//   User,
+//   ToggleLeft,
+//   ToggleRight,
+//   Search,
+//   ChevronDown,
+//   ChevronRight,
+//   CreditCard,
+//   Shield,
+//   Activity,
+//   AlertCircle,
+//   Gift,
+//   BarChart3,
+//   WifiOff,
+//   Magnet,
+//   User2,
+//   Plus,
+//   Edit,
+//   Trash2,
+//   X,
+//   Mail,
+//   MessageSquare,
+//   Pencil,
+//   HelpCircle,
+// } from "lucide-react";
 // import { useDispatch, useSelector } from "react-redux";
-// import { setHeaderTitle, setBreadcrumbs } from "../redux/slice/headerSlice";
-// // Async Thunks
-// import {
-//   //fetchAdminNotifications,
-//   //fetchSystemNotifications,
-//   fetchUserNotifications,
-//   //toggleNotificationStatus
-// } from "../redux/thunks/notificationThunks";
-// // Slice Actions (reducers)
-// import {
-//   //setSearchTerm,
-//   //setCurrentPage,
-//  // setActiveTab,
-//   //selectUser,
-//   //clearSelectedUser
-// } from "../redux/slice/notificationSlice"; 
+// import { toast } from "react-toastify";
+// import Select from "react-select";
 // import { selectUserId, selectUserRole } from "../redux/slice/authSlice";
+// import { setHeaderTitle, setBreadcrumbs } from "../redux/slice/headerSlice";
+// import {
+//   setSelectedUser,
+//   selectUserNotifications,
+//   selectAdminNotifications,
+//   selectUsersList,
+//   selectNotificationsLoading,
+//   selectNotificationsError,
+//   selectSelectedUser,
+//   updateUserStatus,
+// } from "../redux/slice/notificationSlice";
+// import {
+//   fetchAdminNotifications,
+//   fetchUserNotifications,
+//   toggleNotificationStatus,
+// } from "../redux/thunks/notificationThunks";
+// import {
 
-// const AlertAndNotification = ({ userRole = "admin" }) => {
+//   createAlert,
+//   deleteAlert,
+//   fetchAlerts,
+//   fetchAvailableMeters,
+//   updateAlert,
+// } from "../redux/thunks/alertThunk";
+// import {  clearAlertError,}from "../redux/slice/alertSlice";
+// import { Tooltip as ReactTooltip } from "react-tooltip";
+
+// const SystemAlertCard = ({
+//   alert,
+//   toggleAlertStatus,
+//   handleEditAlert,
+//   handleDeleteAlert,
+// }) => {
+//   const userRole = useSelector((state) => state.auth.user.role);
+//   const userId = useSelector((state) => state.auth.user.id);
+ 
+//   // console.log("=====auth=======", auth);
+
+//   // Check if current user can edit this alert
+//   const canEdit =
+//     userRole === "admin"
+//       ? alert.editable // admin can edit any alert if editable
+//       : userRole === "user" &&
+//         alert.createdBy === "user" &&
+//         alert.userId.toString() === userId.toString(); // user can edit only their own alerts
+
+//   // Check if current user can delete this alert
+//   const canDelete =
+//     userRole === "admin"
+//       ? alert.editable // admin can delete any alert if editable
+//       : userRole === "user" &&
+//         alert.createdBy === "user" &&
+//         alert.userId.toString() === userId.toString(); // user can delete only their own alerts
+
+//   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
+//   const [notificationModes, setNotificationModes] = useState({
+//     email: alert.notificationModes.email,
+//     sms: alert.notificationModes.sms,
+//   });
 //   const dispatch = useDispatch();
-//   const {
-//     notifications,
-//     usersList,
-//     adminNotifications,
-//     loading,
-//     currentPage,
-//     itemsPerPage,
-//     searchTerm,
-//     activeTab,
-//     selectedUser,
-//     error
-//   } = useSelector(state => state.notifications);
-  
-//   const role = useSelector(selectUserRole);
-//   const adminId = useSelector(selectUserId);
-//   const superAdminId = import.meta.env.VITE_SUPER_ADMIN_ID;
 
-//   // Set header title and breadcrumbs
+//   const conditionLabels = {
+//     ">": "Greater than",
+//     "<": "Less than",
+//     ">=": "Greater than or equal",
+//     "<=": "Less than or equal",
+//     "==": "Equal to",
+//     "!=": "Not equal to",
+//   };
+
+//   const handleNotificationModeChange = (e) => {
+//     const { name, checked } = e.target;
+//     setNotificationModes((prev) => ({
+//       ...prev,
+//       [name]: checked,
+//     }));
+//   };
+
+//   const saveNotificationModes = () => {
+//     dispatch(
+//       updateAlert({
+//         id: alert._id,
+//         updateData: { notificationModes },
+//       })
+//     );
+//     setIsNotificationModalOpen(false);
+//   };
+
+//   return (
+//     <div className="bg-white shadow-md rounded-2xl p-5 w-full h-full min-h-[180px] max-w-md border border-gray-200 relative hover:shadow-lg transition-shadow flex flex-col">
+//       <div className="flex items-center justify-between mb-4">
+//         <div className="flex items-center space-x-2">
+//           <h2 className="text-medium font-semibold text-gray-900">
+//             {alert.alertType}
+//           </h2>
+
+//           {/* {alert.createdBy === "user" && (
+//   <span className="bg-green-100 text-green-800 body-xs  px-2 py-1 rounded-full">
+//     User Created
+//   </span>
+// )}
+// {alert.createdBy === "admin" && (
+//   <span className="bg-blue-100 text-blue-800 body-xs  px-2 py-1 rounded-full">
+//     Admin Created
+//   </span>
+// )} */}
+//         </div>
+
+//         <div className="flex items-center gap-3">
+//           {canEdit && (
+//             <button
+//               onClick={(e) => {
+//                 e.stopPropagation();
+//                 handleEditAlert(alert);
+//               }}
+//               className="p-1 text-gray-400 hover:text-gray-600 cursor-pointer"
+//               data-tooltip-id={`edit-btn-${alert._id}`}
+//               data-tooltip-content="Edit alert"
+//             >
+//               <Edit className="w-5 h-5" />
+//               <ReactTooltip
+//                 id={`edit-btn-${alert._id}`}
+//                 className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//               />
+//             </button>
+//           )}
+
+//           {canDelete && !alert.isSystemAlert && (
+//             <button
+//               onClick={(e) => {
+//                 e.stopPropagation();
+//                 handleDeleteAlert(alert._id);
+//               }}
+//               className="p-1 text-gray-400 hover:text-red-600 cursor-pointer"
+//               data-tooltip-id={`delete-btn-${alert._id}`}
+//               data-tooltip-content="Delete alert"
+//             >
+//               <Trash2 className="w-5 h-5" />
+//               <ReactTooltip
+//                 id={`delete-btn-${alert._id}`}
+//                 className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//               />
+//             </button>
+//           )}
+
+//           <div
+//             onClick={(e) => {
+//               e.stopPropagation();
+//               toggleAlertStatus(alert._id, alert.isActive);
+//             }}
+//             className={`relative inline-flex items-center h-8 w-16 rounded-full transition-all duration-300 cursor-pointer shadow-sm border-2 ${
+//               alert.isActive
+//                 ? "bg-green-600 border-green-600 hover:bg-green-700 hover:border-green-700"
+//                 : "bg-red-500 border-red-500 hover:bg-red-600 hover:border-red-600"
+//             }`}
+//             role="button"
+//             tabIndex={0}
+//             onKeyDown={(e) => {
+//               if (e.key === "Enter" || e.key === " ") {
+//                 e.preventDefault();
+//                 e.stopPropagation();
+//                 toggleAlertStatus(alert._id, alert.isActive);
+//               }
+//             }}
+//             data-tooltip-id={`toggle-btn-${alert._id}`}
+//             data-tooltip-content={
+//               alert.isActive ? "Turn alert off" : "Turn alert on"
+//             }
+//           >
+//             {/* Toggle Circle */}
+//             <div
+//               onClick={(e) => {
+//                 e.stopPropagation();
+//                 toggleAlertStatus(alert._id, alert.isActive);
+//               }}
+//               className={`relative inline-flex items-center h-8 w-16 rounded-full transition-all duration-300 cursor-pointer shadow-sm border-2 ${
+//                 alert.isActive
+//                   ? "bg-green-600 border-green-600 hover:bg-green-700 hover:border-green-700"
+//                   : "bg-red-500 border-red-500 hover:bg-red-600 hover:border-red-600"
+//               }`}
+//               role="button"
+//               tabIndex={0}
+//               onKeyDown={(e) => {
+//                 if (e.key === "Enter" || e.key === " ") {
+//                   e.preventDefault();
+//                   e.stopPropagation();
+//                   toggleAlertStatus(alert._id, alert.isActive);
+//                 }
+//               }}
+//               data-tooltip-id={`toggle-btn-${alert._id}`}
+//               data-tooltip-content={
+//                 alert.isActive ? "Turn alert off" : "Turn alert on"
+//               }
+//             >
+//               {/* Toggle Circle */}
+//               <div
+//                 className={`absolute top-0.5 left-0.5 bg-white w-6 h-6 rounded-full shadow-lg transform transition-transform duration-300 flex items-center justify-center text-[10px] font-bold ${
+//                   alert.isActive
+//                     ? "translate-x-8 text-green-600"
+//                     : "translate-x-0 text-red-500"
+//                 }`}
+//               >
+//                 {alert.isActive ? "ON" : "OFF"}
+//               </div>
+
+//               {/* Status Text (alert name) */}
+//               <span
+//                 className={`absolute inset-0 flex items-center body-xs  font-medium transition-opacity duration-200 text-white px-2 ${
+//                   alert.isActive ? "justify-end pr-3" : "justify-start pl-3"
+//                 }`}
+//               >
+//                 {alert.name}
+//               </span>
+
+//               {/* Tooltip */}
+//               <ReactTooltip
+//                 id={`toggle-btn-${alert._id}`}
+//                 className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//               />
+//             </div>
+
+//             {/* Status Text */}
+//             <span
+//               className={`absolute inset-0 flex items-center body-xs  font-medium transition-opacity duration-200 text-white px-2 ${
+//                 alert.isActive ? "justify-end pr-3" : "justify-start pl-3"
+//               }`}
+//             >
+//               {alert.name}
+//             </span>
+
+//             {/* Tooltip */}
+//             <ReactTooltip
+//               id={`toggle-btn-${alert._id}`}
+//               className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//             />
+//           </div>
+//         </div>
+//       </div>
+
+//       <div className="grid grid-cols-2 gap-4 body-sm   flex-grow">
+//         <div className="flex flex-col">
+//           <span className="text-gray-500">Condition</span>
+//           <span className="font-medium text-gray-900">
+//             {conditionLabels[alert.condition] || alert.condition}
+//           </span>
+//         </div>
+
+//         <div className="flex flex-col">
+//           <span className="text-gray-500">Value</span>
+//           <span className="font-medium text-gray-900">{alert.value}</span>
+//         </div>
+
+//         <div className="flex flex-col col-span-2">
+//           <span className="text-gray-500">Notification Type</span>
+//           <button
+//             onClick={() => setIsNotificationModalOpen(true)}
+//             className="font-medium text-gray-900 flex space-x-2 items-center hover:bg-gray-50 p-2 rounded-md transition-colors cursor-pointer"
+//             data-tooltip-id={`notification-type-btn-${alert._id}`}
+//             data-tooltip-content="Click to change notification types"
+//           >
+//             {Object.entries(alert.notificationModes)
+//               .filter(([mode, enabled]) => enabled)
+//               .map(([mode]) =>
+//                 mode === "email" ? (
+//                   <Mail
+//                     key={mode}
+//                     className="w-4 h-4 text-gray-700"
+        
+//                   />
+//                 ) : (
+//                   <MessageSquare
+//                     key={mode}
+//                     className="w-4 h-4 text-gray-700"
+          
+//                   />
+//                 )
+//               )}
+//             {Object.values(alert.notificationModes).every((v) => !v) && (
+//               <span
+//                 data-tooltip-id={`${alert._id}-none`}
+//                 data-tooltip-content="No notification types selected"
+//               >
+//                 None
+//               </span>
+//             )}
+
+//             {/* Tooltips for the button and notification modes */}
+//             <ReactTooltip
+//               id={`notification-type-btn-${alert._id}`}
+//               className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//             />
+//             {Object.entries(alert.notificationModes)
+//               .filter(([mode, enabled]) => enabled)
+//               .map(([mode]) => (
+//                 <ReactTooltip
+//                   key={mode}
+//                   id={`${alert._id}-${mode}`}
+//                   className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//                 />
+//               ))}
+//             {Object.values(alert.notificationModes).every((v) => !v) && (
+//               <ReactTooltip
+//                 id={`${alert._id}-none`}
+//                 className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//               />
+//             )}
+//           </button>
+//         </div>
+//       </div>
+
+//       {/* Notification Mode Modal */}
+//       {isNotificationModalOpen && (
+//         <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center p-4 z-50">
+//           <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
+//             <div className="p-4 border-b flex justify-between items-center">
+//               <h3 className="text-lg font-semibold">Notification Settings</h3>
+//               <button
+//                 onClick={() => setIsNotificationModalOpen(false)}
+//                 className="text-gray-500 hover:text-gray-700"
+//               >
+//                 <X className="h-5 w-5" />
+//               </button>
+//             </div>
+
+//             <div className="p-4 space-y-4">
+//               <div>
+//                 <label className="block text-gray-700 font-medium mb-2">
+//                   Select Notification Modes
+//                 </label>
+//                 <div className="space-y-3">
+//                   <label className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+//                     <input
+//                       type="checkbox"
+//                       name="email"
+//                       checked={notificationModes.email}
+//                       onChange={handleNotificationModeChange}
+//                       className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+//                     />
+//                     <div className="flex items-center space-x-2">
+//                       <Mail className="h-5 w-5 text-gray-700" />
+//                       <span className="text-gray-700">Email</span>
+//                     </div>
+//                   </label>
+//                   <label className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+//                     <input
+//                       type="checkbox"
+//                       name="sms"
+//                       checked={notificationModes.sms}
+//                       onChange={handleNotificationModeChange}
+//                       className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+//                     />
+//                     <div className="flex items-center space-x-2">
+//                       <MessageSquare className="h-5 w-5 text-gray-700" />
+//                       <span className="text-gray-700">SMS</span>
+//                     </div>
+//                   </label>
+//                 </div>
+//               </div>
+//             </div>
+
+//             <div className="p-4 border-t flex justify-end space-x-3">
+//               <button
+//                 onClick={() => setIsNotificationModalOpen(false)}
+//                 className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+//               >
+//                 Cancel
+//               </button>
+//               <button
+//                 onClick={saveNotificationModes}
+//                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+//               >
+//                 Save Changes
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// const AlertCondition = ({ meterId, onClose, isAdminView, searchTerm, onSearchChange }) => {
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+
+//   const dispatch = useDispatch();
+//   const { alerts, availableMeters, loading, error } = useSelector(
+//     (state) => state.alerts
+//   );
+
+//   const userId = useSelector(selectUserId);
+//   const userRole = useSelector(selectUserRole);
+//   const isAdmin = userRole === "admin";
+//   const isUser = userRole === "user";
+//   const { id } = useSelector((state) => state.auth.user);
+
+//   const [activeAlertTab, setActiveAlertTab] = useState("system");
+//   const [isModalOpen, setIsModalOpen] = useState(false);
+//   const [currentAlert, setCurrentAlert] = useState(null);
+//   const [editingId, setEditingId] = useState(null);
+
+//   // In your AlertCondition component, add debugging
+//   console.log("User Role:", userRole);
+//   console.log("User ID:", userId);
+//   console.log("All Alerts:", alerts);
+//   console.log("Available Meters:", availableMeters);
+//   console.log("Active Tab:", activeAlertTab);
+//   const conditionOptions = [
+//     { value: ">", label: "Greater than" },
+//     { value: "<", label: "Less than" },
+//     { value: ">=", label: "Greater than or equal" },
+//     { value: "<=", label: "Less than or equal" },
+//     { value: "==", label: "Equal to" },
+//     { value: "!=", label: "Not equal to" },
+//   ];
+
+//   const [formData, setFormData] = useState({
+//     alertName: "",
+//     alertType: null,
+//     condition: conditionOptions[0],
+//     value: "",
+//     notificationModes: { email: false, sms: false },
+//     meterIds: [],
+//     isSystemAlert: false,
+//     editable: true,
+//   });
+
+//   // Replace the current useEffect with this:
 //   useEffect(() => {
-//     dispatch(setHeaderTitle("Notification"));
-//     dispatch(setBreadcrumbs([{ label: "Notifications", link: "/alertandnotification" }]));
+//     const fetchData = async () => {
+//       try {
+//         let params = {};
+
+//         if (userRole === "admin") {
+//           params.isSystemAlert = activeAlertTab === "system";
+//         } else if (userRole === "user") {
+//           // For users, always fetch both system and their own alerts
+//           // The backend will handle the filtering based on user ID
+//           if (activeAlertTab === "system") {
+//             params.isSystemAlert = true;
+//           } else {
+//             params.isSystemAlert = false;
+//           }
+//         }
+
+//         await dispatch(fetchAlerts(params)).unwrap();
+
+//         // Fetch available meters
+//         if (userRole === "admin") {
+//           await dispatch(
+//             fetchAvailableMeters(activeAlertTab === "user")
+//           ).unwrap();
+//         } else if (userRole === "user") {
+//           await dispatch(fetchAvailableMeters(false)).unwrap();
+//         }
+//       } catch (error) {
+//         console.error("Failed to fetch data:", error);
+//       }
+//     };
+
+//     fetchData();
+//   }, [dispatch, meterId, activeAlertTab, userRole]);
+
+//   useEffect(() => {
+//     if (error) {
+//       toast.error(error);
+//       dispatch(clearAlertError());
+//     }
+//   }, [error, dispatch]);
+
+//   const meterOptions = availableMeters.map((meter) => ({
+//     value: meter._id,
+//     label: meter.name || meter.meterSerialNumber,
+//   }));
+
+//   const alertTypeOptions = [
+//     { value: "Low Balance", label: "Low Balance" },
+//     { value: "Balance Expired", label: "Balance Expired" },
+//     { value: "High Load Usage", label: "High Load Usage" },
+//     { value: "Over Voltage Warning", label: "Over Voltage Warning" },
+//     { value: "Magnetic Interference", label: "Magnetic Interference" },
+//     { value: "Reminder to Recharge", label: "Reminder to Recharge" },
+//   ];
+
+//   const toggleAlertStatus = (id, currentStatus) => {
+//     dispatch(
+//       updateAlert({
+//         id,
+//         updateData: { isActive: !currentStatus },
+//       })
+//     );
+//   };
+
+//   const normalizeMeterIds = (arr) =>
+//     (arr || [])
+//       .map((x) => {
+//         // x can be "id" string, {_id: "id"}, or {value: "id"}
+//         if (typeof x === "string") return x;
+//         if (x && typeof x === "object") return x._id || x.value || "";
+//         return "";
+//       })
+//       .filter(Boolean);
+
+//   // Update the handleEditAlert function to check permissions
+//   const handleEditAlert = (alert) => {
+//     // Get user info directly from Redux state
+//     const currentUserRole = userRole;
+//     const currentUserId = userId;
+
+//     // Check permissions
+//     if (currentUserRole === "user") {
+//       if (alert.createdBy !== "user" || alert.userId !== currentUserId) {
+//         toast.error("You can only edit alerts you created");
+//         return;
+//       }
+//     }
+
+//     if (!alert.editable) {
+//       toast.error("This alert type cannot be edited");
+//       return;
+//     }
+
+//     // Convert meter IDs to the format expected by the form
+//     const selectedIds = alert.meterIds
+//       ? alert.meterIds.map((id) =>
+//           typeof id === "object" ? id._id || id.value || id : id
+//         )
+//       : [];
+
+//     setFormData({
+//       alertName: alert.alertName,
+//       alertType: { value: alert.alertType, label: alert.alertType },
+//       condition:
+//         conditionOptions.find((opt) => opt.value === alert.condition) ||
+//         conditionOptions[0],
+//       value: alert.value,
+//       notificationModes: { ...alert.notificationModes },
+//       meterIds: selectedIds,
+//       isSystemAlert: alert.isSystemAlert,
+//       editable: alert.editable,
+//     });
+//     setEditingId(alert._id);
+//     setIsModalOpen(true);
+//   };
+
+//   const handleDeleteAlert = (id) => {
+//     const alertToDelete = alerts.find((alert) => alert._id === id);
+//     if (!alertToDelete) return;
+
+//     // Check permissions using the already available userRole and userId
+//     if (userRole === "user") {
+//       if (
+//         alertToDelete.createdBy !== "user" ||
+//         alertToDelete.userId !== userId
+//       ) {
+//         toast.error("You can only delete alerts you created");
+//         return;
+//       }
+//     } else if (userRole === "admin") {
+//       if (alertToDelete.isSystemAlert) {
+//         toast.error("System alerts cannot be deleted");
+//         return;
+//       }
+//       if (
+//         alertToDelete.createdBy === "user" &&
+//         alertToDelete.adminId !== userId
+//       ) {
+//         toast.error("You can only delete alerts from your users");
+//         return;
+//       }
+//     }
+
+//     dispatch(deleteAlert(id));
+//   };
+
+
+//   const handleInputChange = (e) => {
+//     const { name, value, type, checked } = e.target;
+//     if (name === "email" || name === "sms") {
+//       setFormData((prev) => ({
+//         ...prev,
+//         notificationModes: { ...prev.notificationModes, [name]: checked },
+//       }));
+//     } else if (name === "isSystemAlert") {
+//       setFormData((prev) => ({
+//         ...prev,
+//         [name]: checked,
+//         meterIds: checked ? [] : prev.meterIds,
+//       }));
+//     } else {
+//       setFormData((prev) => ({
+//         ...prev,
+//         [name]: type === "checkbox" ? checked : value,
+//       }));
+//     }
+//   };
+
+ 
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     if (
+//       !formData.alertName ||
+//       !formData.alertType ||
+//       (!formData.isSystemAlert && formData.meterIds.length === 0)
+//     ) {
+//       toast.error("Please fill all required fields");
+//       return;
+//     }
+//     setIsSubmitting(true);
+//     const alertData = {
+//       alertName: formData.alertName,
+//       alertType: formData.alertType.value,
+//       condition: formData.condition.value,
+//       value: formData.value,
+//       notificationModes: formData.notificationModes,
+//       meterIds: formData.meterIds,
+//       isActive: true,
+//       isSystemAlert: formData.isSystemAlert,
+//       editable: formData.editable,
+//     };
+
+//     try {
+//       if (editingId) {
+//         await dispatch(
+//           updateAlert({ id: editingId, updateData: alertData })
+//         ).unwrap();
+//         toast.success("Alert updated successfully");
+//       } else {
+//         await dispatch(createAlert(alertData)).unwrap();
+//         toast.success("Alert created successfully");
+//       }
+
+//       resetForm();
+//       setIsModalOpen(false);
+//       setEditingId(null);
+//     } catch (error) {
+//       console.log("----errr-",error)
+//       toast.error(error.message || "Failed to save alert");
+//     } finally {
+//       setIsSubmitting(false);
+//     }
+//   };
+//   const resetForm = () => {
+//     setFormData({
+//       alertName: "",
+//       alertType: null,
+//       condition: conditionOptions[0],
+//       value: "",
+//       notificationModes: { email: false, sms: false },
+//       meterIds: [],
+//       isSystemAlert: false,
+//       editable: true,
+//     });
+//   };
+
+
+
+//   // Update alert filtering logic to be more accurate
+//   const systemAlerts = alerts.filter(
+//     (alert) => alert.isSystemAlert
+//     // &&
+//     // (userRole === "admin" || alert.adminId === userId)
+//   );
+
+//   let userAlerts = alerts.filter(
+//     (alert) =>
+//       !alert.isSystemAlert &&
+//       (userRole === "admin" ||
+//         (alert.userId === userId && alert.createdBy === "user"))
+//   );
+
+
+
+// //   let userAlerts = alerts.filter((alert) =>
+// //   !alert.isSystemAlert &&
+// //   (
+// //     // Admin can see all non-system alerts
+// //     userRole === "admin" ||
+
+// //     // User-created alerts
+// //     (alert.userId?.toString() === userId.toString() && alert.createdBy === "user") ||
+
+// //     // Admin-created editable alerts linked to this user’s meters
+// //     (
+// //       alert.editable === true &&
+// //       alert.createdBy === "admin" &&
+// //       alert.meterIds?.some((m) => userMeterIds.includes(m._id?.toString?.() || m.toString()))
+// //     )
+// //   )
+// // );
+
+
+// // // console.log("==user=",user)
+// //   userAlerts=alerts
+  
+
+// console.log("======alerts=====", alerts);
+//   console.log("=====systemAlerts=====", systemAlerts);
+//   console.log("=====userAlerts=====", userAlerts);
+
+
+
+//     // Use the searchTerm from props instead of local state
+//   const filteredAlerts = (activeAlertTab === "system" ? systemAlerts : userAlerts).filter(
+//     (alert) => {
+//       const matchesSearch =
+//         searchTerm === "" ||
+//         alert.alertName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//         alert.alertType?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//         alert.value?.toString().includes(searchTerm) ||
+//         alert.condition?.toLowerCase().includes(searchTerm.toLowerCase());
+//       return matchesSearch;
+//     }
+//   );
+
+//   if (loading && alerts.length === 0) {
+//     return (
+//       <div className="flex justify-center items-center h-64">
+//         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="bg-white rounded-lg   ">
+//       {/* <div className="mb-4 sticky top-20 bg-white z-10 border border-gray-200 rounded-lg shadow-sm p-2"> */}
+//       <div className="mb-4 bg-white  border border-gray-200 rounded-lg shadow-sm p-2">
+//         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
+//           <h2 className="heading-xl   font-semibold text-gray-900">
+//             {activeAlertTab === "system" ? "System Alerts" : "User Alerts"}
+//           </h2>
+//           <button
+//             onClick={() => {
+//               resetForm();
+//               setIsModalOpen(true);
+//             }}
+//             className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
+//             data-tooltip-id="create-alert-btn"
+//             data-tooltip-content="Create a new alert condition"
+//           >
+//             <Plus className="h-4 w-4 mr-2" />
+//             Add New Alert
+//             <ReactTooltip
+//               id="create-alert-btn"
+//               className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//             />
+//           </button>
+//         </div>
+
+      
+//         {searchTerm && (
+//           <div className="mb-3 body-sm   text-gray-600">
+//             Showing {filteredAlerts.length} alert(s) matching "{searchTerm}"
+//             <button
+//               onClick={() => onSearchChange("")}
+//               className="ml-2 text-blue-600 hover:text-blue-800"
+//             >
+//               Clear search
+//             </button>
+//           </div>
+//         )}
+//         <div className="inline-flex bg-gray-100 rounded-lg p-1 shadow-inner">
+//           <button
+//             onClick={() => setActiveAlertTab("system")}
+//             className={`px-4 py-2 rounded-md body-sm   font-medium transition-colors ${
+//               activeAlertTab === "system"
+//                 ? "bg-blue-600 text-white shadow-md"
+//                 : "text-gray-600 hover:text-gray-900 hover:bg-gray-200"
+//             }`}
+//             data-tooltip-id="system-alerts-tab"
+//             data-tooltip-content="System-wide alerts"
+//           >
+//             System Alerts
+//             <ReactTooltip
+//               id="system-alerts-tab"
+//               className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//             />
+//           </button>
+//           <button
+//             onClick={() => setActiveAlertTab("user")}
+//             className={`px-4 py-2 rounded-md body-sm   font-medium transition-colors ${
+//               activeAlertTab === "user"
+//                 ? "bg-blue-600 text-white shadow-md"
+//                 : "text-gray-600 hover:text-gray-900 hover:bg-gray-200"
+//             }`}
+//             data-tooltip-id="user-alerts-tab"
+//             data-tooltip-content="User-specific alerts"
+//           >
+//             User Alerts
+//             <ReactTooltip
+//               id="user-alerts-tab"
+//               className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//             />
+//           </button>
+//         </div>
+//       </div>
+
+//       {/* <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+//         {(activeAlertTab === "system" ? systemAlerts : userAlerts).length >
+//         0 ? (
+//           (activeAlertTab === "system" ? systemAlerts : userAlerts).map(
+//             (alert) => (
+//               <SystemAlertCard
+//                 key={alert._id}
+//                 alert={alert}
+//                 toggleAlertStatus={toggleAlertStatus}
+//                 handleEditAlert={handleEditAlert}
+//                 handleDeleteAlert={handleDeleteAlert}
+//               />
+//             )
+//           )
+//         ) : (
+//           <div className="text-center py-12 col-span-full">
+//             <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+//             <h3 className="text-lg font-medium text-gray-900 mb-2">
+//               No alerts configured
+//             </h3>
+//             <p className="text-gray-600">Add a new alert to get started</p>
+//           </div>
+//         )}
+//       </div> */}
+//           <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+//         {filteredAlerts.length > 0 ? (
+//           filteredAlerts.map((alert) => (
+//             <SystemAlertCard
+//               key={alert._id}
+//               alert={alert}
+//               toggleAlertStatus={toggleAlertStatus}
+//               handleEditAlert={handleEditAlert}
+//               handleDeleteAlert={handleDeleteAlert}
+//             />
+//           ))
+//         ) : (
+//           <div className="text-center py-12 col-span-full">
+//             <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+//             <h3 className="text-lg font-medium text-gray-900 mb-2">
+//               {searchTerm ? "No alerts found" : "No alerts configured"}
+//             </h3>
+//             <p className="text-gray-600">
+//               {searchTerm ? "Try adjusting your search criteria" : "Add a new alert to get started"}
+//             </p>
+//           </div>
+//         )}
+//       </div>
+
+//       {isModalOpen && (
+//         <div className="fixed inset-0 backdrop-blur-md bg-white/30 flex items-center justify-center p-4 z-50">
+//           <div className="bg-white rounded-lg shadow-lg w-full max-w-md max-h-[90vh] flex flex-col">
+//             {/* Header - Sticky */}
+//             <div className="sticky top-0 bg-white flex justify-between items-center border-b border-gray-300 p-4 z-10 rounded-t-lg">
+//               <h3 className="text-lg font-semibold text-gray-900">
+//                 {editingId ? "Edit Alert" : "Create New Alert"}
+//               </h3>
+//               <button
+//                 onClick={() => {
+//                   setIsModalOpen(false);
+//                   setEditingId(null);
+//                   resetForm();
+//                 }}
+//                 className="text-gray-500 hover:text-gray-700"
+//               >
+//                 <X className="h-5 w-5" />
+//               </button>
+//             </div>
+
+//             {/* Scrollable Content */}
+//             <div className="flex-1 overflow-y-auto p-4">
+//               <form
+//                 id="alertForm"
+//                 onSubmit={handleSubmit}
+//                 className="space-y-4"
+//               >
+//                 {/* Alert Name */}
+//                 <div>
+//                   <label className="block text-gray-700 font-medium mb-1">
+//                     Alert Name *
+//                   </label>
+//                   <input
+//                     type="text"
+//                     name="alertName"
+//                     value={formData.alertName}
+//                     onChange={handleInputChange}
+//                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+//                     placeholder="Enter alert name"
+//                     required
+//                   />
+//                 </div>
+
+//                 {/* Alert Type */}
+//                 <div>
+//                   <label className="block text-gray-700 font-medium mb-1">
+//                     Alert Type *
+//                   </label>
+//                   <Select
+//                     options={alertTypeOptions}
+//                     value={formData.alertType}
+//                     onChange={(selected) =>
+//                       setFormData({ ...formData, alertType: selected || null })
+//                     }
+//                     isSearchable
+//                     className="basic-single"
+//                     classNamePrefix="select"
+//                     placeholder="Select alert type"
+//                     required
+//                   />
+//                 </div>
+
+//                 {/* Condition & Threshold */}
+//                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                   <div>
+//                     <label className="block text-gray-700 font-medium mb-1">
+//                       Condition *
+//                     </label>
+//                     <Select
+//                       options={conditionOptions}
+//                       value={formData.condition}
+//                       onChange={(selected) =>
+//                         setFormData({ ...formData, condition: selected })
+//                       }
+//                       className="basic-single"
+//                       classNamePrefix="select"
+//                     />
+//                   </div>
+//                   <div>
+//                     <label className="block text-gray-700 font-medium mb-1">
+//                       Threshold Value *
+//                     </label>
+//                     <input
+//                       type="number"
+//                       name="value"
+//                       value={formData.value}
+//                       onChange={handleInputChange}
+//                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+//                       placeholder="Enter value"
+//                       required
+//                     />
+//                   </div>
+//                 </div>
+
+//                 {/* Select Meters */}
+  
+//                 {/* 
+//           // In your modal form, add this check: */}
+//                 {(!formData.isSystemAlert ||
+//                   (formData.editable && userRole === "admin")) && (
+//                   <div>
+//                     <div className="flex justify-between items-center px-2 mb-2">
+//                       <label className="block text-gray-700 font-medium">
+//                         Select Meter(s) {!formData.isSystemAlert && "*"}
+//                       </label>
+//                       {meterOptions.length > 0 && (
+//                         <label className="flex items-center space-x-2">
+//                           <input
+//                             type="checkbox"
+//                             checked={
+//                               formData.meterIds.length === meterOptions.length
+//                             }
+//                             onChange={(e) => {
+//                               setFormData((prev) => ({
+//                                 ...prev,
+//                                 meterIds: e.target.checked
+//                                   ? meterOptions.map((m) => m.value)
+//                                   : [],
+//                               }));
+//                             }}
+//                             className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+//                           />
+//                           <span className="text-gray-700 font-medium">
+//                             Select All
+//                           </span>
+//                         </label>
+//                       )}
+//                     </div>
+
+//                     <Select
+//                       isMulti
+//                       isSearchable
+//                       name="meters"
+//                       options={meterOptions}
+//                       value={meterOptions.filter(
+//                         (opt) =>
+//                           formData.meterIds.includes(opt.value) ||
+//                           formData.meterIds.includes(opt._id)
+//                       )}
+//                       onChange={(selected) =>
+//                         setFormData((prev) => ({
+//                           ...prev,
+//                           meterIds: selected
+//                             ? selected.map((opt) => opt.value)
+//                             : [],
+//                         }))
+//                       }
+//                       isDisabled={userRole === "user" && formData.isSystemAlert}
+//                       className="basic-multi-select"
+//                       classNamePrefix="select"
+//                       placeholder="Search & select meters..."
+//                     />
+//                     {userRole === "user" && formData.isSystemAlert && (
+//                       <p className="body-sm   text-gray-500 mt-1">
+//                         System alerts apply to all meters automatically
+//                       </p>
+//                     )}
+//                   </div>
+//                 )}
+
+//                 {/* Notification Modes */}
+//                 <div>
+//                   <label className="block text-gray-700 font-medium mb-2">
+//                     Notification Mode
+//                   </label>
+//                   <div className="flex space-x-6">
+//                     <label className="flex items-center space-x-2">
+//                       <input
+//                         type="checkbox"
+//                         name="email"
+//                         checked={formData.notificationModes.email}
+//                         onChange={handleInputChange}
+//                         className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+//                       />
+//                       <span className="body-sm   text-gray-700">Email</span>
+//                     </label>
+//                     <label className="flex items-center space-x-2">
+//                       <input
+//                         type="checkbox"
+//                         name="sms"
+//                         checked={formData.notificationModes.sms}
+//                         onChange={handleInputChange}
+//                         className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+//                       />
+//                       <span className="body-sm   text-gray-700">SMS</span>
+//                     </label>
+//                   </div>
+//                 </div>
+//               </form>
+//             </div>
+
+//             {/* Footer - Sticky */}
+//             <div className="sticky bottom-0 bg-white flex justify-end space-x-3 p-4 border-t border-gray-200 rounded-b-lg">
+//               <button
+//                 type="button"
+//                 onClick={() => {
+//                   setIsModalOpen(false);
+//                   setEditingId(null);
+//                   resetForm();
+//                 }}
+//                 className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
+//               >
+//                 Cancel
+//               </button>
+//               {/* <button
+//           type="submit"
+//           form="alertForm"
+//           className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+//         >
+//           {editingId ? "Update Alert" : "Create Alert"}
+//         </button> */}
+
+//               <button
+//                 type="submit"
+//                 form="alertForm"
+//                 disabled={isSubmitting}
+//                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+//               >
+//                 {isSubmitting
+//                   ? "Processing..."
+//                   : editingId
+//                   ? "Update Alert"
+//                   : "Create Alert"}
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// const AlertAndNotification = () => {
+//   const [viewAlertConditions, setViewAlertConditions] = useState(false);
+//   const [selectedMeterForAlerts, setSelectedMeterForAlerts] = useState(null);
+//   const [searchTerm, setSearchTerm] = useState("");
+//   const dispatch = useDispatch();
+
+//   const userId = useSelector(selectUserId);
+//   const userRole = useSelector(selectUserRole);
+//   const isAdmin = userRole === "admin";
+//   const isUser = userRole === "user";
+
+//   const userNotifications = useSelector(selectUserNotifications);
+//   const adminNotifications = useSelector(selectAdminNotifications);
+//   const usersList = useSelector(selectUsersList);
+//   const loading = useSelector(selectNotificationsLoading);
+//   const error = useSelector(selectNotificationsError);
+//   const selectedUser = useSelector(selectSelectedUser);
+
+//   const [activeTab, setActiveTab] = useState("users");
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const itemsPerPage = 6;
+
+//   useEffect(() => {
+//     dispatch(setHeaderTitle("Alert & Notification"));
+//     dispatch(
+//       setBreadcrumbs([
+//         { label: "Alert & Notification", link: "/alertandnotification" },
+//       ])
+//     );
 //   }, [dispatch]);
 
-//   // Fetch data based on user type and selected tab
 //   useEffect(() => {
-//     if (role === "admin" && !selectedUser && activeTab === "users") {
-//       dispatch(fetchAdminNotifications(adminId));
-//     } else if (role === "admin" && activeTab === "adminNotifications") {
-//       dispatch(fetchSystemNotifications(adminId));
+//     if (isAdmin && !selectedUser && activeTab === "users") {
+//       dispatch(fetchAdminNotifications(userId));
+//     } else if (isAdmin && activeTab === "adminNotifications") {
+//       dispatch(fetchAdminNotifications(userId));
 //     } else if (selectedUser) {
 //       dispatch(fetchUserNotifications(selectedUser));
-//     } else if (role === "user") {
-//       dispatch(fetchUserNotifications(adminId)); // Assuming adminId is userId for regular users
+//     } else if (isUser) {
+//       dispatch(fetchUserNotifications(userId));
 //     }
-//   }, [role, selectedUser, activeTab, dispatch, adminId]);
+//   }, [isAdmin, isUser, selectedUser, activeTab, userId, dispatch]);
 
-//   // Filter functions (same as before)
-//   const filteredNotifications = notifications?.userNotification?.filter((notification) => {
-//     const matchesSearch =
-//       searchTerm === "" ||
-//       notification.alertType.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//       notification.value?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//       notification.message.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//       notifications.meterId?.toLowerCase().includes(searchTerm.toLowerCase());
-//     return matchesSearch;
-//   }) || [];
+//   const handleToggleGlobalNotificationStatus = async (newStatus) => {
+//     const targetUserId = selectedUser || userId;
+//     try {
+//       dispatch(updateUserStatus({ userId: targetUserId, status: newStatus }));
+//       await dispatch(
+//         toggleNotificationStatus({
+//           userId: targetUserId,
+//           status: newStatus,
+//         })
+//       ).unwrap();
+//     } catch (error) {
+//       toast.error("Failed to update notification status");
+//       dispatch(
+//         updateUserStatus({
+//           userId: targetUserId,
+//           status: newStatus === "enabled" ? "disabled" : "enabled",
+//         })
+//       );
+//     }
+//   };
 
-//   const filteredUsers = usersList.filter((user) => {
-//     const matchesSearch =
-//       searchTerm === "" ||
-//       user.userId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//       user.meterId.toLowerCase().includes(searchTerm.toLowerCase());
-//     return matchesSearch;
-//   });
+//   const handleToggleUserStatus = async (userId, currentStatus) => {
+//     const newStatus = currentStatus === "enabled" ? "disabled" : "enabled";
+//     try {
+//       dispatch(updateUserStatus({ userId, status: newStatus }));
+//       await dispatch(
+//         toggleNotificationStatus({
+//           userId,
+//           status: newStatus,
+//         })
+//       ).unwrap();
+//     } catch (error) {
+//       toast.error("Failed to update user notification status");
+//       dispatch(
+//         updateUserStatus({
+//           userId,
+//           status: currentStatus,
+//         })
+//       );
+//     }
+//   };
 
-//   const filteredAdminNotifications = adminNotifications.filter((notification) => {
-//     const matchesSearch =
-//       searchTerm === "" ||
-//       notification.alertType.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//       notification.value?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//       notification.message.toLowerCase().includes(searchTerm.toLowerCase());
-//     return matchesSearch;
-//   });
-
-//   // Handler functions
 //   const handleUserSelection = (userId) => {
-//     dispatch(selectUser(userId));
+//     dispatch(setSelectedUser(userId));
+//     setCurrentPage(1);
+//     setViewAlertConditions(false);
 //   };
 
 //   const handleBackToList = () => {
-//     dispatch(clearSelectedUser());
+//     dispatch(setSelectedUser(null));
+//     setCurrentPage(1);
+//     setViewAlertConditions(false);
 //   };
 
-//   const handleToggleGlobalStatus = (newStatus) => {
-//     if (notifications?._id) {
-//       dispatch(toggleNotificationStatus({ 
-//         notificationId: notifications._id, 
-//         status: newStatus 
-//       }));
-//     }
-//   };
+//   useEffect(() => {
+//     setViewAlertConditions(false);
+//   }, [activeTab]);
 
-//   const handleToggleUserStatus = (userId, newStatus) => {
-//     const user = usersList.find(u => u._id === userId);
-//     if (user?.notificationId) {
-//       dispatch(toggleNotificationStatus({ 
-//         notificationId: user.notificationId, 
-//         status: newStatus 
-//       }));
-//     }
-//   };
+//   const filteredNotifications =
+//     (isUser || selectedUser ? userNotifications : adminNotifications)?.filter(
+//       (notification) => {
+//         const matchesSearch =
+//           searchTerm === "" ||
+//           notification.alertType
+//             ?.toLowerCase()
+//             .includes(searchTerm.toLowerCase()) ||
+//           notification.value
+//             ?.toLowerCase()
+//             .includes(searchTerm.toLowerCase()) ||
+//           notification.message
+//             ?.toLowerCase()
+//             .includes(searchTerm.toLowerCase()) ||
+//           (isAdmin &&
+//             !selectedUser &&
+//             (notification.userName
+//               ?.toLowerCase()
+//               .includes(searchTerm.toLowerCase()) ||
+//               notification.meterId
+//                 ?.toLowerCase()
+//                 .includes(searchTerm.toLowerCase())));
+//         return matchesSearch;
+//       }
+//     ) || [];
 
-//   // Pagination logic (same as before)
+//   const filteredUsers = usersList?.filter((user) => {
+//     const matchesSearch =
+//       searchTerm === "" ||
+//       user.userId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//       user.userName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//       user.meterId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//       user.meterName?.toLowerCase().includes(searchTerm.toLowerCase());
+//     return matchesSearch;
+//   });
+
 //   const currentItems =
-//     role === "user" || selectedUser
+//     isUser || selectedUser
 //       ? filteredNotifications.slice(
 //           (currentPage - 1) * itemsPerPage,
 //           currentPage * itemsPerPage
 //         )
 //       : activeTab === "adminNotifications"
-//       ? filteredAdminNotifications.slice(
+//       ? filteredNotifications.slice(
 //           (currentPage - 1) * itemsPerPage,
 //           currentPage * itemsPerPage
 //         )
@@ -134,180 +1268,737 @@
 //         );
 
 //   const totalPages = Math.ceil(
-//     (role === "user" || selectedUser
+//     (isUser || selectedUser
 //       ? filteredNotifications.length
 //       : activeTab === "adminNotifications"
-//       ? filteredAdminNotifications.length
+//       ? filteredNotifications.length
 //       : filteredUsers.length) / itemsPerPage
 //   );
 
 //   const goToPage = (page) => {
-//     dispatch(setCurrentPage(page));
+//     setCurrentPage(page);
 //   };
 
-//   // getAlertIcon and getAlertColors functions remain exactly the same
-//   // ...
+//   const getPaginationRange = () => {
+//     const totalPageCount = totalPages;
+//     const currentPageNum = currentPage;
+//     const siblingCount = 1;
+//     const DOTS = "...";
+
+//     // Pages count is determined as siblingCount + firstPage + lastPage + currentPage + 2*DOTS
+//     const totalPageNumbers = siblingCount + 5;
+
+//     /*
+//       Case 1:
+//       If the number of pages is less than the page numbers we want to show in our
+//       paginationComponent, we return the range [1..totalPageCount]
+//     */
+//     if (totalPageNumbers >= totalPageCount) {
+//       return range(1, totalPageCount);
+//     }
+
+//     /*
+//       Calculate left and right sibling index and make sure they are within range 1 and totalPageCount
+//     */
+//     const leftSiblingIndex = Math.max(currentPageNum - siblingCount, 1);
+//     const rightSiblingIndex = Math.min(
+//       currentPageNum + siblingCount,
+//       totalPageCount
+//     );
+
+//     /*
+//       We do not show dots just when there is just one page number to be inserted between the extremes of sibling and the page limits i.e 1 and totalPageCount. Hence we are using leftSiblingIndex > 2 and rightSiblingIndex < totalPageCount - 2
+//     */
+//     const shouldShowLeftDots = leftSiblingIndex > 2;
+//     const shouldShowRightDots = rightSiblingIndex < totalPageCount - 2;
+
+//     const firstPageIndex = 1;
+//     const lastPageIndex = totalPageCount;
+
+//     /*
+//       Case 2: No left dots to show, but rights dots to be shown
+//     */
+//     if (!shouldShowLeftDots && shouldShowRightDots) {
+//       let leftItemCount = 3 + 2 * siblingCount;
+//       let leftRange = range(1, leftItemCount);
+
+//       return [...leftRange, DOTS, totalPageCount];
+//     }
+
+//     /*
+//       Case 3: No right dots to show, but left dots to be shown
+//     */
+//     if (shouldShowLeftDots && !shouldShowRightDots) {
+//       let rightItemCount = 3 + 2 * siblingCount;
+//       let rightRange = range(
+//         totalPageCount - rightItemCount + 1,
+//         totalPageCount
+//       );
+//       return [firstPageIndex, DOTS, ...rightRange];
+//     }
+
+//     /*
+//       Case 4: Both left and right dots to be shown
+//     */
+//     if (shouldShowLeftDots && shouldShowRightDots) {
+//       let middleRange = range(leftSiblingIndex, rightSiblingIndex);
+//       return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex];
+//     }
+//   };
+
+//   const range = (start, end) => {
+//     let length = end - start + 1;
+//     return Array.from({ length }, (_, idx) => idx + start);
+//   };
+
+//   const getAlertIcon = (alertType) => {
+//     const iconMap = {
+//       "Low Balance": <Battery className="h-5 w-5" />,
+//       "Balance Expired": <AlertTriangle className="h-5 w-5" />,
+//       "Recharge Successful": <CreditCard className="h-5 w-5" />,
+//       "Recharge Failed": <AlertCircle className="h-5 w-5" />,
+//       "High Load Usage": <Zap className="h-5 w-5" />,
+//       "Spike in Usage": <TrendingUp className="h-5 w-5" />,
+//       "Daily/Weekly Report": <BarChart3 className="h-5 w-5" />,
+//       "No Usage Detected": <Activity className="h-5 w-5" />,
+//       "Garbage Uplink Data": <AlertTriangle className="h-5 w-5" />,
+//       "Reverse Polarity": <Shield className="h-5 w-5" />,
+//       "Magnetic Interference": <Magnet className="h-5 w-5" />,
+//       "Current Imbalance": <Zap className="h-5 w-5" />,
+//       "Neutral Voltage Issue": <AlertTriangle className="h-5 w-5" />,
+//       "Meter Offline": <WifiOff className="h-5 w-5" />,
+//       "Reminder to Recharge": <Bell className="h-5 w-5" />,
+//       "Festival Offer": <Gift className="h-5 w-5" />,
+//       "High Load vs Previous": <TrendingUp className="h-5 w-5" />,
+//       "System Alert": <Activity className="h-5 w-5" />,
+//       "Security Alert": <Shield className="h-5 w-5" />,
+//       "Maintenance Required": <AlertTriangle className="h-5 w-5" />,
+//       "Over Voltage Warning": <AlertTriangle className="h-5 w-5" />,
+//     };
+//     return iconMap[alertType] || <Bell className="h-5 w-5" />;
+//   };
+
+//   const getAlertColors = (alertType) => {
+//     const colorMap = {
+//       "Low Balance": {
+//         bg: "bg-orange-50",
+//         icon: "text-orange-600",
+//         border: "border-orange-200",
+//       },
+//       "Balance Expired": {
+//         bg: "bg-red-50",
+//         icon: "text-red-600",
+//         border: "border-red-200",
+//       },
+//       "Recharge Successful": {
+//         bg: "bg-green-50",
+//         icon: "text-green-600",
+//         border: "border-green-200",
+//       },
+//       "Recharge Failed": {
+//         bg: "bg-red-50",
+//         icon: "text-red-600",
+//         border: "border-red-200",
+//       },
+//       "High Load Usage": {
+//         bg: "bg-red-50",
+//         icon: "text-red-600",
+//         border: "border-red-200",
+//       },
+//       "Spike in Usage": {
+//         bg: "bg-yellow-50",
+//         icon: "text-yellow-600",
+//         border: "border-yellow-200",
+//       },
+//       "Over Voltage Warning": {
+//         bg: "bg-red-50",
+//         icon: "text-red-600",
+//         border: "border-red-200",
+//       },
+//     };
+//     return (
+//       colorMap[alertType] || {
+//         bg: "bg-gray-50",
+//         icon: "text-gray-600",
+//         border: "border-gray-200",
+//       }
+//     );
+//   };
+
+//   const showGlobalToggle = !(isAdmin && !selectedUser && activeTab === "users");
 
 //   return (
 //     <div className="bg-blue-200/10 min-h-screen p-4 sm:p-6">
 //       <div className="max-w-7xl mx-auto">
-//         {/* Error message */}
-//         {error && (
-//           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-//             {error}
-//           </div>
-//         )}
+//         <div className="sticky top-0 z-10 bg-white shadow-sm rounded-lg mb-6">
+//           <div className="p-4  rounded-t-lg">
+//             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+//               <h1 className="heading-xl   font-semibold text-gray-900">
+//                 Alert & Notification
+//               </h1>
 
-//         {/* Global Status Toggle with Search - For notification details view */}
-//         {(role === "user" || selectedUser) && notifications?.status && (
-//           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-//             {/* ... same JSX as before ... */}
-//             <button
-//               onClick={() => handleToggleGlobalStatus(
-//                 notifications.status === "enabled" ? "disabled" : "enabled"
-//               )}
-//               className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors body-xs  ${
-//                 notifications.status === "enabled"
-//                   ? "bg-red-600 hover:bg-red-700 text-white"
-//                   : "bg-green-600 hover:bg-green-700 text-white"
-//               }`}
-//             >
-//               {notifications.status === "enabled" ? "Disable All" : "Enable All"}
-//             </button>
-//           </div>
-//         )}
+//               {isAdmin && (
+//                 // <div className="flex-1 w-full max-w-md">
+//                 //   <div className="relative">
+//                 //     <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+//                 //     <input
+//                 //       type="text"
+//                 //       placeholder={
+//                 //         !selectedUser && activeTab === "users"
+//                 //           ? "Search users..."
+//                 //           : "Search notifications..."
+//                 //       }
+//                 //       value={searchTerm}
+//                 //       onChange={(e) => setSearchTerm(e.target.value)}
+//                 //       className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-sm  "
+//                 //     />
+//                 //   </div>
+//                 // </div>
 
-//         {/* Main Content */}
-//         <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-//           <div className="p-4 sm:p-6">
-//             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-//               {/* Search input */}
-//               {role === "admin" && !selectedUser && (
-//                 <div className="relative w-full sm:w-64">
+//                         <div className="flex-1 w-full max-w-md">
+//                 <div className="relative">
 //                   <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
 //                   <input
 //                     type="text"
 //                     placeholder={
-//                       activeTab === "adminNotifications"
-//                         ? "Search admin notifications..."
-//                         : "Search by user ID or meter ID..."
+//                       viewAlertConditions
+//                         ? "Search alerts..."
+//                         : !selectedUser && activeTab === "users" && isAdmin
+//                         ? "Search users..."
+//                         : "Search notifications..."
 //                     }
 //                     value={searchTerm}
-//                     onChange={(e) => dispatch(setSearchTerm(e.target.value))}
-//                     className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-xs "
+//                     onChange={(e) => setSearchTerm(e.target.value)}
+//                     className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-sm  "
 //                   />
+//                 </div>
+//               </div>
+//               )}
+
+//               {isUser && (
+//                 <div className="flex-1 w-full max-w-md">
+//                   <div className="relative">
+//                     <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+//                     <input
+//                       type="text"
+//                       placeholder="Search notifications..."
+//                       value={searchTerm}
+//                       onChange={(e) => setSearchTerm(e.target.value)}
+//                       className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-sm  "
+//                     />
+//                   </div>
 //                 </div>
 //               )}
 
-//               <div className="flex items-center gap-4">
-//                 <h2 className="heading-lg sm:heading-xl font-semibold text-gray-900">
-//                   {role === "user"
-//                     ? "Your Notifications"
-//                     : selectedUser
-//                     ? `Notifications for ${selectedUser}`
-//                     : "Notification Management"}
-//                 </h2>
+//               <div className="flex items-center space-x-4">
+//                 {/* {showGlobalToggle && ( */}
+//                 {isAdmin && (
+//                   <div className="flex items-center gap-1">
+//                     {/* Heading */}
+//                     <label
+//                       htmlFor="view-type-select"
+//                       className="text-medium font-medium text-gray-700"
+//                     >
+//                       Notification Type:
+//                     </label>
 
-//                 {/* Admin tabs */}
-//                 {role === "admin" && !selectedUser && (
-//                   <div className="flex bg-gray-100 rounded-lg p-1">
-//                     <button
-//                       onClick={() => dispatch(setActiveTab("users"))}
-//                       className={`px-3 py-1 rounded-md body-xs  font-medium transition-colors ${
-//                         activeTab === "users"
-//                           ? "bg-blue-600 text-white"
-//                           : "text-gray-600 hover:text-gray-900"
-//                       }`}
-//                     >
-//                       Users
-//                     </button>
-//                     <button
-//                       onClick={() => dispatch(setActiveTab("adminNotifications"))}
-//                       className={`px-3 py-1 rounded-md body-xs  font-medium transition-colors ${
-//                         activeTab === "adminNotifications"
-//                           ? "bg-blue-600 text-white"
-//                           : "text-gray-600 hover:text-gray-900"
-//                       }`}
-//                     >
-//                       Admin Notifications
-//                     </button>
+//                     {/* Select with tooltip */}
+//                     <div className="relative">
+//                       <select
+//                         id="view-type-select"
+//                         value={activeTab}
+//                         onChange={(e) => setActiveTab(e.target.value)}
+//                         className="appearance-none bg-gray-100 border border-gray-300 rounded-md px-4 py-2 pr-8 body-sm   focus:outline-none focus:ring-2 focus:ring-blue-500"
+//                         data-tooltip-id="view-type-select-tooltip"
+//                         data-tooltip-content="Select view type"
+//                       >
+//                         <option value="users">Users</option>
+//                         <option value="adminNotifications">Admin</option>
+//                       </select>
+//                       <ChevronDown className="h-4 w-4 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+//                       <ReactTooltip
+//                         id="view-type-select-tooltip"
+//                         className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//                       />
+//                     </div>
 //                   </div>
 //                 )}
-//               </div>
 
-//               {selectedUser && (
 //                 <button
-//                   onClick={handleBackToList}
-//                   className="flex items-center body-xs  text-blue-600 hover:text-blue-800"
+//                   onClick={() => {
+//                     setViewAlertConditions(true);
+//                     setSelectedMeterForAlerts(selectedUser || userId);
+//                   }}
+//                   className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap"
+//                   data-tooltip-id="manage-alerts-btn"
+//                   data-tooltip-content={
+//                     isAdmin && !selectedUser
+//                       ? " Click to Configure alerts "
+//                       : " Click to Configure  alerts"
+//                   }
 //                 >
-//                   <ChevronLeft className="h-4 w-4 mr-1" />
-//                   Back to users
+//                   Manage Alerts
+//                   <ReactTooltip
+//                     id="manage-alerts-btn"
+//                     className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//                   />
 //                 </button>
-//               )}
+//               </div>
 //             </div>
+//           </div>
+//         </div>
 
+//         <div className="w-full bg-white rounded-lg shadow-sm border border-gray-200">
+//           <div className="p-4 sm:p-6">
 //             {loading ? (
 //               <div className="text-center py-12">
 //                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
 //                 <p className="text-gray-600">Loading data...</p>
 //               </div>
-//             ) : role === "user" || selectedUser ? (
-//               <div className="space-y-4">
-//                 {/* ... same notification cards JSX as before ... */}
-//               </div>
-//             ) : activeTab === "adminNotifications" ? (
-//               <div className="space-y-4">
-//                 {/* ... same admin notification cards JSX as before ... */}
-//               </div>
+//             ) : viewAlertConditions ? (
+//               // <AlertCondition
+//               //   meterId={selectedMeterForAlerts}
+//               //   onClose={() => setViewAlertConditions(false)}
+//               //   isAdminView={isAdmin && !selectedUser}
+//               // />
+
+//                      <AlertCondition
+//             meterId={selectedMeterForAlerts}
+//             onClose={() => setViewAlertConditions(false)}
+//             isAdminView={isAdmin && !selectedUser}
+//             searchTerm={searchTerm} // Pass search term as prop
+//             onSearchChange={setSearchTerm} // Pass setter function if needed
+//           />
 //             ) : (
 //               <div className="space-y-4">
-//                 {/* ... same user list JSX as before, but update toggle handler ... */}
-//                 {/* <button
-//                   onClick={(e) => {
-//                     e.stopPropagation();
-//                     handleToggleUserStatus(
-//                       user.userId,
-//                       user.status === "enabled" ? "disabled" : "enabled"
-//                     );
-//                   }}
-//                   className={`px-3 py-1 rounded-md body-xsfont-medium ${
-//                     user.status === "enabled"
-//                       ? "bg-red-100 hover:bg-red-200 text-red-600"
-//                       : "bg-green-100 hover:bg-green-200 text-green-600"
-//                   }`}
-//                 >
-//                   {user.status === "enabled" ? "Disable" : "Enable"}
-//                 </button> */}
+//                 {(isUser || selectedUser) && (
+//                   <>
+//                     {filteredNotifications.length > 0 ? (
+//                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                         {currentItems.map((notification) => {
+//                           const colors = getAlertColors(notification.alertType);
+//                           return (
+//                             <div
+//                               key={notification._id}
+//                               className={`${colors.bg} ${colors.border} border rounded-lg p-4 transition-all hover:shadow-md cursor-pointer`}
+//                               // data-tooltip-id={`notification-${notification._id}`}
+//                               // data-tooltip-content="Click for details"
+//                             >
+//                               <ReactTooltip
+//                                 id={`notification-${notification._id}`}
+//                                 className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//                               />
+//                               <div className="flex items-start justify-between">
+//                                 <div className="flex items-start space-x-3 sm:space-x-4 flex-1">
+//                                   <div
+//                                     className={`p-2 rounded-lg ${colors.bg}`}
+//                                   >
+//                                     <span className={colors.icon}>
+//                                       {getAlertIcon(notification.alertType)}
+//                                     </span>
+//                                   </div>
 
-//                 {filteredUsers.map((user) => (
-//   <div key={user.userId} className="flex justify-between items-center border-b py-2">
-//     <div>
-//       <p className="font-medium">{user.userDetails.name}</p>
-//       <p className="body-xs  text-gray-500">Meter ID: {user.meterId}</p>
-//     </div>
-//     <button
-//       onClick={(e) => {
-//         e.stopPropagation();
-//         handleToggleUserStatus(
-//           user.userId,
-//           user.status === "enabled" ? "disabled" : "enabled"
-//         );
-//       }}
-//       className={`px-3 py-1 rounded-md body-xsfont-medium ${
-//         user.status === "enabled"
-//           ? "bg-red-100 hover:bg-red-200 text-red-600"
-//           : "bg-green-100 hover:bg-green-200 text-green-600"
-//       }`}
-//     >
-//       {user.status === "enabled" ? "Disable" : "Enable"}
-//     </button>
-//   </div>
-// ))}
+//                                   <div className="flex-1 min-w-0">
+//                                     <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 mb-2">
+//                                       <h3 className="font-semibold text-gray-900">
+//                                         {notification.alertType}
+//                                       </h3>
+//                                       <span
+//                                         className={`px-2 py-1 rounded-full body-xs  font-medium ${
+//                                           notification.mode.includes("Text")
+//                                             ? "text-blue-600 bg-blue-100"
+//                                             : "text-purple-600 bg-purple-100"
+//                                         }`}
+//                                         data-tooltip-id={`notification-mode-${notification._id}`}
+//                                         data-tooltip-content={
+//                                           notification.mode.includes("Text")
+//                                             ? "SMS notification"
+//                                             : "Email notification"
+//                                         }
+//                                       >
+//                                         {notification.mode}
+//                                         <ReactTooltip
+//                                           id={`notification-mode-${notification._id}`}
+//                                           className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//                                         />
+//                                       </span>
+//                                     </div>
 
+//                                     <p className="text-gray-700 mb-3">
+//                                       {notification.message}
+//                                     </p>
+
+//                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 body-sm   mb-4">
+//                                       <div>
+//                                         <span className="font-medium text-gray-600">
+//                                           Value:
+//                                         </span>
+//                                         <div className="text-gray-900 font-semibold">
+//                                           {notification.value}
+//                                         </div>
+//                                       </div>
+//                                       <div>
+//                                         <span className="font-medium text-gray-600">
+//                                           Time:
+//                                         </span>
+//                                         <div className="text-gray-900">
+//                                           {new Date(
+//                                             notification.time
+//                                           ).toLocaleString()}
+//                                         </div>
+//                                       </div>
+//                                     </div>
+//                                   </div>
+//                                 </div>
+//                               </div>
+//                             </div>
+//                           );
+//                         })}
+//                       </div>
+//                     ) : (
+//                       <div className="text-center py-12">
+//                         <Bell className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+//                         <h3 className="text-lg font-medium text-gray-900 mb-2">
+//                           No notifications found
+//                         </h3>
+//                         <p className="text-gray-600">
+//                           {searchTerm
+//                             ? "Try adjusting your search criteria"
+//                             : "You're all caught up!"}
+//                         </p>
+//                       </div>
+//                     )}
+//                   </>
+//                 )}
+
+//                 {isAdmin &&
+//                   !selectedUser &&
+//                   activeTab === "adminNotifications" && (
+//                     <>
+//                       {filteredNotifications.length > 0 ? (
+//                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                           {currentItems.map((notification) => {
+//                             const colors = getAlertColors(
+//                               notification.alertType
+//                             );
+//                             return (
+//                               <div
+//                                 key={notification._id}
+//                                 className={`${colors.bg} ${colors.border} border rounded-lg p-4 transition-all hover:shadow-md cursor-pointer`}
+//                                 data-tooltip-id={`admin-notification-${notification._id}`}
+//                                 data-tooltip-content="Click for details"
+//                               >
+//                                 <ReactTooltip
+//                                   id={`admin-notification-${notification._id}`}
+//                                   className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//                                 />
+//                                 <div className="flex items-start justify-between">
+//                                   <div className="flex items-start space-x-3 sm:space-x-4 flex-1">
+//                                     <div
+//                                       className={`p-2 rounded-lg ${colors.bg}`}
+//                                     >
+//                                       <span className={colors.icon}>
+//                                         {getAlertIcon(notification.alertType)}
+//                                       </span>
+//                                     </div>
+
+//                                     <div className="flex-1 min-w-0">
+//                                       <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 mb-2">
+//                                         <h3 className="font-semibold text-gray-900">
+//                                           {notification.alertType}
+//                                         </h3>
+//                                         <span
+//                                           className="body-sm   text-gray-600"
+//                                           data-tooltip-id={`user-name-${notification._id}`}
+//                                           data-tooltip-content="User who received this notification"
+//                                         >
+//                                           User:{" "}
+//                                           {notification.userName || "Unknown"}
+//                                           <ReactTooltip
+//                                             id={`user-name-${notification._id}`}
+//                                             className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//                                           />
+//                                         </span>
+//                                         <span
+//                                           className={`px-2 py-1 rounded-full body-xs  font-medium ${
+//                                             notification.mode.includes("Text")
+//                                               ? "text-blue-600 bg-blue-100"
+//                                               : "text-purple-600 bg-purple-100"
+//                                           }`}
+//                                           data-tooltip-id={`admin-notification-mode-${notification._id}`}
+//                                           data-tooltip-content={
+//                                             notification.mode.includes("Text")
+//                                               ? "SMS notification"
+//                                               : "Email notification"
+//                                           }
+//                                         >
+//                                           {notification.mode}
+//                                           <ReactTooltip
+//                                             id={`admin-notification-mode-${notification._id}`}
+//                                             className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//                                           />
+//                                         </span>
+//                                       </div>
+
+//                                       <p className="text-gray-700 mb-3">
+//                                         {notification.message}
+//                                       </p>
+
+//                                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 body-sm   mb-4">
+//                                         <div>
+//                                           <span className="font-medium text-gray-600">
+//                                             Value:
+//                                           </span>
+//                                           <div className="text-gray-900 font-semibold">
+//                                             {notification.value}
+//                                           </div>
+//                                         </div>
+//                                         <div>
+//                                           <span className="font-medium text-gray-600">
+//                                             Time:
+//                                           </span>
+//                                           <div className="text-gray-900">
+//                                             {new Date(
+//                                               notification.time
+//                                             ).toLocaleString()}
+//                                           </div>
+//                                         </div>
+//                                       </div>
+//                                     </div>
+//                                   </div>
+//                                 </div>
+//                               </div>
+//                             );
+//                           })}
+//                         </div>
+//                       ) : (
+//                         <div className="text-center py-12">
+//                           <Bell className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+//                           <h3 className="text-lg font-medium text-gray-900 mb-2">
+//                             No admin notifications found
+//                           </h3>
+//                           <p className="text-gray-600">
+//                             {searchTerm
+//                               ? "Try adjusting your search criteria"
+//                               : "No admin notifications available"}
+//                           </p>
+//                         </div>
+//                       )}
+//                     </>
+//                   )}
+
+//                 {isAdmin && !selectedUser && activeTab === "users" && (
+//                   <>
+//                     {filteredUsers.length > 0 ? (
+//                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                         {currentItems.map((user) => (
+//                           <div
+//                             key={user._id}
+//                             className="border border-gray-200 rounded-lg p-4 cursor-pointer hover:bg-gray-50 transition-colors"
+//                             onClick={() => handleUserSelection(user.userId)}
+//                             data-tooltip-id={`user-card-${user._id}`}
+//                             data-tooltip-content="Click to view user notifications"
+//                           >
+//                             <ReactTooltip
+//                               id={`user-card-${user._id}`}
+//                               className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//                             />
+//                             <div className="flex flex-col">
+//                               <div className="flex items-center justify-between mb-3">
+//                                 <div className="flex items-center space-x-3">
+//                                   <div className="p-2 rounded-lg bg-gray-100">
+//                                     <User className="h-6 w-6 text-gray-600" />
+//                                   </div>
+//                                 </div>
+//                               </div>
+
+//                               <div className="grid grid-cols-2 gap-4 body-sm  ">
+//                                 <div>
+//                                   <h3 className="font-semibold text-gray-900">
+//                                     {user.userName}
+//                                   </h3>
+//                                   <p className="body-sm   text-gray-600">
+//                                     ID: {user.userId}
+//                                   </p>
+//                                   <p className="mt-2 text-gray-500">
+//                                     Last Sent
+//                                   </p>
+//                                   <p className="font-medium">
+//                                     {user.lastNotificationDate
+//                                       ? new Date(
+//                                           user.lastNotificationDate
+//                                         ).toLocaleDateString()
+//                                       : "Never"}
+//                                   </p>
+//                                 </div>
+
+//                                 <div>
+//                                   <p className="text-gray-500">Meter ID</p>
+//                                   <p className="font-medium">
+//                                     {user.meterId || "M-0000"}
+//                                   </p>
+//                                   <p className="mt-2 text-gray-500">Count</p>
+//                                   <p className="font-medium">
+//                                     {user.notificationCount || 0}
+//                                   </p>
+//                                 </div>
+//                               </div>
+//                               <div className="flex justify-end items-center mt-4">
+//                                 <button
+//                                   onClick={(e) => {
+//                                     e.stopPropagation();
+//                                     handleToggleUserStatus(
+//                                       user.userId,
+//                                       user.status
+//                                     );
+//                                   }}
+//                                   className={`px-3 py-1 rounded-md body-xs  font-medium flex items-center justify-center ${
+//                                     user.status === "enabled"
+//                                       ? "bg-red-100 hover:bg-red-200 text-red-600"
+//                                       : "bg-green-100 hover:bg-green-200 text-green-600"
+//                                   }`}
+//                                   data-tooltip-id={`toggle-status-${user._id}`}
+//                                   data-tooltip-content={
+//                                     user.status === "enabled"
+//                                       ? "Disable notifications for this user"
+//                                       : "Enable notifications for this user"
+//                                   }
+//                                 >
+//                                   {user.status === "enabled"
+//                                     ? "Disable"
+//                                     : "Enable"}
+//                                   <ReactTooltip
+//                                     id={`toggle-status-${user._id}`}
+//                                     className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//                                   />
+//                                 </button>
+//                                 <ChevronRight
+//                                   className="h-5 w-5 text-gray-400 ml-2"
+//                                   data-tooltip-id={`view-user-${user._id}`}
+//                                   data-tooltip-content="View user notifications"
+//                                 />
+//                                 <ReactTooltip
+//                                   id={`view-user-${user._id}`}
+//                                   className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//                                 />
+//                               </div>
+//                             </div>
+//                           </div>
+//                         ))}
+//                       </div>
+//                     ) : (
+//                       <div className="text-center py-12">
+//                         <User2 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+//                         <h3 className="text-lg font-medium text-gray-900 mb-2">
+//                           No users found
+//                         </h3>
+//                         <p className="text-gray-600">
+//                           {searchTerm
+//                             ? "Try adjusting your search criteria"
+//                             : "No users available"}
+//                         </p>
+//                       </div>
+//                     )}
+//                   </>
+//                 )}
 //               </div>
 //             )}
 
-//             {/* Pagination - same JSX as before */}
+//             {!viewAlertConditions &&
+//               (((isUser ||
+//                 selectedUser ||
+//                 activeTab === "adminNotifications") &&
+//                 filteredNotifications.length > itemsPerPage) ||
+//               (isAdmin &&
+//                 !selectedUser &&
+//                 activeTab === "users" &&
+//                 filteredUsers.length > itemsPerPage) ? (
+//                 <div className="flex flex-col sm:flex-row items-center justify-between mt-6 gap-4">
+//                   <div className="body-sm   text-gray-600">
+//                     Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
+//                     {Math.min(
+//                       currentPage * itemsPerPage,
+//                       isAdmin && !selectedUser && activeTab === "users"
+//                         ? filteredUsers.length
+//                         : filteredNotifications.length
+//                     )}{" "}
+//                     of{" "}
+//                     {isAdmin && !selectedUser && activeTab === "users"
+//                       ? filteredUsers.length
+//                       : filteredNotifications.length}{" "}
+//                     {isAdmin && !selectedUser && activeTab === "users"
+//                       ? "users"
+//                       : "items"}
+//                   </div>
+//                   <div className="flex flex-wrap gap-2">
+//                     <button
+//                       onClick={() => goToPage(currentPage - 1)}
+//                       disabled={currentPage === 1}
+//                       className={`px-3 py-1 rounded-md border ${
+//                         currentPage === 1
+//                           ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+//                           : "bg-white text-gray-700 hover:bg-gray-50"
+//                       }`}
+//                       data-tooltip-id="prev-page-btn"
+//                       data-tooltip-content="Previous page"
+//                     >
+//                       Previous
+//                       <ReactTooltip
+//                         id="prev-page-btn"
+//                         className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//                       />
+//                     </button>
+
+//                     {getPaginationRange().map((pageNumber, index) => {
+//                       if (pageNumber === "...") {
+//                         return (
+//                           <span key={index} className="px-3 py-1 text-gray-700">
+//                             ...
+//                           </span>
+//                         );
+//                       }
+
+//                       return (
+//                         <button
+//                           key={index}
+//                           onClick={() => goToPage(pageNumber)}
+//                           className={`px-3 py-1 rounded-md ${
+//                             currentPage === pageNumber
+//                               ? "bg-blue-600 text-white"
+//                               : "bg-white text-gray-700 hover:bg-gray-50 border"
+//                           }`}
+//                           data-tooltip-id={`page-${pageNumber}-btn`}
+//                           data-tooltip-content={`Go to page ${pageNumber}`}
+//                         >
+//                           {pageNumber}
+//                           <ReactTooltip
+//                             id={`page-${pageNumber}-btn`}
+//                             className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//                           />
+//                         </button>
+//                       );
+//                     })}
+
+//                     <button
+//                       onClick={() => goToPage(currentPage + 1)}
+//                       disabled={currentPage === totalPages}
+//                       className={`px-3 py-1 rounded-md border ${
+//                         currentPage === totalPages
+//                           ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+//                           : "bg-white text-gray-700 hover:bg-gray-50"
+//                       }`}
+//                       data-tooltip-id="next-page-btn"
+//                       data-tooltip-content="Next page"
+//                     >
+//                       Next
+//                       <ReactTooltip
+//                         id="next-page-btn"
+//                         className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+//                       />
+//                     </button>
+//                   </div>
+//                 </div>
+//               ) : null)}
 //           </div>
 //         </div>
 //       </div>
@@ -319,6 +2010,14 @@
 
 
 
+
+
+
+
+
+
+
+
 import React, { useState, useEffect } from "react";
 import {
   Bell,
@@ -326,1021 +2025,1428 @@ import {
   Zap,
   TrendingUp,
   Battery,
-  Clock,
   User,
-  Hash,
-  Calendar,
   ToggleLeft,
   ToggleRight,
-  Filter,
   Search,
   ChevronDown,
   ChevronRight,
   CreditCard,
   Shield,
   Activity,
-  Wifi,
   AlertCircle,
   Gift,
   BarChart3,
   WifiOff,
   Magnet,
-  ChevronLeft,
+  User2,
+  Plus,
+  Edit,
+  Trash2,
+  X,
+  Mail,
+  MessageSquare,
+  Pencil,
+  HelpCircle,
 } from "lucide-react";
-
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import Select from "react-select";
+import { selectUserId, selectUserRole } from "../redux/slice/authSlice";
 import { setHeaderTitle, setBreadcrumbs } from "../redux/slice/headerSlice";
+import {
+  setSelectedUser,
+  selectUserNotifications,
+  selectAdminNotifications,
+  selectUsersList,
+  selectNotificationsLoading,
+  selectNotificationsError,
+  selectSelectedUser,
+  updateUserStatus,
+} from "../redux/slice/notificationSlice";
+import {
+  fetchAdminNotifications,
+  fetchUserNotifications,
+  toggleNotificationStatus,
+} from "../redux/thunks/notificationThunks";
+import {
+  createAlert,
+  deleteAlert,
+  fetchAlerts,
+  fetchAvailableMeters,
+  updateAlert,
+} from "../redux/thunks/alertThunk";
+import {  clearAlertError,}from "../redux/slice/alertSlice";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
-const AlertAndNotification = ({ userRole = "admin" }) => {
-  const [userType, setUserType] = useState(userRole);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [notifications, setNotifications] = useState(null);
-  const [usersList, setUsersList] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [activeTab, setActiveTab] = useState("users"); // 'users' or 'adminNotifications'
-  const itemsPerPage = 6;
+const SystemAlertCard = ({
+  alert,
+  toggleAlertStatus,
+  handleEditAlert,
+  handleDeleteAlert,
+}) => {
+  const userRole = useSelector((state) => state.auth.user.role);
+  const userId = useSelector((state) => state.auth.user.id);
 
+  // Check if current user can edit this alert
+  const canEdit =
+    userRole === "admin"
+      ? alert.editable // admin can edit any alert if editable
+      : userRole === "user" &&
+        alert.createdBy === "user" &&
+        alert.userId.toString() === userId.toString(); // user can edit only their own alerts
 
+  // Check if current user can delete this alert
+  const canDelete =
+    userRole === "admin"
+      ? alert.editable // admin can delete any alert if editable
+      : userRole === "user" &&
+        alert.createdBy === "user" &&
+        alert.userId.toString() === userId.toString(); // user can delete only their own alerts
 
-    const dispatch = useDispatch();
+  const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
+  const [notificationSettings, setNotificationSettings] = useState({
+    user: {
+      email: alert.notificationSettings?.user?.email || false,
+      sms: alert.notificationSettings?.user?.sms || false,
+    },
+    admin: {
+      email: alert.notificationSettings?.admin?.email || false,
+      sms: alert.notificationSettings?.admin?.sms || false,
+    },
+  });
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(setHeaderTitle("Notifiaction"));
+  const conditionLabels = {
+    ">": "Greater than",
+    "<": "Less than",
+    ">=": "Greater than or equal",
+    "<=": "Less than or equal",
+    "==": "Equal to",
+    "!=": "Not equal to",
+  };
+
+  const handleNotificationSettingChange = (recipient, mode, checked) => {
+    setNotificationSettings((prev) => ({
+      ...prev,
+      [recipient]: {
+        ...prev[recipient],
+        [mode]: checked,
+      },
+    }));
+  };
+
+  const saveNotificationSettings = () => {
     dispatch(
-      setBreadcrumbs([
-        // { label: "Home", link: "/home" },  // Updated label for clarity
-        { label: "Notifications" ,link:"/alertandnotification"},
-      ])
+      updateAlert({
+        id: alert._id,
+        updateData: { notificationSettings },
+      })
     );
-  }, []);
-  const mockAdminNotifications = [
-    {
-      _id: "ADM-1",
-      alertType: "High Load Usage",
-      message:
-        "High load detected on Meter ID #MTR456 for User ID #USR789. Please reduce usage to avoid overload.",
-      value: "6.2kW",
-      mode: "Email",
-      time: "2025-01-16T09:15:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-2",
-      alertType: "Security Alert",
-      message: "Unusual login attempt detected",
-      value: "From IP: 192.168.1.100",
-      mode: "Text",
-      time: "2025-01-15T22:30:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-3",
-      alertType: "Maintenance Required",
-      message: "Meter MTR-004 needs firmware update",
-      value: "MTR-004",
-      mode: "Email",
-      time: "2025-01-14T14:45:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-4",
-      alertType: "Reverse Polarity",
-      message:
-        "Reverse current detected for Meter ID #MTR321 (User ID #USR654). Downlink sent to protect the system.",
-      value: "Reverse Current",
-      mode: "Text",
-      time: "2025-01-16T11:00:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-5",
-      alertType: "Magnetic Interference",
-      message:
-        "We detected possible magnetic interference on Meter ID #MTR888 (User ID #USR333). Please ensure the area is safe.",
-      value: "Magnet detected",
-      mode: "Email",
-      time: "2025-01-16T10:30:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-6",
-      alertType: "Current Imbalance",
-      message:
-        "Phase current imbalance noticed – please check wiring or load for Meter ID #MTR567.",
-      value: "R:Y:B = 5A:12A:7A",
-      mode: "Email",
-      time: "2025-01-16T09:00:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-7",
-      alertType: "Neutral Voltage Issue",
-      message:
-        "Voltage fluctuation detected – this may damage appliances (Meter ID #MTR678).",
-      value: "Neutral = 18V",
-      mode: "Text",
-      time: "2025-01-16T08:30:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-8",
-      alertType: "Meter Offline",
-      message:
-        "Meter #MTR123 (User ID #USR987) is offline or not responding for over 3 hours.",
-      value: "Last seen: 05:30 AM",
-      mode: "Email",
-      time: "2025-01-16T08:00:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-9",
-      alertType: "Garbage Uplink Data",
-      message:
-        "Meter #MTR456 (User #USR789) sent invalid data (01FFFFF) 3 times. Please verify.",
-      value: "3x Invalid packets",
-      mode: "Email",
-      time: "2025-01-15T19:00:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-10",
-      alertType: "No Usage Detected",
-      message:
-        "No usage detected today on Meter ID #MTR123 for User ID #USR456. May indicate no one is home or a device issue.",
-      value: "0 Units",
-      mode: "Text",
-      time: "2025-01-15T21:00:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-11",
-      alertType: "High Load vs Previous",
-      message:
-        "Today's load is 50% higher than any previous day for Meter ID #MTR890 (User ID #USR222).",
-      value: "9.5kW today",
-      mode: "Email",
-      time: "2025-01-15T20:00:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-12",
-      alertType: "Spike in Usage",
-      message: "Unusual electricity usage detected today.",
-      value: "3× Daily Avg",
-      mode: "Text",
-      time: "2025-01-15T18:00:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-13",
-      alertType: "Meter Offline",
-      message: "Meter #MTR456 is offline or not responding for over 3 hours.",
-      value: "Last seen: 02:00 PM",
-      mode: "Email",
-      time: "2025-01-15T17:00:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-14",
-      alertType: "Reverse Polarity",
-      message:
-        "Reverse current detected for Meter ID #MTR654 (User ID #USR100).",
-      value: "Fault Detected",
-      mode: "Text",
-      time: "2025-01-15T16:00:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-15",
-      alertType: "Current Imbalance",
-      message: "Current imbalance detected on Meter MTR010",
-      value: "R:5A G:12A B:7A",
-      mode: "Email",
-      time: "2025-01-15T15:30:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-16",
-      alertType: "Garbage Uplink Data",
-      message: "Meter MTR777 sent corrupt data pattern multiple times",
-      value: "01FFFFF",
-      mode: "Email",
-      time: "2025-01-15T14:00:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-17",
-      alertType: "Magnetic Interference",
-      message: "Possible magnetic tampering detected – Meter ID #MTR987",
-      value: "Magnet Triggered",
-      mode: "Text",
-      time: "2025-01-15T13:00:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-18",
-      alertType: "Neutral Voltage Issue",
-      message: "Voltage on neutral exceeded 15V threshold.",
-      value: "Neutral = 16.5V",
-      mode: "Email",
-      time: "2025-01-15T12:30:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-19",
-      alertType: "Spike in Usage",
-      message: "Daily usage has doubled for Meter ID #MTR007.",
-      value: "4 units → 10 units",
-      mode: "Email",
-      time: "2025-01-15T12:00:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-20",
-      alertType: "Security Alert",
-      message: "Multiple failed login attempts detected.",
-      value: "5 attempts",
-      mode: "Text",
-      time: "2025-01-15T11:30:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-21",
-      alertType: "Maintenance Required",
-      message: "Low signal strength on Meter ID #MTR006",
-      value: "RSSI = -105 dBm",
-      mode: "Email",
-      time: "2025-01-15T11:00:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-22",
-      alertType: "System Alert",
-      message: "Memory usage exceeded 80%",
-      value: "81% RAM",
-      mode: "Email",
-      time: "2025-01-15T10:30:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-23",
-      alertType: "Garbage Uplink Data",
-      message: "Invalid data received multiple times from Meter MTR-300",
-      value: "Repeated Code: XXFFF",
-      mode: "Email",
-      time: "2025-01-15T09:45:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-24",
-      alertType: "Meter Offline",
-      message: "No response from Meter ID #MTR110 for 5 hours",
-      value: "Offline",
-      mode: "Text",
-      time: "2025-01-15T09:15:00Z",
-      status: "enabled",
-    },
-    {
-      _id: "ADM-25",
-      alertType: "Reverse Polarity",
-      message:
-        "Meter #MTR999 has reversed current. Please inspect immediately.",
-      value: "Alert: Polarity Mismatch",
-      mode: "Email",
-      time: "2025-01-15T08:00:00Z",
-      status: "enabled",
-    },
+    setIsNotificationModalOpen(false);
+  };
+
+  return (
+    <div className="bg-white shadow-md rounded-2xl p-5 w-full h-full min-h-[180px] max-w-md border border-gray-200 relative hover:shadow-lg transition-shadow flex flex-col">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center space-x-2">
+          <h2 className="text-medium font-semibold text-gray-900">
+            {alert.alertType}
+          </h2>
+        </div>
+
+        <div className="flex items-center gap-3">
+          {canEdit && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEditAlert(alert);
+              }}
+              className="p-1 text-gray-400 hover:text-gray-600 cursor-pointer"
+              data-tooltip-id={`edit-btn-${alert._id}`}
+              data-tooltip-content="Edit alert"
+            >
+              <Edit className="w-5 h-5" />
+              <ReactTooltip
+                id={`edit-btn-${alert._id}`}
+                className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+              />
+            </button>
+          )}
+
+          {canDelete && !alert.isSystemAlert && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteAlert(alert._id);
+              }}
+              className="p-1 text-gray-400 hover:text-red-600 cursor-pointer"
+              data-tooltip-id={`delete-btn-${alert._id}`}
+              data-tooltip-content="Delete alert"
+            >
+              <Trash2 className="w-5 h-5" />
+              <ReactTooltip
+                id={`delete-btn-${alert._id}`}
+                className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+              />
+            </button>
+          )}
+
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleAlertStatus(alert._id, alert.isActive);
+            }}
+            className={`relative inline-flex items-center h-8 w-16 rounded-full transition-all duration-300 cursor-pointer shadow-sm border-2 ${
+              alert.isActive
+                ? "bg-green-600 border-green-600 hover:bg-green-700 hover:border-green-700"
+                : "bg-red-500 border-red-500 hover:bg-red-600 hover:border-red-600"
+            }`}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleAlertStatus(alert._id, alert.isActive);
+              }
+            }}
+            data-tooltip-id={`toggle-btn-${alert._id}`}
+            data-tooltip-content={
+              alert.isActive ? "Turn alert off" : "Turn alert on"
+            }
+          >
+            {/* Toggle Circle */}
+            <div
+              className={`absolute top-0.5 left-0.5 bg-white w-6 h-6 rounded-full shadow-lg transform transition-transform duration-300 flex items-center justify-center text-[10px] font-bold ${
+                alert.isActive
+                  ? "translate-x-8 text-green-600"
+                  : "translate-x-0 text-red-500"
+              }`}
+            >
+              {alert.isActive ? "ON" : "OFF"}
+            </div>
+
+            {/* Status Text */}
+            <span
+              className={`absolute inset-0 flex items-center body-xs  font-medium transition-opacity duration-200 text-white px-2 ${
+                alert.isActive ? "justify-end pr-3" : "justify-start pl-3"
+              }`}
+            >
+              {alert.name}
+            </span>
+
+            {/* Tooltip */}
+            <ReactTooltip
+              id={`toggle-btn-${alert._id}`}
+              className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 body-sm   flex-grow">
+        <div className="flex flex-col">
+          <span className="text-gray-500">Condition</span>
+          <span className="font-medium text-gray-900">
+            {conditionLabels[alert.condition] || alert.condition}
+          </span>
+        </div>
+
+        <div className="flex flex-col">
+          <span className="text-gray-500">Value</span>
+          <span className="font-medium text-gray-900">{alert.value}</span>
+        </div>
+
+        {/* <div className="flex flex-col col-span-2">
+          <span className="text-gray-500">Notification Settings</span>
+          <button
+            onClick={() => setIsNotificationModalOpen(true)}
+            className="font-medium text-gray-900 flex space-x-2 items-center hover:bg-gray-50 p-2 rounded-md transition-colors cursor-pointer"
+            data-tooltip-id={`notification-settings-btn-${alert._id}`}
+            data-tooltip-content="Click to change notification settings"
+          >
+            {Object.entries(alert.notificationSettings?.user || {})
+              .filter(([mode, enabled]) => enabled)
+              .map(([mode]) =>
+                mode === "email" ? (
+                  <Mail
+                    key={mode}
+                    className="w-4 h-4 text-gray-700"
+                    data-tooltip-id={`${alert._id}-user-${mode}`}
+                    data-tooltip-content={`User ${mode.toUpperCase()}`}
+                  />
+                ) : (
+                  <MessageSquare
+                    key={mode}
+                    className="w-4 h-4 text-gray-700"
+                    data-tooltip-id={`${alert._id}-user-${mode}`}
+                    data-tooltip-content={`User ${mode.toUpperCase()}`}
+                  />
+                )
+              )}
+            {Object.entries(alert.notificationSettings?.admin || {})
+              .filter(([mode, enabled]) => enabled)
+              .map(([mode]) =>
+                mode === "email" ? (
+                  <Mail
+                    key={mode}
+                    className="w-4 h-4 text-blue-600"
+                    data-tooltip-id={`${alert._id}-admin-${mode}`}
+                    data-tooltip-content={`Admin ${mode.toUpperCase()}`}
+                  />
+                ) : (
+                  <MessageSquare
+                    key={mode}
+                    className="w-4 h-4 text-blue-600"
+                    data-tooltip-id={`${alert._id}-admin-${mode}`}
+                    data-tooltip-content={`Admin ${mode.toUpperCase()}`}
+                  />
+                )
+              )}
+            {Object.values(alert.notificationSettings?.user || {}).every((v) => !v) &&
+             Object.values(alert.notificationSettings?.admin || {}).every((v) => !v) && (
+              <span
+                data-tooltip-id={`${alert._id}-none`}
+                data-tooltip-content="No notification settings configured"
+              >
+                None
+              </span>
+            )}
+
+         
+            <ReactTooltip
+              id={`notification-settings-btn-${alert._id}`}
+              className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+            />
+            {Object.entries(alert.notificationSettings?.user || {})
+              .filter(([mode, enabled]) => enabled)
+              .map(([mode]) => (
+                <ReactTooltip
+                  key={mode}
+                  id={`${alert._id}-user-${mode}`}
+                  className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+                />
+              ))}
+            {Object.entries(alert.notificationSettings?.admin || {})
+              .filter(([mode, enabled]) => enabled)
+              .map(([mode]) => (
+                <ReactTooltip
+                  key={mode}
+                  id={`${alert._id}-admin-${mode}`}
+                  className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+                />
+              ))}
+            {Object.values(alert.notificationSettings?.user || {}).every((v) => !v) &&
+             Object.values(alert.notificationSettings?.admin || {}).every((v) => !v) && (
+              <ReactTooltip
+                id={`${alert._id}-none`}
+                className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+              />
+            )}
+          </button>
+        </div> */}
+
+
+{/* {heregy} */}
+        <div className="flex flex-col col-span-2">
+  <span className="text-gray-500">Notification Settings</span>
+  <button
+    onClick={() => setIsNotificationModalOpen(true)}
+    className="font-medium text-gray-900 flex space-x-2 items-center hover:bg-gray-50 p-2 rounded-md transition-colors cursor-pointer"
+    data-tooltip-id={`notification-settings-btn-${alert._id}`}
+    data-tooltip-content="Click to change notification settings"
+  >
+    {/* ✅ Show User modes always */}
+    {Object.entries(alert.notificationSettings?.user || {})
+      .filter(([mode, enabled]) => enabled)
+      .map(([mode]) =>
+        mode === "email" ? (
+          <Mail
+            key={mode}
+            className="w-4 h-4 text-gray-700"
+            data-tooltip-id={`${alert._id}-user-${mode}`}
+            data-tooltip-content={`User ${mode.toUpperCase()}`}
+          />
+        ) : (
+          <MessageSquare
+            key={mode}
+            className="w-4 h-4 text-gray-700"
+            data-tooltip-id={`${alert._id}-user-${mode}`}
+            data-tooltip-content={`User ${mode.toUpperCase()}`}
+          />
+        )
+      )}
+
+    {/* ✅ Show Admin modes ONLY if role === "admin" */}
+    {userRole === "admin" &&
+      Object.entries(alert.notificationSettings?.admin || {})
+        .filter(([mode, enabled]) => enabled)
+        .map(([mode]) =>
+          mode === "email" ? (
+            <Mail
+              key={mode}
+              className="w-4 h-4 text-blue-600"
+              data-tooltip-id={`${alert._id}-admin-${mode}`}
+              data-tooltip-content={`Admin ${mode.toUpperCase()}`}
+            />
+          ) : (
+            <MessageSquare
+              key={mode}
+              className="w-4 h-4 text-blue-600"
+              data-tooltip-id={`${alert._id}-admin-${mode}`}
+              data-tooltip-content={`Admin ${mode.toUpperCase()}`}
+            />
+          )
+        )}
+
+    {/* ✅ Handle None case */}
+    {Object.values(alert.notificationSettings?.user || {}).every((v) => !v) &&
+     (userRole !== "admin" ||
+      Object.values(alert.notificationSettings?.admin || {}).every((v) => !v)) && (
+      <span
+        data-tooltip-id={`${alert._id}-none`}
+        data-tooltip-content="No notification settings configured"
+      >
+        None
+      </span>
+    )}
+
+    {/* Tooltips */}
+    <ReactTooltip
+      id={`notification-settings-btn-${alert._id}`}
+      className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+    />
+
+    {Object.entries(alert.notificationSettings?.user || {})
+      .filter(([mode, enabled]) => enabled)
+      .map(([mode]) => (
+        <ReactTooltip
+          key={mode}
+          id={`${alert._id}-user-${mode}`}
+          className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+        />
+      ))}
+
+    {userRole === "admin" &&
+      Object.entries(alert.notificationSettings?.admin || {})
+        .filter(([mode, enabled]) => enabled)
+        .map(([mode]) => (
+          <ReactTooltip
+            key={mode}
+            id={`${alert._id}-admin-${mode}`}
+            className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+          />
+        ))}
+
+    {Object.values(alert.notificationSettings?.user || {}).every((v) => !v) &&
+     (userRole !== "admin" ||
+      Object.values(alert.notificationSettings?.admin || {}).every((v) => !v)) && (
+      <ReactTooltip
+        id={`${alert._id}-none`}
+        className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+      />
+    )}
+  </button>
+</div>
+
+      </div>
+
+      {/* Notification Settings Modal */}
+      {isNotificationModalOpen && (
+        <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
+            <div className="p-4 border-b border-gray-500 flex justify-between items-center">
+              <h3 className="text-lg font-semibold">Notification Settings</h3>
+              <button
+                onClick={() => setIsNotificationModalOpen(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="p-4 space-y-6">
+              <div>
+                <h4 className="font-medium text-gray-700 mb-3">User</h4>
+                <div className="space-y-3">
+                  <label className="flex items-center space-x-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={notificationSettings.user.email}
+                      onChange={(e) => handleNotificationSettingChange("user", "email", e.target.checked)}
+                      className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                    />
+                    <div className="flex items-center space-x-2">
+                      <Mail className="h-5 w-5 text-gray-700" />
+                      <span className="text-gray-700">Email</span>
+                    </div>
+                  </label>
+                  <label className="flex items-center space-x-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={notificationSettings.user.sms}
+                      onChange={(e) => handleNotificationSettingChange("user", "sms", e.target.checked)}
+                      className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                    />
+                    <div className="flex items-center space-x-2">
+                      <MessageSquare className="h-5 w-5 text-gray-700" />
+                      <span className="text-gray-700">SMS</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+           {userRole==="admin" && (   <div>
+                <h4 className="font-medium text-gray-700 mb-3">Admin</h4>
+                <div className="space-y-3">
+                  <label className="flex items-center space-x-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={notificationSettings.admin.email}
+                      onChange={(e) => handleNotificationSettingChange("admin", "email", e.target.checked)}
+                      className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                    />
+                    <div className="flex items-center space-x-2">
+                      <Mail className="h-5 w-5 text-blue-600" />
+                      <span className="text-gray-700">Email</span>
+                    </div>
+                  </label>
+                  <label className="flex items-center space-x-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={notificationSettings.admin.sms}
+                      onChange={(e) => handleNotificationSettingChange("admin", "sms", e.target.checked)}
+                      className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                    />
+                    <div className="flex items-center space-x-2">
+                      <MessageSquare className="h-5 w-5 text-blue-600" />
+                      <span className="text-gray-700">SMS</span>
+                    </div>
+                  </label>
+                </div>
+              </div>)}
+            </div>
+
+            <div className="p-4 border-t border-gray-500 flex justify-end space-x-3">
+              <button
+                onClick={() => setIsNotificationModalOpen(false)}
+                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={saveNotificationSettings}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const AlertCondition = ({ meterId, onClose, isAdminView, searchTerm, onSearchChange }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const dispatch = useDispatch();
+  const { alerts, availableMeters, loading, error } = useSelector(
+    (state) => state.alerts
+  );
+
+  const userId = useSelector(selectUserId);
+  const userRole = useSelector(selectUserRole);
+  const isAdmin = userRole === "admin";
+  const isUser = userRole === "user";
+  const { id } = useSelector((state) => state.auth.user);
+
+  const [activeAlertTab, setActiveAlertTab] = useState("system");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentAlert, setCurrentAlert] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+
+  const conditionOptions = [
+    { value: ">", label: "Greater than" },
+    { value: "<", label: "Less than" },
+    { value: ">=", label: "Greater than or equal" },
+    { value: "<=", label: "Less than or equal" },
+    { value: "==", label: "Equal to" },
+    { value: "!=", label: "Not equal to" },
   ];
 
-  // Simulate API call to fetch notifications
+  const [formData, setFormData] = useState({
+    alertName: "",
+    alertType: null,
+    condition: conditionOptions[0],
+    value: "",
+    notificationSettings: {
+      user: { email: false, sms: false },
+      admin: { email: true, sms: false }, // Default: admin email enabled
+    },
+    meterIds: [],
+    isSystemAlert: false,
+    editable: true,
+  });
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
+        let params = {};
 
-        if (userType === "admin" && !selectedUser && activeTab === "users") {
-          // Fetch users list for admin
-          setUsersList(mockAdminUsers);
-        } else if (userType === "admin" && activeTab === "adminNotifications") {
-          // For admin notifications tab, we don't need to fetch anything as we're using mock data
-          setLoading(false);
-          return;
-        } else {
-          // Fetch notifications for user or specific user for admin
-          setNotifications(
-            userType === "user"
-              ? mockUserNotifications
-              : selectedUser === "USR-12346"
-              ? mockUserNotifications2
-              : selectedUser === "USR-12347"
-              ? mockUserNotifications3
-              : mockUserNotifications
-          );
+        if (userRole === "admin") {
+          params.isSystemAlert = activeAlertTab === "system";
+        } else if (userRole === "user") {
+          if (activeAlertTab === "system") {
+            params.isSystemAlert = true;
+          } else {
+            params.isSystemAlert = false;
+          }
         }
 
-        setLoading(false);
+        await dispatch(fetchAlerts(params)).unwrap();
+
+        if (userRole === "admin") {
+          await dispatch(
+            fetchAvailableMeters(activeAlertTab === "user")
+          ).unwrap();
+        } else if (userRole === "user") {
+          await dispatch(fetchAvailableMeters(false)).unwrap();
+        }
       } catch (error) {
-        console.error("Error fetching data:", error);
-        setLoading(false);
+        console.error("Failed to fetch data:", error);
+        toast.error("Failed to fetch alerts data");
       }
     };
 
     fetchData();
-  }, [userType, selectedUser, activeTab]);
+  }, [dispatch, meterId, activeAlertTab, userRole]);
 
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(clearAlertError());
+    }
+  }, [error, dispatch]);
 
-  const mockUserNotifications = {
-    userId: "USR-12345",
-    meterId: "MTR-001",
-    status: "enabled",
-    lastNotificationDate: "2025-01-15T14:30:00Z",
-    userNotification: [
-      {
-        _id: "1",
-        alertType: "Low Balance",
-        message: "Your balance is low. Please recharge soon.",
-        value: "₹10 (threshold)",
-        mode: "Text",
-        time: "2025-01-15T14:30:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "2",
-        alertType: "Balance Expired",
-        message: "Your balance has expired. Emergency 2 units activated.",
-        value: "₹0",
-        mode: "Text",
-        time: "2025-01-15T10:15:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "3",
-        alertType: "Recharge Successful",
-        message: "Recharge of ₹100 successful. New balance: ₹150.",
-        value: "₹100",
-        mode: "Text",
-        time: "2025-01-14T18:45:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "4",
-        alertType: "Recharge Failed",
-        message: "Recharge failed. Please try again or check payment method.",
-        value: "₹200 attempt",
-        mode: "Text",
-        time: "2025-01-14T17:30:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "5",
-        alertType: "High Load Usage",
-        message: "High load detected on Meter ID #MTR001. Please reduce usage.",
-        value: "6.5kW",
-        mode: "Text",
-        time: "2025-01-14T16:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "6",
-        alertType: "Spike in Usage",
-        message: "Unusual electricity usage detected today.",
-        value: "5× Avg",
-        mode: "Text",
-        time: "2025-01-14T15:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "7",
-        alertType: "Daily/Weekly Report",
-        message: "You used 12 units today.",
-        value: "12 units",
-        mode: "Email",
-        time: "2025-01-14T13:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "8",
-        alertType: "No Usage Detected",
-        message: "No usage detected today on Meter ID #MTR001.",
-        value: "0 Units",
-        mode: "Text",
-        time: "2025-01-14T12:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "9",
-        alertType: "Reminder to Recharge",
-        message: "Hey! It’s been a while since your last recharge. Need help?",
-        value: "7 days since last recharge",
-        mode: "Text",
-        time: "2025-01-13T10:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "10",
-        alertType: "Festival Offer",
-        message: "Recharge ₹500 and get ₹50 bonus this Diwali!",
-        value: "₹500 offer",
-        mode: "Email",
-        time: "2025-01-12T09:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "11",
-        alertType: "High Load vs Previous",
-        message: "Today's load is 50% higher than any previous day.",
-        value: "9.5kW today",
-        mode: "Email",
-        time: "2025-01-12T08:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "12",
-        alertType: "Low Balance",
-        message: "Your balance is low. Please recharge soon.",
-        value: "₹9",
-        mode: "Text",
-        time: "2025-01-12T07:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "13",
-        alertType: "Recharge Successful",
-        message: "Recharge of ₹300 successful. New balance: ₹320.",
-        value: "₹300",
-        mode: "Text",
-        time: "2025-01-11T20:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "14",
-        alertType: "Daily/Weekly Report",
-        message: "You used 10 units today.",
-        value: "10 units",
-        mode: "Email",
-        time: "2025-01-11T18:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "15",
-        alertType: "No Usage Detected",
-        message: "No usage detected today on Meter ID #MTR001.",
-        value: "0 Units",
-        mode: "Text",
-        time: "2025-01-11T17:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "16",
-        alertType: "Reminder to Recharge",
-        message: "Still waiting for your recharge. Need help?",
-        value: "Reminder #2",
-        mode: "Text",
-        time: "2025-01-11T15:30:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "17",
-        alertType: "Festival Offer",
-        message: "Lohri Special – Recharge ₹1000 get ₹150 bonus!",
-        value: "₹1000 offer",
-        mode: "Email",
-        time: "2025-01-11T14:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "18",
-        alertType: "High Load Usage",
-        message: "High load detected on Meter ID #MTR001. Please reduce usage.",
-        value: "7.1kW",
-        mode: "Text",
-        time: "2025-01-11T13:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "19",
-        alertType: "Recharge Failed",
-        message: "Recharge failed due to payment timeout.",
-        value: "₹150 attempt",
-        mode: "Text",
-        time: "2025-01-11T12:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "20",
-        alertType: "Low Balance",
-        message: "Your balance is now below ₹5. Recharge immediately.",
-        value: "₹4.50",
-        mode: "Text",
-        time: "2025-01-11T11:30:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "21",
-        alertType: "Recharge Successful",
-        message: "Recharge of ₹250 successful. New balance: ₹270.",
-        value: "₹250",
-        mode: "Text",
-        time: "2025-01-11T10:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "22",
-        alertType: "Spike in Usage",
-        message: "Usage spike detected – today’s usage is 6× the average.",
-        value: "15 units",
-        mode: "Text",
-        time: "2025-01-10T20:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "23",
-        alertType: "Daily/Weekly Report",
-        message: "This week you used 85 units.",
-        value: "85 units",
-        mode: "Email",
-        time: "2025-01-10T19:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "24",
-        alertType: "Festival Offer",
-        message: "Republic Day: Recharge ₹750 and get ₹75 bonus!",
-        value: "₹750 promo",
-        mode: "Email",
-        time: "2025-01-10T18:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "25",
-        alertType: "No Usage Detected",
-        message:
-          "0 usage detected for 2 days. Please verify if the meter is working.",
-        value: "0 Units",
-        mode: "Text",
-        time: "2025-01-10T17:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "26",
-        alertType: "Reminder to Recharge",
-        message: "Don’t forget to recharge and keep your power running!",
-        value: "12 days since recharge",
-        mode: "Text",
-        time: "2025-01-10T15:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "27",
-        alertType: "Recharge Failed",
-        message: "Recharge unsuccessful – bank declined the transaction.",
-        value: "₹300 attempt",
-        mode: "Text",
-        time: "2025-01-10T14:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "28",
-        alertType: "Balance Expired",
-        message: "Your emergency balance has expired.",
-        value: "0.00 units left",
-        mode: "Text",
-        time: "2025-01-10T13:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "29",
-        alertType: "Recharge Successful",
-        message: "Recharge of ₹120 successful.",
-        value: "₹120",
-        mode: "Text",
-        time: "2025-01-10T12:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "30",
-        alertType: "Daily/Weekly Report",
-        message: "Today’s usage: 7.4 units.",
-        value: "7.4 units",
-        mode: "Email",
-        time: "2025-01-10T10:00:00Z",
-        status: "enabled",
-      },
+  const meterOptions = availableMeters.map((meter) => ({
+    value: meter._id,
+    label: meter.name || meter.meterSerialNumber,
+  }));
 
-      // Continue adding up to 50 — will provide next set in follow-up to keep format clean
-    ],
-  };
-
-
-
-  const mockUserNotifications2 = {
-    userId: "USR-12346",
-    meterId: "MTR-002",
-    status: "enabled",
-    lastNotificationDate: "2025-01-14T18:45:00Z",
-    userNotification: [
-      {
-        _id: "1",
-        alertType: "Recharge Successful",
-        message: "Recharge of ₹200 successful. New balance: ₹250.",
-        value: "₹200",
-        mode: "Text",
-        time: "2025-01-14T18:45:00Z",
-      },
-      {
-        _id: "2",
-        alertType: "Low Balance",
-        message: "Your balance is low. Please recharge soon.",
-        value: "₹8",
-        mode: "Text",
-        time: "2025-01-14T16:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "3",
-        alertType: "Balance Expired",
-        message: "Your balance has expired. Emergency 2 units activated.",
-        value: "₹0",
-        mode: "Text",
-        time: "2025-01-14T15:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "4",
-        alertType: "Spike in Usage",
-        message: "Unusual electricity usage detected today.",
-        value: "4× Avg",
-        mode: "Text",
-        time: "2025-01-14T14:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "5",
-        alertType: "Recharge Failed",
-        message: "Recharge failed. Please try again or check payment method.",
-        value: "₹300 attempt",
-        mode: "Text",
-        time: "2025-01-14T13:30:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "6",
-        alertType: "Reminder to Recharge",
-        message: "You haven’t recharged in a while. Need help?",
-        value: "10 days since recharge",
-        mode: "Text",
-        time: "2025-01-14T12:45:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "7",
-        alertType: "No Usage Detected",
-        message: "No usage detected today on Meter ID #MTR002.",
-        value: "0 Units",
-        mode: "Text",
-        time: "2025-01-14T11:20:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "8",
-        alertType: "Daily/Weekly Report",
-        message: "You used 14 units today.",
-        value: "14 units",
-        mode: "Email",
-        time: "2025-01-14T10:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "9",
-        alertType: "High Load Usage",
-        message: "High load detected on Meter ID #MTR002. Please reduce usage.",
-        value: "6.8kW",
-        mode: "Text",
-        time: "2025-01-13T19:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "10",
-        alertType: "Recharge Successful",
-        message: "Recharge of ₹150 successful. New balance: ₹160.",
-        value: "₹150",
-        mode: "Text",
-        time: "2025-01-13T17:45:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "11",
-        alertType: "Festival Offer",
-        message: "Recharge ₹500 and get ₹50 bonus this Diwali!",
-        value: "₹500 offer",
-        mode: "Email",
-        time: "2025-01-13T12:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "12",
-        alertType: "High Load vs Previous",
-        message: "Today's load is 50% higher than any previous day.",
-        value: "9.2kW today",
-        mode: "Email",
-        time: "2025-01-13T10:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "13",
-        alertType: "Recharge Failed",
-        message: "Recharge failed due to network timeout.",
-        value: "₹200",
-        mode: "Text",
-        time: "2025-01-13T09:30:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "14",
-        alertType: "Recharge Successful",
-        message: "Recharge of ₹100 successful. New balance: ₹120.",
-        value: "₹100",
-        mode: "Text",
-        time: "2025-01-12T20:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "15",
-        alertType: "Reminder to Recharge",
-        message: "Hey! Your power might run out soon. Recharge now.",
-        value: "No recharge in 7 days",
-        mode: "Text",
-        time: "2025-01-12T10:00:00Z",
-        status: "enabled",
-      },
-    ],
-  };
-
- 
-
-  const mockUserNotifications3 = {
-    userId: "USR-12347",
-    meterId: "MTR-003",
-    status: "disabled",
-    lastNotificationDate: "2025-01-12T16:20:00Z",
-    userNotification: [
-      {
-        _id: "1",
-        alertType: "Meter Offline",
-        message: "Meter is offline or not responding.",
-        value: "Offline Duration",
-        mode: "Email",
-        time: "2025-01-12T16:20:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "2",
-        alertType: "Low Balance",
-        message: "Your balance is low. Please recharge soon.",
-        value: "₹6",
-        mode: "Text",
-        time: "2025-01-12T14:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "3",
-        alertType: "Recharge Failed",
-        message: "Recharge failed due to payment gateway issue.",
-        value: "₹300 attempt",
-        mode: "Text",
-        time: "2025-01-12T13:15:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "4",
-        alertType: "Festival Offer",
-        message: "Recharge ₹1000 and get ₹150 bonus for Pongal!",
-        value: "₹1000 promo",
-        mode: "Email",
-        time: "2025-01-12T12:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "5",
-        alertType: "Reminder to Recharge",
-        message: "Recharge now to avoid service interruption.",
-        value: "No recharge in 10 days",
-        mode: "Text",
-        time: "2025-01-12T10:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "6",
-        alertType: "Balance Expired",
-        message: "Your balance has expired. Emergency 2 units activated.",
-        value: "₹0",
-        mode: "Text",
-        time: "2025-01-11T18:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "7",
-        alertType: "Spike in Usage",
-        message: "Unusual electricity usage detected today.",
-        value: "6× Average",
-        mode: "Text",
-        time: "2025-01-11T15:30:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "8",
-        alertType: "Recharge Successful",
-        message: "Recharge of ₹400 successful. New balance: ₹420.",
-        value: "₹400",
-        mode: "Text",
-        time: "2025-01-11T13:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "9",
-        alertType: "High Load Usage",
-        message: "High load detected. Please reduce usage.",
-        value: "7.2kW",
-        mode: "Text",
-        time: "2025-01-10T21:00:00Z",
-        status: "enabled",
-      },
-      {
-        _id: "10",
-        alertType: "No Usage Detected",
-        message: "No usage detected today. Check if someone is home.",
-        value: "0 Units",
-        mode: "Text",
-        time: "2025-01-10T20:00:00Z",
-        status: "enabled",
-      },
-    ],
-  };
-
-  const mockAdminUsers = [
-    {
-      _id: "1",
-      userId: "USR-12345",
-      meterId: "MTR-001",
-      lastNotificationDate: "2025-01-15T14:30:00Z",
-      status: "enabled",
-      notificationCount: 2,
-    },
-    {
-      _id: "2",
-      userId: "USR-12346",
-      meterId: "MTR-002",
-      lastNotificationDate: "2025-01-14T18:45:00Z",
-      status: "enabled",
-      notificationCount: 1,
-    },
-    {
-      _id: "3",
-      userId: "USR-12347",
-      meterId: "MTR-003",
-      lastNotificationDate: "2025-01-12T16:20:00Z",
-      status: "disabled",
-      notificationCount: 1,
-    },
-    {
-      _id: "4",
-      userId: "USR-12348",
-      meterId: "MTR-004",
-      lastNotificationDate: "2025-01-13T11:00:00Z",
-      status: "enabled",
-      notificationCount: 3,
-    },
-    {
-      _id: "5",
-      userId: "USR-12349",
-      meterId: "MTR-005",
-      lastNotificationDate: "2025-01-11T10:15:00Z",
-      status: "enabled",
-      notificationCount: 5,
-    },
-    {
-      _id: "6",
-      userId: "USR-12350",
-      meterId: "MTR-006",
-      lastNotificationDate: "2025-01-10T09:25:00Z",
-      status: "disabled",
-      notificationCount: 2,
-    },
-    {
-      _id: "7",
-      userId: "USR-12351",
-      meterId: "MTR-007",
-      lastNotificationDate: "2025-01-09T14:10:00Z",
-      status: "enabled",
-      notificationCount: 4,
-    },
-    {
-      _id: "8",
-      userId: "USR-12352",
-      meterId: "MTR-008",
-      lastNotificationDate: "2025-01-08T17:55:00Z",
-      status: "enabled",
-      notificationCount: 2,
-    },
-    {
-      _id: "9",
-      userId: "USR-12353",
-      meterId: "MTR-009",
-      lastNotificationDate: "2025-01-07T08:45:00Z",
-      status: "enabled",
-      notificationCount: 6,
-    },
-    {
-      _id: "10",
-      userId: "USR-12354",
-      meterId: "MTR-010",
-      lastNotificationDate: "2025-01-06T12:30:00Z",
-      status: "disabled",
-      notificationCount: 3,
-    },
-    {
-      _id: "11",
-      userId: "USR-12355",
-      meterId: "MTR-011",
-      lastNotificationDate: "2025-01-05T16:20:00Z",
-      status: "enabled",
-      notificationCount: 1,
-    },
-    {
-      _id: "12",
-      userId: "USR-12356",
-      meterId: "MTR-012",
-      lastNotificationDate: "2025-01-04T13:40:00Z",
-      status: "enabled",
-      notificationCount: 0,
-    },
-    {
-      _id: "13",
-      userId: "USR-12357",
-      meterId: "MTR-013",
-      lastNotificationDate: "2025-01-03T11:00:00Z",
-      status: "enabled",
-      notificationCount: 2,
-    },
-    {
-      _id: "14",
-      userId: "USR-12358",
-      meterId: "MTR-014",
-      lastNotificationDate: "2025-01-02T15:15:00Z",
-      status: "disabled",
-      notificationCount: 4,
-    },
-    {
-      _id: "15",
-      userId: "USR-12359",
-      meterId: "MTR-015",
-      lastNotificationDate: "2025-01-01T18:00:00Z",
-      status: "enabled",
-      notificationCount: 2,
-    },
-    {
-      _id: "16",
-      userId: "USR-12360",
-      meterId: "MTR-016",
-      lastNotificationDate: "2024-12-31T10:30:00Z",
-      status: "enabled",
-      notificationCount: 5,
-    },
-    {
-      _id: "17",
-      userId: "USR-12361",
-      meterId: "MTR-017",
-      lastNotificationDate: "2024-12-30T09:00:00Z",
-      status: "enabled",
-      notificationCount: 1,
-    },
-    {
-      _id: "18",
-      userId: "USR-12362",
-      meterId: "MTR-018",
-      lastNotificationDate: "2024-12-29T14:30:00Z",
-      status: "disabled",
-      notificationCount: 2,
-    },
-    {
-      _id: "19",
-      userId: "USR-12363",
-      meterId: "MTR-019",
-      lastNotificationDate: "2024-12-28T12:00:00Z",
-      status: "enabled",
-      notificationCount: 3,
-    },
-    {
-      _id: "20",
-      userId: "USR-12364",
-      meterId: "MTR-020",
-      lastNotificationDate: "2024-12-27T11:45:00Z",
-      status: "enabled",
-      notificationCount: 4,
-    },
+  const alertTypeOptions = [
+    { value: "Low Balance", label: "Low Balance" },
+    { value: "Balance Expired", label: "Balance Expired" },
+    { value: "High Load Usage", label: "High Load Usage" },
+    { value: "Over Voltage Warning", label: "Over Voltage Warning" },
+    // { value: "Magnetic Interference", label: "Magnetic Interference" },
+    { value: "Reminder to Recharge", label: "Reminder to Recharge" },
   ];
+
+  const toggleAlertStatus = (id, currentStatus) => {
+    dispatch(
+      updateAlert({
+        id,
+        updateData: { isActive: !currentStatus },
+      })
+    );
+  };
+
+  const normalizeMeterIds = (arr) =>
+    (arr || [])
+      .map((x) => {
+        if (typeof x === "string") return x;
+        if (x && typeof x === "object") return x._id || x.value || "";
+        return "";
+      })
+      .filter(Boolean);
+
+  const handleEditAlert = (alert) => {
+    const currentUserRole = userRole;
+    const currentUserId = userId;
+
+    if (currentUserRole === "user") {
+      if (alert.createdBy !== "user" || alert.userId !== currentUserId) {
+        toast.error("You can only edit alerts you created");
+        return;
+      }
+    }
+
+    if (!alert.editable) {
+      toast.error("This alert type cannot be edited");
+      return;
+    }
+
+    const selectedIds = alert.meterIds
+      ? alert.meterIds.map((id) =>
+          typeof id === "object" ? id._id || id.value || id : id
+        )
+      : [];
+
+    setFormData({
+      alertName: alert.alertName,
+      alertType: { value: alert.alertType, label: alert.alertType },
+      condition:
+        conditionOptions.find((opt) => opt.value === alert.condition) ||
+        conditionOptions[0],
+      value: alert.value,
+      notificationSettings: { ...alert.notificationSettings },
+      meterIds: selectedIds,
+      isSystemAlert: alert.isSystemAlert,
+      editable: alert.editable,
+    });
+    setEditingId(alert._id);
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteAlert = (id) => {
+    const alertToDelete = alerts.find((alert) => alert._id === id);
+    if (!alertToDelete) return;
+
+    if (userRole === "user") {
+      if (
+        alertToDelete.createdBy !== "user" ||
+        alertToDelete.userId !== userId
+      ) {
+        toast.error("You can only delete alerts you created");
+        return;
+      }
+    } else if (userRole === "admin") {
+      if (alertToDelete.isSystemAlert) {
+        toast.error("System alerts cannot be deleted");
+        return;
+      }
+      if (
+        alertToDelete.createdBy === "user" &&
+        alertToDelete.adminId !== userId
+      ) {
+        toast.error("You can only delete alerts from your users");
+        return;
+      }
+    }
+
+    dispatch(deleteAlert(id));
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    if (name === "isSystemAlert") {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: checked,
+        meterIds: checked ? [] : prev.meterIds,
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: type === "checkbox" ? checked : value,
+      }));
+    }
+  };
+
+  const handleNotificationSettingChange = (recipient, mode, checked) => {
+    setFormData((prev) => ({
+      ...prev,
+      notificationSettings: {
+        ...prev.notificationSettings,
+        [recipient]: {
+          ...prev.notificationSettings[recipient],
+          [mode]: checked,
+        },
+      },
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (
+      !formData.alertName ||
+      !formData.alertType ||
+      (!formData.isSystemAlert && formData.meterIds.length === 0)
+    ) {
+      toast.error("Please fill all required fields");
+      return;
+    }
+    setIsSubmitting(true);
+    
+    // Prepare notification settings based on user role
+    let finalNotificationSettings;
+    
+    if (userRole === "user") {
+      // For users: only set user notifications, admin notifications default to false
+      finalNotificationSettings = {
+        user: formData.notificationSettings.user,
+        admin: { email: false, sms: false }
+      };
+    } else {
+      // For admins: use the settings from the form
+      finalNotificationSettings = formData.notificationSettings;
+    }
+
+    const alertData = {
+      alertName: formData.alertName,
+      alertType: formData.alertType.value,
+      condition: formData.condition.value,
+      value: formData.value,
+      notificationSettings: finalNotificationSettings,
+      meterIds: formData.meterIds,
+      isActive: true,
+      isSystemAlert: formData?.isSystemAlert ?? false,
+      editable: formData.editable,
+    };
+
+    try {
+      if (editingId) {
+        await dispatch(
+          updateAlert({ id: editingId, updateData: alertData })
+        ).unwrap();
+        toast.success("Alert updated successfully");
+      } else {
+        await dispatch(createAlert(alertData)).unwrap();
+        toast.success("Alert created successfully");
+      }
+
+      resetForm();
+      setIsModalOpen(false);
+      setEditingId(null);
+    } catch (error) {
+      console.log("----errr-",error)
+      toast.error(error.message || "Failed to save alert");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  
+  const resetForm = () => {
+    setFormData({
+      alertName: "",
+      alertType: null,
+      condition: conditionOptions[0],
+      value: "",
+      notificationSettings: {
+        user: { email: false, sms: false },
+        admin: { email: true, sms: false }, // Default: admin email enabled
+      },
+      meterIds: [],
+      isSystemAlert: false,
+      editable: true,
+    });
+  };
+
+  const systemAlerts = alerts.filter(
+    (alert) => alert && alert.isSystemAlert
+  );
+
+  let userAlerts = alerts.filter(
+    (alert) =>
+      alert &&
+      !alert.isSystemAlert &&
+      (userRole === "admin" ||
+        (alert.userId === userId && alert.createdBy === "user"))
+  );
+
+  const filteredAlerts = (activeAlertTab === "system" ? systemAlerts : userAlerts).filter(
+    (alert) => {
+      const matchesSearch =
+        searchTerm === "" ||
+        alert.alertName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        alert.alertType?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        alert.value?.toString().includes(searchTerm) ||
+        alert.condition?.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchesSearch;
+    }
+  );
+
+  if (loading && alerts.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white rounded-lg">
+      <div className="mb-4 bg-white border border-gray-200 rounded-lg shadow-sm p-2">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
+          <h2 className="heading-xl   font-semibold text-gray-900">
+            {activeAlertTab === "system" ? "System Alerts" : "User Alerts"}
+          </h2>
+          <button
+            onClick={() => {
+              resetForm();
+              setIsModalOpen(true);
+            }}
+            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
+            data-tooltip-id="create-alert-btn"
+            data-tooltip-content="Create a new alert condition"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Add New Alert
+            <ReactTooltip
+              id="create-alert-btn"
+              className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+            />
+          </button>
+        </div>
+
+        {searchTerm && (
+          <div className="mb-3 body-sm   text-gray-600">
+            Showing {filteredAlerts.length} alert(s) matching "{searchTerm}"
+            <button
+              onClick={() => onSearchChange("")}
+              className="ml-2 text-blue-600 hover:text-blue-800"
+            >
+              Clear search
+            </button>
+          </div>
+        )}
+        <div className="inline-flex bg-gray-100 rounded-lg p-1 shadow-inner">
+          <button
+            onClick={() => setActiveAlertTab("system")}
+            className={`px-4 py-2 rounded-md body-sm   font-medium transition-colors ${
+              activeAlertTab === "system"
+                ? "bg-blue-600 text-white shadow-md"
+                : "text-gray-600 hover:text-gray-900 hover:bg-gray-200"
+            }`}
+            data-tooltip-id="system-alerts-tab"
+            data-tooltip-content="System-wide alerts"
+          >
+            System Alerts
+            <ReactTooltip
+              id="system-alerts-tab"
+              className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+            />
+          </button>
+          {/* <button
+            onClick={() => setActiveAlertTab("user")}
+            className={`px-4 py-2 rounded-md body-sm   font-medium transition-colors ${
+              activeAlertTab === "user"
+                ? "bg-blue-600 text-white shadow-md"
+                : "text-gray-600 hover:text */}
+
+
+                 <button
+              onClick={() => setActiveAlertTab("user")}
+              className={`px-4 py-2 rounded-md body-sm   font-medium transition-colors ${
+                activeAlertTab === "user"
+                  ? "bg-blue-600 text-white shadow-md"
+                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-200"
+              }`}
+              data-tooltip-id="user-alerts-tab"
+              data-tooltip-content="User-specific alerts"
+            >
+              User Alerts
+              <ReactTooltip
+                id="user-alerts-tab"
+                className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+              />
+            </button>
+          </div>
+        </div>
+
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          {filteredAlerts.length > 0 ? (
+            filteredAlerts.map((alert) => (
+              <SystemAlertCard
+                key={alert._id}
+                alert={alert}
+                toggleAlertStatus={toggleAlertStatus}
+                handleEditAlert={handleEditAlert}
+                handleDeleteAlert={handleDeleteAlert}
+              />
+            ))
+          ) : (
+            <div className="text-center py-12 col-span-full">
+              <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                {searchTerm ? "No alerts found" : "No alerts configured"}
+              </h3>
+              <p className="text-gray-600">
+                {searchTerm ? "Try adjusting your search criteria" : "Add a new alert to get started"}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {isModalOpen && (
+          <div className="fixed inset-0 backdrop-blur-md bg-white/30 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-lg shadow-lg w-full max-w-md max-h-[90vh] flex flex-col">
+              {/* Header - Sticky */}
+              <div className="sticky top-0 bg-white flex justify-between items-center border-b border-gray-300 p-4 z-10 rounded-t-lg">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  {editingId ? "Edit Alert" : "Create New Alert"}
+                </h3>
+                <button
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    setEditingId(null);
+                    resetForm();
+                  }}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              {/* Scrollable Content */}
+              <div className="flex-1 overflow-y-auto p-4">
+                <form
+                  id="alertForm"
+                  onSubmit={handleSubmit}
+                  className="space-y-4"
+                >
+                  {/* Alert Name */}
+                  <div>
+                    <label className="block text-gray-700 font-medium mb-1">
+                      Alert Name *
+                    </label>
+                    <input
+                      type="text"
+                      name="alertName"
+                      value={formData.alertName}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                      placeholder="Enter alert name"
+                      required
+                    />
+                  </div>
+
+                  {/* Alert Type */}
+                  <div>
+                    <label className="block text-gray-700 font-medium mb-1">
+                      Alert Type *
+                    </label>
+                    <Select
+                      options={alertTypeOptions}
+                      value={formData.alertType}
+                      onChange={(selected) =>
+                        setFormData({ ...formData, alertType: selected || null })
+                      }
+                      isSearchable
+                      className="basic-single"
+                      classNamePrefix="select"
+                      placeholder="Select alert type"
+                      required
+                    />
+                  </div>
+
+                  {/* Condition & Threshold */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-gray-700 font-medium mb-1">
+                        Condition *
+                      </label>
+                      <Select
+                        options={conditionOptions}
+                        value={formData.condition}
+                        onChange={(selected) =>
+                          setFormData({ ...formData, condition: selected })
+                        }
+                        className="basic-single"
+                        classNamePrefix="select"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-gray-700 font-medium mb-1">
+                        Threshold Value *
+                      </label>
+                      <input
+                        type="number"
+                        name="value"
+                        value={formData.value}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                        placeholder="Enter value"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  {/* Select Meters */}
+                  {(!formData.isSystemAlert ||
+                    (formData.editable && userRole === "admin")) && (
+                    <div>
+                      <div className="flex justify-between items-center px-2 mb-2">
+                        <label className="block text-gray-700 font-medium">
+                          Select Meter(s) {!formData.isSystemAlert && "*"}
+                        </label>
+                        {meterOptions.length > 0 && (
+                          <label className="flex items-center space-x-2">
+                            <input
+                              type="checkbox"
+                              checked={
+                                formData.meterIds.length === meterOptions.length
+                              }
+                              onChange={(e) => {
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  meterIds: e.target.checked
+                                    ? meterOptions.map((m) => m.value)
+                                    : [],
+                                }));
+                              }}
+                              className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                            />
+                            <span className="text-gray-700 font-medium">
+                              Select All
+                            </span>
+                            </label>
+                        )}
+                      </div>
+
+                      <Select
+                        isMulti
+                        isSearchable
+                        name="meters"
+                        options={meterOptions}
+                        value={meterOptions.filter(
+                          (opt) =>
+                            formData.meterIds.includes(opt.value) ||
+                            formData.meterIds.includes(opt._id)
+                        )}
+                        onChange={(selected) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            meterIds: selected
+                              ? selected.map((opt) => opt.value)
+                              : [],
+                          }))
+                        }
+                        isDisabled={userRole === "user" && formData.isSystemAlert}
+                        className="basic-multi-select"
+                        classNamePrefix="select"
+                        placeholder="Search & select meters..."
+                      />
+                      {userRole === "user" && formData.isSystemAlert && (
+                        <p className="body-sm   text-gray-500 mt-1">
+                          System alerts apply to all meters automatically
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Notification Settings */}
+                  <div>
+                    <label className="block text-gray-700 font-medium mb-2">
+                     Notification Settings
+                    </label>
+                    <div className="flex justify-between space-y-4 border border-gray-300 rounded-lg p-4 ">
+                      <div>
+                          {userRole === "admin" &&(<h4 className="font-medium text-gray-700 mb-2">User</h4>)}
+                     
+                        <div className="flex space-x-6">
+                          <label className="flex items-center space-x-2">
+                            <input
+                              type="checkbox"
+                              checked={formData.notificationSettings.user.email}
+                              onChange={(e) => handleNotificationSettingChange("user", "email", e.target.checked)}
+                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                            />
+                            <span className="body-sm   text-gray-700">Email</span>
+                          </label>
+                          <label className="flex items-center space-x-2">
+                            <input
+                              type="checkbox"
+                              checked={formData.notificationSettings.user.sms}
+                              onChange={(e) => handleNotificationSettingChange("user", "sms", e.target.checked)}
+                              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                            />
+                            <span className="body-sm   text-gray-700">SMS</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      {userRole === "admin" && (
+                        <div>
+                          <h4 className="font-medium text-gray-700 mb-2">Admin</h4>
+                          <div className="flex space-x-6">
+                            <label className="flex items-center space-x-2">
+                              <input
+                                type="checkbox"
+                                checked={formData.notificationSettings.admin.email}
+                                onChange={(e) => handleNotificationSettingChange("admin", "email", e.target.checked)}
+                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                              />
+                              <span className="body-sm   text-gray-700">Email</span>
+                            </label>
+                                                       <label className="flex items-center space-x-2">
+                              <input
+                                type="checkbox"
+                                checked={formData.notificationSettings.admin.sms}
+                                onChange={(e) => handleNotificationSettingChange("admin", "sms", e.target.checked)}
+                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                              />
+                              <span className="body-sm   text-gray-700">SMS</span>
+                            </label>
+                          </div>
+                        </div>
+                      )}
+                      {/* {userRole === "user" && (
+                        <div className="bg-gray-50 p-3 rounded-md">
+                          <p className="body-sm   text-gray-600">
+                            <HelpCircle className="h-4 w-4 inline mr-1" />
+                            Admin notifications will be set to default values
+                          </p>
+                        </div>
+                      )} */}
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              {/* Footer - Sticky */}
+              <div className="sticky bottom-0 bg-white flex justify-end space-x-3 p-4 border-t border-gray-200 rounded-b-lg">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    setEditingId(null);
+                    resetForm();
+                  }}
+                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  form="alertForm"
+                  disabled={isSubmitting}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting
+                    ? "Processing..."
+                    : editingId
+                    ? "Update Alert"
+                    : "Create Alert"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    // </div>
+  )
+};
+
+const AlertAndNotification = () => {
+  const [viewAlertConditions, setViewAlertConditions] = useState(false);
+  const [selectedMeterForAlerts, setSelectedMeterForAlerts] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const dispatch = useDispatch();
+
+  const userId = useSelector(selectUserId);
+  const userRole = useSelector(selectUserRole);
+  const isAdmin = userRole === "admin";
+  const isUser = userRole === "user";
+
+  const userNotifications = useSelector(selectUserNotifications);
+  const adminNotifications = useSelector(selectAdminNotifications);
+  const usersList = useSelector(selectUsersList);
+  const loading = useSelector(selectNotificationsLoading);
+  const error = useSelector(selectNotificationsError);
+  const selectedUser = useSelector(selectSelectedUser);
+
+  const [activeTab, setActiveTab] = useState("users");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  useEffect(() => {
+    dispatch(setHeaderTitle("Alert & Notification"));
+    dispatch(
+      setBreadcrumbs([
+        { label: "Alert & Notification", link: "/alertandnotification" },
+      ])
+    );
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isAdmin && !selectedUser && activeTab === "users") {
+      dispatch(fetchAdminNotifications(userId));
+    } else if (isAdmin && activeTab === "adminNotifications") {
+      dispatch(fetchAdminNotifications(userId));
+    } else if (selectedUser) {
+      dispatch(fetchUserNotifications(selectedUser));
+    } else if (isUser) {
+      dispatch(fetchUserNotifications(userId));
+    }
+  }, [isAdmin, isUser, selectedUser, activeTab, userId, dispatch]);
+
+  const handleToggleGlobalNotificationStatus = async (newStatus) => {
+    const targetUserId = selectedUser || userId;
+    try {
+      dispatch(updateUserStatus({ userId: targetUserId, status: newStatus }));
+      await dispatch(
+        toggleNotificationStatus({
+          userId: targetUserId,
+          status: newStatus,
+        })
+      ).unwrap();
+    } catch (error) {
+      toast.error("Failed to update notification status");
+      dispatch(
+        updateUserStatus({
+          userId: targetUserId,
+          status: newStatus === "enabled" ? "disabled" : "enabled",
+        })
+      );
+    }
+  };
+
+  const handleToggleUserStatus = async (userId, currentStatus) => {
+    const newStatus = currentStatus === "enabled" ? "disabled" : "enabled";
+    try {
+      dispatch(updateUserStatus({ userId, status: newStatus }));
+      await dispatch(
+        toggleNotificationStatus({
+          userId,
+          status: newStatus,
+        })
+      ).unwrap();
+    } catch (error) {
+      toast.error("Failed to update user notification status");
+      dispatch(
+        updateUserStatus({
+          userId,
+          status: currentStatus,
+        })
+      );
+    }
+  };
+
+  const handleUserSelection = (userId) => {
+    dispatch(setSelectedUser(userId));
+    setCurrentPage(1);
+    setViewAlertConditions(false);
+  };
+
+  const handleBackToList = () => {
+    dispatch(setSelectedUser(null));
+    setCurrentPage(1);
+    setViewAlertConditions(false);
+  };
+
+  useEffect(() => {
+    setViewAlertConditions(false);
+  }, [activeTab]);
+
+  const filteredNotifications =
+    (isUser || selectedUser ? userNotifications : adminNotifications)?.filter(
+      (notification) => {
+        const matchesSearch =
+          searchTerm === "" ||
+          notification.alertType
+            ?.toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          notification.value
+            ?.toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          notification.message
+            ?.toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          (isAdmin &&
+            !selectedUser &&
+            (notification.userName
+              ?.toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+              notification.meterId
+                ?.toLowerCase()
+                .includes(searchTerm.toLowerCase())));
+        return matchesSearch;
+      }
+    ) || [];
+
+  const filteredUsers = usersList?.filter((user) => {
+    const matchesSearch =
+      searchTerm === "" ||
+      user.userId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.userName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.meterId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.meterName?.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesSearch;
+  });
+
+  const currentItems =
+    isUser || selectedUser
+      ? filteredNotifications.slice(
+          (currentPage - 1) * itemsPerPage,
+          currentPage * itemsPerPage
+        )
+      : activeTab === "adminNotifications"
+      ? filteredNotifications.slice(
+          (currentPage - 1) * itemsPerPage,
+          currentPage * itemsPerPage
+        )
+      : filteredUsers.slice(
+          (currentPage - 1) * itemsPerPage,
+          currentPage * itemsPerPage
+        );
+
+  const totalPages = Math.ceil(
+    (isUser || selectedUser
+      ? filteredNotifications.length
+      : activeTab === "adminNotifications"
+      ? filteredNotifications.length
+      : filteredUsers.length) / itemsPerPage
+  );
+
+  const goToPage = (page) => {
+    setCurrentPage(page);
+  };
+
+  const getPaginationRange = () => {
+    const totalPageCount = totalPages;
+    const currentPageNum = currentPage;
+    const siblingCount = 1;
+    const DOTS = "...";
+
+    const totalPageNumbers = siblingCount + 5;
+
+    if (totalPageNumbers >= totalPageCount) {
+      return range(1, totalPageCount);
+    }
+
+    const leftSiblingIndex = Math.max(currentPageNum - siblingCount, 1);
+    const rightSiblingIndex = Math.min(
+      currentPageNum + siblingCount,
+      totalPageCount
+    );
+
+    const shouldShowLeftDots = leftSiblingIndex > 2;
+    const shouldShowRightDots = rightSiblingIndex < totalPageCount - 2;
+
+    const firstPageIndex = 1;
+    const lastPageIndex = totalPageCount;
+
+    if (!shouldShowLeftDots && shouldShowRightDots) {
+      let leftItemCount = 3 + 2 * siblingCount;
+      let leftRange = range(1, leftItemCount);
+
+      return [...leftRange, DOTS, totalPageCount];
+    }
+
+    if (shouldShowLeftDots && !shouldShowRightDots) {
+      let rightItemCount = 3 + 2 * siblingCount;
+      let rightRange = range(
+        totalPageCount - rightItemCount + 1,
+        totalPageCount
+      );
+      return [firstPageIndex, DOTS, ...rightRange];
+    }
+
+    if (shouldShowLeftDots && shouldShowRightDots) {
+      let middleRange = range(leftSiblingIndex, rightSiblingIndex);
+      return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex];
+    }
+  };
+
+  const range = (start, end) => {
+    let length = end - start + 1;
+    return Array.from({ length }, (_, idx) => idx + start);
+  };
 
   const getAlertIcon = (alertType) => {
     const iconMap = {
@@ -1364,11 +3470,11 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
       "System Alert": <Activity className="h-5 w-5" />,
       "Security Alert": <Shield className="h-5 w-5" />,
       "Maintenance Required": <AlertTriangle className="h-5 w-5" />,
+      "Over Voltage Warning": <AlertTriangle className="h-5 w-5" />,
     };
     return iconMap[alertType] || <Bell className="h-5 w-5" />;
   };
 
-  // Get colors for alert type
   const getAlertColors = (alertType) => {
     const colorMap = {
       "Low Balance": {
@@ -1401,75 +3507,10 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
         icon: "text-yellow-600",
         border: "border-yellow-200",
       },
-      "Daily/Weekly Report": {
-        bg: "bg-blue-50",
-        icon: "text-blue-600",
-        border: "border-blue-200",
-      },
-      "No Usage Detected": {
-        bg: "bg-gray-50",
-        icon: "text-gray-600",
-        border: "border-gray-200",
-      },
-      "Garbage Uplink Data": {
+      "Over Voltage Warning": {
         bg: "bg-red-50",
         icon: "text-red-600",
         border: "border-red-200",
-      },
-      "Reverse Polarity": {
-        bg: "bg-red-50",
-        icon: "text-red-600",
-        border: "border-red-200",
-      },
-      "Magnetic Interference": {
-        bg: "bg-orange-50",
-        icon: "text-orange-600",
-        border: "border-orange-200",
-      },
-      "Current Imbalance": {
-        bg: "bg-yellow-50",
-        icon: "text-yellow-600",
-        border: "border-yellow-200",
-      },
-      "Neutral Voltage Issue": {
-        bg: "bg-orange-50",
-        icon: "text-orange-600",
-        border: "border-orange-200",
-      },
-      "Meter Offline": {
-        bg: "bg-gray-50",
-        icon: "text-gray-600",
-        border: "border-gray-200",
-      },
-      "Reminder to Recharge": {
-        bg: "bg-blue-50",
-        icon: "text-blue-600",
-        border: "border-blue-200",
-      },
-      "Festival Offer": {
-        bg: "bg-purple-50",
-        icon: "text-purple-600",
-        border: "border-purple-200",
-      },
-      "High Load vs Previous": {
-        bg: "bg-red-50",
-        icon: "text-red-600",
-        border: "border-red-200",
-      },
-      "System Alert": {
-        bg: "bg-red-50",
-        icon: "text-red-600",
-        border: "border-red-200",
-      },
-      "Security Alert": {
-        bg: "bg-purple-50",
-        icon: "text-purple-600",
-        border: "border-purple-200",
-      },
-      "Maintenance Required": {
-        bg: "bg-orange-50",
-        icon: "text-orange-600",
-        border: "border-orange-200",
       },
     };
     return (
@@ -1481,594 +3522,656 @@ const AlertAndNotification = ({ userRole = "admin" }) => {
     );
   };
 
-  const toggleGlobalNotificationStatus = async (newStatus) => {
-    try {
-      setNotifications((prev) => ({
-        ...prev,
-        status: newStatus,
-      }));
-    } catch (error) {
-      console.error("Error updating notification status:", error);
-    }
-  };
-
-  const toggleSingleNotificationStatus = async (notificationId, newStatus) => {
-    try {
-      setNotifications((prev) => ({
-        ...prev,
-        userNotification: prev.userNotification.map((notif) =>
-          notif._id === notificationId ? { ...notif, status: newStatus } : notif
-        ),
-      }));
-    } catch (error) {
-      console.error("Error updating notification status:", error);
-    }
-  };
-
-  const toggleUserStatus = async (userId, newStatus) => {
-    try {
-      setUsersList((prev) =>
-        prev.map((user) =>
-          user.userId === userId ? { ...user, status: newStatus } : user
-        )
-      );
-    } catch (error) {
-      console.error("Error updating user status:", error);
-    }
-  };
-
-  const filteredNotifications =
-    notifications?.userNotification?.filter((notification) => {
-      const matchesSearch =
-        searchTerm === "" ||
-        notification.alertType
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase()) ||
-        notification.value.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        notification.message.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        notifications.meterId.toLowerCase().includes(searchTerm.toLowerCase());
-      return matchesSearch;
-    }) || [];
-
-  const filteredUsers = usersList.filter((user) => {
-    const matchesSearch =
-      searchTerm === "" ||
-      user.userId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.meterId.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesSearch;
-  });
-
-  const filteredAdminNotifications = mockAdminNotifications.filter(
-    (notification) => {
-      const matchesSearch =
-        searchTerm === "" ||
-        notification.alertType
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase()) ||
-        notification.value.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        notification.message.toLowerCase().includes(searchTerm.toLowerCase());
-      return matchesSearch;
-    }
-  );
-
-  const handleUserSelection = (userId) => {
-    setSelectedUser(userId);
-    setCurrentPage(1);
-  };
-
-  const handleBackToList = () => {
-    setSelectedUser(null);
-    setCurrentPage(1);
-  };
-
-  // Pagination logic
-  const currentItems =
-    userType === "user" || selectedUser
-      ? filteredNotifications.slice(
-          (currentPage - 1) * itemsPerPage,
-          currentPage * itemsPerPage
-        )
-      : activeTab === "adminNotifications"
-      ? filteredAdminNotifications.slice(
-          (currentPage - 1) * itemsPerPage,
-          currentPage * itemsPerPage
-        )
-      : filteredUsers.slice(
-          (currentPage - 1) * itemsPerPage,
-          currentPage * itemsPerPage
-        );
-
-  const totalPages = Math.ceil(
-    (userType === "user" || selectedUser
-      ? filteredNotifications.length
-      : activeTab === "adminNotifications"
-      ? filteredAdminNotifications.length
-      : filteredUsers.length) / itemsPerPage
-  );
-
-  const goToPage = (page) => {
-    setCurrentPage(page);
-  };
+  const showGlobalToggle = !(isAdmin && !selectedUser && activeTab === "users");
 
   return (
     <div className="bg-blue-200/10 min-h-screen p-4 sm:p-6">
+      
       <div className="max-w-7xl mx-auto">
-        {/* Global Status Toggle with Search - For notification details view */}
-        {(userType === "user" || selectedUser) && notifications?.status && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div className="flex-1">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                <div>
-                  <h3 className="font-medium text-gray-900">
-                    Notification Status
-                  </h3>
-                  <p className="body-xs  text-gray-600">
-                    {notifications.status === "enabled"
-                      ? "All notifications are currently enabled"
-                      : "Notifications are currently disabled"}
-                  </p>
+        {/* <div className="sticky top-0 left-0 right-0 z-10 bg-white shadow-sm rounded-lg mb-6">
+          <div className="p-4 rounded-t-lg">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <h1 className="heading-xl   font-semibold text-gray-900">
+                Alert & Notification
+              </h1>
+
+              {isAdmin && (
+                <div className="flex-1 w-full max-w-md">
+                  <div className="relative">
+                    <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                      type="text"
+                      placeholder={
+                        viewAlertConditions
+                          ? "Search alerts..."
+                          : !selectedUser && activeTab === "users" && isAdmin
+                          ? "Search users..."
+                          : "Search notifications..."
+                      }
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-sm  "
+                    />
+                  </div>
                 </div>
-                <div className="relative w-full sm:w-64">
-                  <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                  <input
-                    type="text"
-                    placeholder="Search notifications..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-xs "
+              )}
+
+              {isUser && (
+                <div className="flex-1 w-full max-w-md">
+                  <div className="relative">
+                    <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                      type="text"
+                      placeholder="Search notifications..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-sm  "
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div className="flex items-center space-x-4">
+                {isAdmin && (
+                  <div className="flex items-center gap-1">
+                    <label
+                      htmlFor="view-type-select"
+                      className="text-medium font-medium text-gray-700"
+                    >
+                      Notification Type:
+                    </label>
+
+                    <div className="relative">
+                      <select
+                        id="view-type-select"
+                        value={activeTab}
+                        onChange={(e) => setActiveTab(e.target.value)}
+                        className="appearance-none bg-gray-100 border border-gray-300 rounded-md px-4 py-2 pr-8 body-sm   focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-tooltip-id="view-type-select-tooltip"
+                        data-tooltip-content="Select view type"
+                      >
+                        <option value="users">Users</option>
+                        <option value="adminNotifications">Admin</option>
+                      </select>
+                      <ChevronDown className="h-4 w-4 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+                      <ReactTooltip
+                        id="view-type-select-tooltip"
+                        className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                <button
+                  onClick={() => {
+                    setViewAlertConditions(true);
+                    setSelectedMeterForAlerts(selectedUser || userId);
+                  }}
+                  className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap"
+                  data-tooltip-id="manage-alerts-btn"
+                  data-tooltip-content={
+                    isAdmin && !selectedUser
+                      ? "Click to Configure alerts"
+                      : "Click to Configure alerts"
+                  }
+                >
+                  Manage Alerts
+                  <ReactTooltip
+                    id="manage-alerts-btn"
+                    className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
                   />
-                </div>
+                </button>
               </div>
             </div>
-            <button
-              onClick={() =>
-                toggleGlobalNotificationStatus(
-                  notifications.status === "enabled" ? "disabled" : "enabled"
-                )
-              }
-              className={`px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors body-xs  ${
-                notifications.status === "enabled"
-                  ? "bg-red-600 hover:bg-red-700 text-white"
-                  : "bg-green-600 hover:bg-green-700 text-white"
-              }`}
-            >
-              {notifications.status === "enabled"
-                ? "Disable All"
-                : "Enable All"}
-            </button>
           </div>
-        )}
+        </div> */}
 
-        {/* Main Content */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-          {/* <div className="bg-white rounded-lg shadow-sm border border-gray-200 min-h-[calc(75vh-48px)]"> */}
 
-          <div className="p-4 sm:p-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-              {/* Search input moved here for admin view */}
-              {userType === "admin" && !selectedUser && (
-                <div className="relative w-full sm:w-64">
+
+          <div className="sticky top-0 z-10 bg-white shadow-sm rounded-lg mb-6">
+          <div className="p-4  rounded-t-lg">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              {/* <h1 className="heading-xl   font-semibold text-gray-900"> */}
+                     <h1 className="body-md   sm:text-lg md:heading-xl   font-semibold text-gray-900">
+                Alert & Notification
+              </h1>
+
+              {isAdmin && (
+                // <div className="flex-1 w-full max-w-md">
+                //   <div className="relative">
+                //     <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                //     <input
+                //       type="text"
+                //       placeholder={
+                //         !selectedUser && activeTab === "users"
+                //           ? "Search users..."
+                //           : "Search notifications..."
+                //       }
+                //       value={searchTerm}
+                //       onChange={(e) => setSearchTerm(e.target.value)}
+                //       className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-sm  "
+                //     />
+                //   </div>
+                // </div>
+
+                        <div className="flex-1 w-full max-w-md">
+                <div className="relative">
                   <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                   <input
                     type="text"
                     placeholder={
-                      activeTab === "adminNotifications"
-                        ? "Search admin notifications..."
-                        : "Search by user ID or meter ID..."
+                      viewAlertConditions
+                        ? "Search alerts..."
+                        : !selectedUser && activeTab === "users" && isAdmin
+                        ? "Search users..."
+                        : "Search notifications..."
                     }
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-xs "
+                    className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-sm  "
                   />
+                </div>
+              </div>
+              )}
+
+              {isUser && (
+                <div className="flex-1 w-full max-w-md">
+                  <div className="relative">
+                    <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                      type="text"
+                      placeholder="Search notifications..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-sm  "
+                    />
+                  </div>
                 </div>
               )}
 
-              <div className="flex items-center gap-4 ">
-                <h2 className="heading-lg sm:heading-xl font-semibold text-gray-900">
-                  {userType === "user"
-                    ? "Your Notifications"
-                    : selectedUser
-                    ? `Notifications for ${selectedUser}`
-                    : "Notification Management"}
-                </h2>
+              <div className="flex items-center space-x-4">
+                {/* {showGlobalToggle && ( */}
+                {isAdmin && (
+                  <div className="flex items-center gap-1">
+                    {/* Heading */}
+                    <label
+                      htmlFor="view-type-select"
+                      className="text-medium font-medium text-gray-700"
+                    >
+                      Notification Type:
+                    </label>
 
-                {/* Admin tabs - only shown when in admin view and no user selected */}
-                {userType === "admin" && !selectedUser && (
-                  <div className="flex bg-gray-100 rounded-lg p-1">
-                    <button
-                      onClick={() => setActiveTab("users")}
-                      className={`px-3 py-1 rounded-md body-xs  font-medium transition-colors ${
-                        activeTab === "users"
-                          ? "bg-blue-600 text-white"
-                          : "text-gray-600 hover:text-gray-900"
-                      }`}
-                    >
-                      Users
-                    </button>
-                    <button
-                      onClick={() => setActiveTab("adminNotifications")}
-                      className={`px-3 py-1 rounded-md body-xs  font-medium transition-colors ${
-                        activeTab === "adminNotifications"
-                          ? "bg-blue-600 text-white"
-                          : "text-gray-600 hover:text-gray-900"
-                      }`}
-                    >
-                      Admin Notifications
-                    </button>
+                    {/* Select with tooltip */}
+                    <div className="relative">
+                      <select
+                        id="view-type-select"
+                        value={activeTab}
+                        onChange={(e) => setActiveTab(e.target.value)}
+                        className="appearance-none bg-gray-100 border border-gray-300 rounded-md px-4 py-2 pr-8 body-sm   focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        data-tooltip-id="view-type-select-tooltip"
+                        data-tooltip-content="Select view type"
+                      >
+                        <option value="users">Users</option>
+                        <option value="adminNotifications">Admin</option>
+                      </select>
+                      <ChevronDown className="h-4 w-4 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+                      <ReactTooltip
+                        id="view-type-select-tooltip"
+                        className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+                      />
+                    </div>
                   </div>
                 )}
-              </div>
 
-              {selectedUser && (
                 <button
-                  onClick={handleBackToList}
-                  className="flex items-center body-xs  text-blue-600 hover:text-blue-800"
+                  onClick={() => {
+                    setViewAlertConditions(true);
+                    setSelectedMeterForAlerts(selectedUser || userId);
+                  }}
+                  className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap"
+                  data-tooltip-id="manage-alerts-btn"
+                  data-tooltip-content={
+                    isAdmin && !selectedUser
+                      ? " Click to Configure alerts "
+                      : " Click to Configure  alerts"
+                  }
                 >
-                  <ChevronLeft className="h-4 w-4 mr-1" />
-                  Back to users
+                  Manage Alerts
+                  <ReactTooltip
+                    id="manage-alerts-btn"
+                    className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+                  />
                 </button>
-              )}
+              </div>
             </div>
+          </div>
+        </div>
 
+        <div className="w-full bg-white rounded-lg shadow-sm border border-gray-200">
+          <div className="p-4 sm:p-6">
             {loading ? (
               <div className="text-center py-12">
                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
                 <p className="text-gray-600">Loading data...</p>
               </div>
-            ) : userType === "user" || selectedUser ? (
-              <div className="space-y-4">
-                {currentItems.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {currentItems.map((notification) => {
-                      const colors = getAlertColors(notification.alertType);
-                      return (
-                        <div
-                          key={notification._id}
-                          className={`${colors.bg} ${colors.border} border rounded-lg p-4 transition-all hover:shadow-md`}
-                        >
-                          <div className="flex items-start justify-between">
-                            <div className="flex items-start space-x-3 sm:space-x-4 flex-1">
-                              <div className={`p-2 rounded-lg ${colors.bg}`}>
-                                <span className={colors.icon}>
-                                  {getAlertIcon(notification.alertType)}
-                                </span>
-                              </div>
-
-                              <div className="flex-1 min-w-0">
-                                <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 mb-2">
-                                  <h3 className="font-semibold text-gray-900">
-                                    {notification.alertType}
-                                  </h3>
-                                  <span className="body-xs  text-gray-600">
-                                    Meter: {notifications.meterId}
-                                  </span>
-                                  <span
-                                    className={`px-2 py-1 rounded-full body-xsfont-medium ${
-                                      notification.mode.includes("Text")
-                                        ? "text-blue-600 bg-blue-100"
-                                        : "text-purple-600 bg-purple-100"
-                                    }`}
-                                  >
-                                    {notification.mode}
-                                  </span>
-                                </div>
-
-                                <p className="text-gray-700 mb-3">
-                                  {notification.message}
-                                </p>
-
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 body-xs  mb-4">
-                                  <div>
-                                    <span className="font-medium text-gray-600">
-                                      Value:
-                                    </span>
-                                    <div className="text-gray-900 font-semibold">
-                                      {notification.value}
-                                    </div>
-                                  </div>
-                                  <div>
-                                    <span className="font-medium text-gray-600">
-                                      Time:
-                                    </span>
-                                    <div className="text-gray-900">
-                                      {new Date(
-                                        notification.time
-                                      ).toLocaleString()}
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <div className="text-center py-12">
-                    <Bell className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="heading-lg font-medium text-gray-900 mb-2">
-                      No notifications found
-                    </h3>
-                    <p className="text-gray-600">
-                      {searchTerm
-                        ? "Try adjusting your search criteria"
-                        : "You're all caught up!"}
-                    </p>
-                  </div>
-                )}
-              </div>
-            ) : activeTab === "adminNotifications" ? (
-              <div className="space-y-4">
-                {currentItems.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {currentItems.map((notification) => {
-                      const colors = getAlertColors(notification.alertType);
-                      return (
-                        <div
-                          key={notification._id}
-                          className={`${colors.bg} ${colors.border} border rounded-lg p-4 transition-all hover:shadow-md`}
-                        >
-                          <div className="flex items-start justify-between">
-                            <div className="flex items-start space-x-3 sm:space-x-4 flex-1">
-                              <div className={`p-2 rounded-lg ${colors.bg}`}>
-                                <span className={colors.icon}>
-                                  {getAlertIcon(notification.alertType)}
-                                </span>
-                              </div>
-
-                              <div className="flex-1 min-w-0">
-                                <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 mb-2">
-                                  <h3 className="font-semibold text-gray-900">
-                                    {notification.alertType}
-                                  </h3>
-                                  <span
-                                    className={`px-2 py-1 rounded-full body-xsfont-medium ${
-                                      notification.mode.includes("Text")
-                                        ? "text-blue-600 bg-blue-100"
-                                        : "text-purple-600 bg-purple-100"
-                                    }`}
-                                  >
-                                    {notification.mode}
-                                  </span>
-                                </div>
-
-                                <p className="text-gray-700 mb-3">
-                                  {notification.message}
-                                </p>
-
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 body-xs  mb-4">
-                                  <div>
-                                    <span className="font-medium text-gray-600">
-                                      Value:
-                                    </span>
-                                    <div className="text-gray-900 font-semibold">
-                                      {notification.value}
-                                    </div>
-                                  </div>
-                                  <div>
-                                    <span className="font-medium text-gray-600">
-                                      Time:
-                                    </span>
-                                    <div className="text-gray-900">
-                                      {new Date(
-                                        notification.time
-                                      ).toLocaleString()}
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <div className="text-center py-12">
-                    <Bell className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="heading-lg font-medium text-gray-900 mb-2">
-                      No admin notifications found
-                    </h3>
-                    <p className="text-gray-600">
-                      {searchTerm
-                        ? "Try adjusting your search criteria"
-                        : "No admin notifications available"}
-                    </p>
-                  </div>
-                )}
-              </div>
+            ) : viewAlertConditions ? (
+              <AlertCondition
+                meterId={selectedMeterForAlerts}
+                onClose={() => setViewAlertConditions(false)}
+                isAdminView={isAdmin && !selectedUser}
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
+              />
             ) : (
               <div className="space-y-4">
-                {currentItems.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {currentItems.map((user) => (
-                      <div
-                        key={user._id}
-                        className="border border-gray-200 rounded-lg p-4 cursor-pointer hover:bg-gray-50 transition-colors"
-                        onClick={() => handleUserSelection(user.userId)}
-                      >
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between">
-                          <div className="flex items-center space-x-3 sm:space-x-4 mb-3 sm:mb-0">
-                            <div className="p-2 rounded-lg bg-gray-100">
-                              <User className="h-5 w-5 text-gray-600" />
-                            </div>
-                            <div>
-                              <h3 className="font-semibold text-gray-900">
-                                {user.userId}
-                              </h3>
-                              <p className="body-xs  text-gray-600">
-                                Meter: {user.meterId}
-                              </p>
-                            </div>
-                          </div>
+                {(isUser || selectedUser) && (
+                  <>
+                    {filteredNotifications.length > 0 ? (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {currentItems.map((notification) => {
+                          const colors = getAlertColors(notification.alertType);
+                          return (
+                            <div
+                              key={notification._id}
+                              className={`${colors.bg} ${colors.border} border rounded-lg p-4 transition-all hover:shadow-md cursor-pointer`}
+                            >
+                              <div className="flex items-start justify-between">
+                                <div className="flex items-start space-x-3 sm:space-x-4 flex-1">
+                                  <div className={`p-2 rounded-lg ${colors.bg}`}>
+                                    <span className={colors.icon}>
+                                      {getAlertIcon(notification.alertType)}
+                                    </span>
+                                  </div>
 
-                          <div className="flex flex-col sm:flex-row items-start sm:items-center sm:space-x-6 w-full sm:w-auto">
-                            <div className="text-left sm:text-right mb-3 sm:mb-0">
-                              <div className="body-xs  font-medium text-gray-900">
-                                Last Notification:{" "}
-                                {new Date(
-                                  user.lastNotificationDate
-                                ).toLocaleDateString()}
-                              </div>
-                              <div className="body-xstext-gray-500">
-                                {user.notificationCount} notifications
-                              </div>
-                            </div>
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 mb-2">
+                                      <h3 className="font-semibold text-gray-900">
+                                        {notification.alertType}
+                                      </h3>
+                                      <span
+                                        className={`px-2 py-1 rounded-full body-xs  font-medium ${
+                                          notification.mode.includes("Text")
+                                            ? "text-blue-600 bg-blue-100"
+                                            : "text-purple-600 bg-purple-100"
+                                        }`}
+                                        data-tooltip-id={`notification-mode-${notification._id}`}
+                                        data-tooltip-content={
+                                          notification.mode.includes("Text")
+                                            ? "SMS notification"
+                                            : "Email notification"
+                                        }
+                                      >
+                                        {notification.mode}
+                                        <ReactTooltip
+                                          id={`notification-mode-${notification._id}`}
+                                          className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+                                        />
+                                      </span>
+                                    </div>
 
-                            <div className="flex items-center space-x-2 w-full sm:w-auto justify-between sm:justify-start">
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  toggleUserStatus(
-                                    user.userId,
-                                    user.status === "enabled"
-                                      ? "disabled"
-                                      : "enabled"
-                                  );
-                                }}
-                                className={`px-3 py-1 rounded-md body-xsfont-medium ${
-                                  user.status === "enabled"
-                                    ? "bg-red-100 hover:bg-red-200 text-red-600"
-                                    : "bg-green-100 hover:bg-green-200 text-green-600"
-                                }`}
-                              >
-                                {user.status === "enabled"
-                                  ? "Disable"
-                                  : "Enable"}
-                              </button>
-                              <ChevronRight className="h-5 w-5 text-gray-400" />
+                                    <p className="text-sm text-gray-700 mb-3">
+                                      {notification.message}
+                                    </p>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 body-sm   mb-4">
+                                      <div>
+                                        <span className="font-medium text-gray-600">
+                                          Value:
+                                        </span>
+                                        <div className="text-gray-900 font-semibold">
+                                          {notification.value}
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <span className="font-medium text-gray-600">
+                                          Time:
+                                        </span>
+                                        <div className="text-gray-900">
+                                          {new Date(
+                                            notification.time
+                                          ).toLocaleString()}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
+                          );
+                        })}
                       </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-12">
-                    <Bell className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="heading-lg font-medium text-gray-900 mb-2">
-                      No users notifications found
-                    </h3>
-                    <p className="text-gray-600">
-                      {searchTerm
-                        ? "Try adjusting your search criteria"
-                        : "No users available"}
-                    </p>
-                  </div>
+                    ) : (
+                      <div className="text-center py-12">
+                        <Bell className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                        <h3 className="text-lg font-medium text-gray-900 mb-2">
+                          No notifications found
+                        </h3>
+                        <p className="text-gray-600">
+                          {searchTerm
+                            ? "Try adjusting your search criteria"
+                            : "You're all caught up!"}
+                        </p>
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {isAdmin && !selectedUser && activeTab === "adminNotifications" && (
+                  <>
+                    {filteredNotifications.length > 0 ? (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {currentItems.map((notification) => {
+                          const colors = getAlertColors(notification.alertType);
+                          return (
+                            <div
+                              key={notification._id}
+                              className={`${colors.bg} ${colors.border} border rounded-lg p-4 transition-all hover:shadow-md cursor-pointer`}
+                              data-tooltip-id={`admin-notification-${notification._id}`}
+                              data-tooltip-content="Click for details"
+                            >
+                              <ReactTooltip
+                                id={`admin-notification-${notification._id}`}
+                                className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+                              />
+                              <div className="flex items-start justify-between">
+                                <div className="flex items-start space-x-3 sm:space-x-4 flex-1">
+                                  <div className={`p-2 rounded-lg ${colors.bg}`}>
+                                    <span className={colors.icon}>
+                                      {getAlertIcon(notification.alertType)}
+                                    </span>
+                                  </div>
+
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 mb-2">
+                                      <h3 className="font-semibold text-gray-900">
+                                        {notification.alertType}
+                                      </h3>
+                                      <span
+                                        className="body-sm   text-gray-600"
+                                        data-tooltip-id={`user-name-${notification._id}`}
+                                        data-tooltip-content="User who received this notification"
+                                      >
+                                        User: {notification.userName || "Unknown"}
+                                        <ReactTooltip
+                                          id={`user-name-${notification._id}`}
+                                          className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+                                        />
+                                      </span>
+                                      <span
+                                        className={`px-2 py-1 rounded-full body-xs  font-medium ${
+                                          notification.mode.includes("Text")
+                                            ? "text-blue-600 bg-blue-100"
+                                            : "text-purple-600 bg-purple-100"
+                                        }`}
+                                        data-tooltip-id={`admin-notification-mode-${notification._id}`}
+                                        data-tooltip-content={
+                                          notification.mode.includes("Text")
+                                            ? "SMS notification"
+                                            : "Email notification"
+                                        }
+                                      >
+                                        {notification.mode}
+                                        <ReactTooltip
+                                          id={`admin-notification-mode-${notification._id}`}
+                                          className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+                                        />
+                                      </span>
+                                    </div>
+
+                                    <p className="text-gray-700 mb-3">
+                                      {notification.message}
+                                    </p>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 body-sm   mb-4">
+                                      <div>
+                                        <span className="font-medium text-gray-600">
+                                          Value:
+                                        </span>
+                                        <div className="text-gray-900 font-semibold">
+                                          {notification.value}
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <span className="font-medium text-gray-600">
+                                          Time:
+                                        </span>
+                                        <div className="text-gray-900">
+                                          {new Date(
+                                            notification.time
+                                          ).toLocaleString()}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <div className="text-center py-12">
+                        <Bell className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                        <h3 className="text-lg font-medium text-gray-900 mb-2">
+                          No admin notifications found
+                        </h3>
+                        <p className="text-gray-600">
+                          {searchTerm
+                            ? "Try adjusting your search criteria"
+                            : "No admin notifications available"}
+                        </p>
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {isAdmin && !selectedUser && activeTab === "users" && (
+                  <>
+                    {filteredUsers.length > 0 ? (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {currentItems.map((user) => (
+                          <div
+                            key={user._id}
+                            className="border border-gray-200 rounded-lg p-4 cursor-pointer hover:bg-gray-50 transition-colors"
+                            onClick={() => handleUserSelection(user.userId)}
+                            data-tooltip-id={`user-card-${user._id}`}
+                            data-tooltip-content="Click to view user notifications"
+                          >
+                            <ReactTooltip
+                              id={`user-card-${user._id}`}
+                              className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+                            />
+                            <div className="flex flex-col">
+                              <div className="flex items-center justify-between mb-3">
+                                <div className="flex items-center space-x-3">
+                                  <div className="p-2 rounded-lg bg-gray-100">
+                                    <User className="h-6 w-6 text-gray-600" />
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="grid grid-cols-2 gap-4 body-sm  ">
+                                <div>
+                                  <h3 className="font-semibold text-gray-900">
+                                    {user.userName}
+                                  </h3>
+                                  <p className="body-sm   text-gray-600">
+                                    ID: {user.userId}
+                                  </p>
+                                  <p className="mt-2 text-gray-500">
+                                    Last Sent
+                                  </p>
+                                  <p className="font-medium">
+                                    {user.lastNotificationDate
+                                      ? new Date(
+                                          user.lastNotificationDate
+                                        ).toLocaleDateString()
+                                      : "Never"}
+                                  </p>
+                                </div>
+
+                                <div>
+                                  <p className="text-gray-500">Meter ID</p>
+                                  <p className="font-medium">
+                                    {user.meterId || "M-0000"}
+                                  </p>
+                                  <p className="mt-2 text-gray-500">Count</p>
+                                  <p className="font-medium">
+                                    {user.notificationCount || 0}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="flex justify-end items-center mt-4">
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleToggleUserStatus(
+                                      user.userId,
+                                      user.status
+                                    );
+                                  }}
+                                  className={`px-3 py-1 rounded-md body-xs  font-medium flex items-center justify-center ${
+                                    user.status === "enabled"
+                                      ? "bg-red-100 hover:bg-red-200 text-red-600"
+                                      : "bg-green-100 hover:bg-green-200 text-green-600"
+                                  }`}
+                                  data-tooltip-id={`toggle-status-${user._id}`}
+                                  data-tooltip-content={
+                                    user.status === "enabled"
+                                      ? "Disable notifications for this user"
+                                      : "Enable notifications for this user"
+                                  }
+                                >
+                                  {user.status === "enabled"
+                                    ? "Disable"
+                                    : "Enable"}
+                                  <ReactTooltip
+                                    id={`toggle-status-${user._id}`}
+                                    className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+                                  />
+                                </button>
+                                <ChevronRight
+                                  className="h-5 w-5 text-gray-400 ml-2"
+                                  data-tooltip-id={`view-user-${user._id}`}
+                                  data-tooltip-content="View user notifications"
+                                />
+                                <ReactTooltip
+                                  id={`view-user-${user._id}`}
+                                  className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-12">
+                        <User2 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                        <h3 className="text-lg font-medium text-gray-900 mb-2">
+                          No users found
+                        </h3>
+                        <p className="text-gray-600">
+                          {searchTerm
+                            ? "Try adjusting your search criteria"
+                            : "No users available"}
+                        </p>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             )}
 
-           
-
-            {/* Pagination */}
-            {(filteredNotifications.length > itemsPerPage ||
-              filteredUsers.length > itemsPerPage ||
-              filteredAdminNotifications.length > itemsPerPage) && (
-              <div className="flex items-center justify-between mt-6">
-                <div className="body-xs  text-gray-600">
-                  Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
-                  {Math.min(
-                    currentPage * itemsPerPage,
-                    userType === "user" || selectedUser
-                      ? filteredNotifications.length
-                      : activeTab === "adminNotifications"
-                      ? filteredAdminNotifications.length
-                      : filteredUsers.length
-                  )}{" "}
-                  of{" "}
-                  {userType === "user" || selectedUser
-                    ? filteredNotifications.length
-                    : activeTab === "adminNotifications"
-                    ? filteredAdminNotifications.length
-                    : filteredUsers.length}{" "}
-                  items
-                </div>
-                <div className="flex space-x-2">
-                  <button
-                    onClick={() => goToPage(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    className={`px-3 py-1 rounded-md border ${
-                      currentPage === 1
-                        ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                        : "bg-white text-gray-700 hover:bg-gray-50"
-                    }`}
-                  >
-                    Previous
-                  </button>
-
-                  {/* Always show first page */}
-                  <button
-                    onClick={() => goToPage(1)}
-                    className={`px-3 py-1 rounded-md ${
-                      currentPage === 1
-                        ? "bg-blue-600 text-white"
-                        : "bg-white text-gray-700 hover:bg-gray-50 border"
-                    }`}
-                  >
-                    1
-                  </button>
-
-                  {/* Always show second page */}
-                  {totalPages >= 2 && (
+            {!viewAlertConditions &&
+              (((isUser || selectedUser || activeTab === "adminNotifications") &&
+                filteredNotifications.length > itemsPerPage) ||
+              (isAdmin && !selectedUser && activeTab === "users" && filteredUsers.length > itemsPerPage)) && (
+                <div className="flex flex-col sm:flex-row items-center justify-between mt-6 gap-4">
+                  <div className="body-sm   text-gray-600">
+                    Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
+                    {Math.min(
+                      currentPage * itemsPerPage,
+                      isAdmin && !selectedUser && activeTab === "users"
+                        ? filteredUsers.length
+                        : filteredNotifications.length
+                    )}{" "}
+                    of{" "}
+                    {isAdmin && !selectedUser && activeTab === "users"
+                      ? filteredUsers.length
+                      : filteredNotifications.length}{" "}
+                    {isAdmin && !selectedUser && activeTab === "users"
+                      ? "users"
+                      : "items"}
+                  </div>
+                  <div className="flex flex-wrap gap-2">
                     <button
-                      onClick={() => goToPage(2)}
-                      className={`px-3 py-1 rounded-md ${
-                        currentPage === 2
-                          ? "bg-blue-600 text-white"
-                          : "bg-white text-gray-700 hover:bg-gray-50 border"
+                      onClick={() => goToPage(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className={`px-3 py-1 rounded-md border ${
+                        currentPage === 1
+                          ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                          : "bg-white text-gray-700 hover:bg-gray-50"
                       }`}
+                      data-tooltip-id="prev-page-btn"
+                      data-tooltip-content="Previous page"
                     >
-                      2
+                      Previous
+                      <ReactTooltip
+                        id="prev-page-btn"
+                        className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+                      />
                     </button>
-                  )}
 
-                  {/* Show ellipsis if there are pages between 2 and n-1 */}
-                  {totalPages > 4 && <span className="px-3 py-1">...</span>}
+                    {getPaginationRange().map((pageNumber, index) => {
+                      if (pageNumber === "...") {
+                        return (
+                          <span key={index} className="px-3 py-1 text-gray-700">
+                            ...
+                          </span>
+                        );
+                      }
 
-                  {/* Show second last page if it's not page 2 */}
-                  {totalPages >= 4 && (
+                      return (
+                        <button
+                          key={index}
+                          onClick={() => goToPage(pageNumber)}
+                          className={`px-3 py-1 rounded-md ${
+                            currentPage === pageNumber
+                              ? "bg-blue-600 text-white"
+                              : "bg-white text-gray-700 hover:bg-gray-50 border"
+                          }`}
+                          data-tooltip-id={`page-${pageNumber}-btn`}
+                          data-tooltip-content={`Go to page ${pageNumber}`}
+                        >
+                          {pageNumber}
+                          <ReactTooltip
+                            id={`page-${pageNumber}-btn`}
+                            className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+                          />
+                        </button>
+                      );
+                    })}
+
                     <button
-                      onClick={() => goToPage(totalPages - 1)}
-                      className={`px-3 py-1 rounded-md ${
-                        currentPage === totalPages - 1
-                          ? "bg-blue-600 text-white"
-                          : "bg-white text-gray-700 hover:bg-gray-50 border"
-                      }`}
-                    >
-                      {totalPages - 1}
-                    </button>
-                  )}
-
-                  {/* Show last page if it's not page 1 or 2 */}
-                  {totalPages >= 3 && (
-                    <button
-                      onClick={() => goToPage(totalPages)}
-                      className={`px-3 py-1 rounded-md ${
+                      onClick={() => goToPage(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                      className={`px-3 py-1 rounded-md border ${
                         currentPage === totalPages
-                          ? "bg-blue-600 text-white"
-                          : "bg-white text-gray-700 hover:bg-gray-50 border"
+                          ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                          : "bg-white text-gray-700 hover:bg-gray-50"
                       }`}
+                      data-tooltip-id="next-page-btn"
+                      data-tooltip-content="Next page"
                     >
-                      {totalPages}
+                      Next
+                      <ReactTooltip
+                        id="next-page-btn"
+                        className="!bg-white !text-gray-700 !shadow-md !border !border-gray-200"
+                      />
                     </button>
-                  )}
-
-                  <button
-                    onClick={() => goToPage(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                    className={`px-3 py-1 rounded-md border ${
-                      currentPage === totalPages
-                        ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                        : "bg-white text-gray-700 hover:bg-gray-50"
-                    }`}
-                  >
-                    Next
-                  </button>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
         </div>
       </div>

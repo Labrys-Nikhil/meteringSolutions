@@ -24,12 +24,12 @@
 //           className="flex-1 flex items-center cursor-pointer"
 //           onClick={onSelect}
 //         >
-//           <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-medium body-xs  mr-3">
+//           <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-medium body-sm   mr-3">
 //             {getInitials(user.firstName, user.lastName)}
 //           </div>
 //           <div className="flex-1">
 //             <div className="font-medium text-gray-900">{user.firstName} {user.lastName}</div>
-//             <div className="body-xs  text-gray-600">@{user.username}</div>
+//             <div className="body-sm   text-gray-600">@{user.username}</div>
 //           </div>
 //         </div>
         
@@ -55,7 +55,7 @@
 //         </div>
 //       </div>
       
-//       <div className="space-y-1 body-xs  text-gray-600">
+//       <div className="space-y-1 body-sm   text-gray-600">
 //         <div className="flex items-center">
 //           <Icons.Mail className="h-3 w-3 mr-2" />
 //           {user.email}
@@ -66,7 +66,7 @@
 //         </div>
 //       </div>
       
-//       <div className="flex items-center justify-between mt-3 body-xstext-gray-500">
+//       <div className="flex items-center justify-between mt-3 body-xs  text-gray-500">
 //         <div className="flex items-center">
 //           <Icons.Activity className="h-3 w-3 mr-1" />
 //           {user.loginCount} logins
@@ -114,14 +114,14 @@ const UserCard = ({
           className="flex-1 flex items-center cursor-pointer"
           onClick={onSelect}
         >
-          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-medium body-xs  mr-3">
+          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-medium body-sm   mr-3">
             {/* {getInitials(user.firstName, user.lastName)} */}
             {getInitials(user.firstName, user.lastName, user.name)} 
           </div>
           <div className="flex-1">
              <div className="font-medium text-gray-900">{user.name}</div>
             {/* <div className="font-medium text-gray-900">{user.firstName} {user.lastName}</div> */}
-            <div className="body-xs  text-gray-600">@{user.name.split().join("").toLowerCase()}</div>
+            {/* <div className="body-sm   text-gray-600">{user.name.split().join("").toLowerCase()}</div> */}
           </div>
         </div>
         
@@ -147,7 +147,7 @@ const UserCard = ({
         </div>
       </div>
       
-      <div className="space-y-1 body-xs  text-gray-600">
+      <div className="space-y-1 body-sm   text-gray-600">
         <div className="flex items-center">
           <Icons.Mail className="h-3 w-3 mr-2" />
           {user.email}
@@ -158,7 +158,7 @@ const UserCard = ({
         </div>
       </div>
       
-      <div className="flex items-center justify-between mt-3 body-xstext-gray-500">
+      <div className="flex items-center justify-between mt-3 body-xs  text-gray-500">
         <div className="flex items-center">
           <Icons.Activity className="h-3 w-3 mr-1" />
           {user.loginCount || 0} logins

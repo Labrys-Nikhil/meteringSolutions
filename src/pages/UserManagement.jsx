@@ -10,6 +10,7 @@ import EditUserModal from "../components/userManagement/EditUserModal";
 import DeleteConfirmation from "../components/userManagement/DeleteConfirmation";
 import Icons from "../components/icons/LucideIcons";
 
+
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo } from "react";
 import { userQueryData } from '../redux/slice/userMangementSlice'
@@ -126,10 +127,11 @@ const UserManagement = () => {
         <div className="mb-8">
           <div className="flex  items-center justify-between gap-4">
             <div>
-              <h1 className="heading-xl sm:heading-xl md:text-3xl font-semibold text-gray-900">
-                User Management
-              </h1>
-              <p className="body-xs  sm:text-base text-gray-600">
+       <h1 className="body-md   sm:text-lg md:heading-xl   font-semibold text-gray-900">
+  User Management
+</h1>
+
+              <p className="body-sm   sm:text-base text-gray-600">
                 Manage user accounts, roles, and permissions
               </p>
             </div>
@@ -142,7 +144,7 @@ const UserManagement = () => {
              bg-blue-600 text-white 
              rounded-md 
              hover:bg-blue-700 transition-colors 
-             body-xs  sm:text-base md:heading-lg 
+             body-sm   sm:text-base md:text-lg 
              whitespace-nowrap"
               >
                 <Icons.UserPlus className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 mr-2" />

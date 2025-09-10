@@ -44,7 +44,7 @@ import superAdminMeterDataReducer from '../slice/superAdminMeterSlice'
 import profileReducer from '../slice/userSlice'
 import notificationReducer from '../slice/notificationSlice'
 import ticketReducer  from '../slice/ticketSlice';
-
+import alertReducer from '../slice/alertSlice'; // Adjust path as needed
 const authPersistConfig = {
   key: "auth",
   storage,
@@ -64,6 +64,7 @@ const rootReducer = combineReducers({
   meters:superAdminMeterDataReducer,
   profile: profileReducer,
   notifications: notificationReducer,
+  alerts: alertReducer, // Make sure this is added,
   tickets: ticketReducer,
 });
 

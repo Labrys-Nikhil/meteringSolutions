@@ -6,7 +6,7 @@ import { adminDashboard } from "../../api/apiService";
 
 const StatusPill = ({ status }) => (
   <span
-    className={`inline-block capitalize body-xssm:body-xs  px-3 py-1 rounded-full font-medium ${
+    className={`inline-block capitalize body-xs  sm:body-sm   px-3 py-1 rounded-full font-medium ${
       status === "online"
         ? "bg-green-100 text-green-700"
         : "bg-red-100 text-red-600"
@@ -63,10 +63,10 @@ const DueBalanceUser = () => {
     <div className="min-h-screen bg-blue-50 p-4 sm:p-4 lg:p-4">
       {/* Page Header */}
       <div className="mb-4">
-        <h1 className="heading-xl lg:text-2xl font-bold text-gray-800 mb-1">
+        <h1 className="heading-xl   lg:text-2xl font-bold text-gray-800 mb-1">
           Due Balance
         </h1>
-        <p className="body-xs  text-gray-600 hidden sm:block">
+        <p className="body-sm   text-gray-600 hidden sm:block">
           Search and filter meters with negative balance.
         </p>
       </div>
@@ -76,13 +76,13 @@ const DueBalanceUser = () => {
         <div className="flex flex-col justify-between sm:flex-row sm:items-end gap-4 flex-wrap">
           {/* Search Input */}
           <div className="w-full sm:w-auto">
-            <label className="body-xs  font-medium text-gray-700 mb-1 block">
+            <label className="body-sm   font-medium text-gray-700 mb-1 block">
               Search
             </label>
             <input
               type="text"
               placeholder="Search Meter ID, User Name, Meter Name..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-md body-xs  focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md body-sm   focus:outline-none focus:ring-1 focus:ring-blue-500"
               value={searchText}
               onChange={(e) => {
                 setSearchText(e.target.value);
@@ -93,12 +93,12 @@ const DueBalanceUser = () => {
           {/* Date Filters */}
           <div className="flex gap-6 w-full sm:w-auto">
             <div className="w-full sm:w-1/2">
-              <label className="body-xs  font-medium text-gray-700 mb-1 block">
+              <label className="body-sm   font-medium text-gray-700 mb-1 block">
                 Start Date
               </label>
               <input
                 type="date"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md body-xs  focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md body-sm   focus:outline-none focus:ring-1 focus:ring-blue-500"
                 value={startTime}
                 onChange={(e) => {
                   setStartTime(e.target.value);
@@ -106,12 +106,12 @@ const DueBalanceUser = () => {
               />
             </div>
             <div className="w-full sm:w-1/2">
-              <label className="body-xs  font-medium text-gray-700 mb-1 block">
+              <label className="body-sm   font-medium text-gray-700 mb-1 block">
                 End Date
               </label>
               <input
                 type="date"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md body-xs  focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md body-sm   focus:outline-none focus:ring-1 focus:ring-blue-500"
                 value={endTime}
                 onChange={(e) => {
                   setEndTime(e.target.value);
@@ -147,57 +147,57 @@ const DueBalanceUser = () => {
               key={index}
               className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-5"
             >
-              <div className="body-xs  w-full grid grid-cols-2 sm:grid-cols-7 gap-4 text-center">
+              <div className="body-sm   w-full grid grid-cols-2 sm:grid-cols-7 gap-4 text-center">
                 {/* Meter ID */}
                 <div className="min-w-0">
-                  <p className="heading-md font-semibold text-gray-500">
+                  <p className="body-md   font-semibold text-gray-500">
                     Meter ID
                   </p>
-                  <p className="body-xs  sm:text-base font-semibold text-blue-600 break-all">
+                  <p className="body-sm   sm:text-base font-semibold text-blue-600 break-all">
                     {meter?.meterId}
                   </p>
                 </div>
 
                 {/* User */}
                 <div>
-                  <p className="heading-md font-semibold text-gray-500">User</p>
-                  <p className="body-xs  sm:text-base font-medium">
+                  <p className="body-md   font-semibold text-gray-500">User</p>
+                  <p className="body-sm   sm:text-base font-medium">
                     {assignedUser?.name || "Unassigned"}
                   </p>
                 </div>
 
                 {/* Email */}
                 <div>
-                  <p className="heading-md font-semibold text-gray-500">Phone</p>
-                  <p className="body-xs  break-words">
+                  <p className="body-md   font-semibold text-gray-500">Phone</p>
+                  <p className="body-sm   break-words">
                     {assignedUser?.phone || "Unassigned"}
                   </p>
                 </div>
 
                 {/* Meter Name */}
                 <div>
-                  <p className="heading-md font-semibold text-gray-500">
+                  <p className="body-md   font-semibold text-gray-500">
                     Meter Name
                   </p>
-                  <p className="body-xs ">{meter?.name}</p>
+                  <p className="body-sm  ">{meter?.name}</p>
                 </div>
 
                 {/* Due Balance */}
                 <div>
-                  <p className="heading-md font-semibold text-gray-500">
+                  <p className="body-md   font-semibold text-gray-500">
                     Due Balance
                   </p>
-                  <p className="text-red-600 font-bold text-base sm:heading-lg">
+                  <p className="text-red-600 font-bold text-base sm:text-lg">
                     ₹{(payment?.amount ?? 0).toFixed(2)}
                   </p>
                 </div>
 
                 {/* Last Updated */}
                 <div>
-                  <p className="heading-md font-semibold text-gray-500">
+                  <p className="body-md   font-semibold text-gray-500">
                     Last Updated
                   </p>
-                  <p className="body-xs  text-blue-700">
+                  <p className="body-sm   text-blue-700">
                     {payment?.updatedAt
                       ? format(new Date(payment.updatedAt), "dd/MM/yyyy HH:mm")
                       : "N/A"}
@@ -206,7 +206,7 @@ const DueBalanceUser = () => {
 
                 {/* Status */}
                 <div className="">
-                  <p className="heading-md font-semibold text-gray-500">status</p>
+                  <p className="body-md   font-semibold text-gray-500">status</p>
                   <StatusPill status={meter?.status || "offline"} />
                 </div>
               </div>

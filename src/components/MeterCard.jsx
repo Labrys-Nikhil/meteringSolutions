@@ -18,7 +18,7 @@ const MeterCard = ({ meter, onClick }) => {
 
 
         <div
-          className={`body-xs px-2 py-1 rounded-full ${meter.status === "offline"
+          className={`body-xs  px-2 py-1 rounded-full font-medium ${meter.status === "offline"
               ? "bg-red-100 text-red-700"
               : "bg-green-100 text-green-700"
             }`}
@@ -28,17 +28,17 @@ const MeterCard = ({ meter, onClick }) => {
       </div>
 
       {/* <h3 className="text-[13px] font-semibold text-gray-800 truncate"> */}
-      <h3 className="body-md font-semibold text-gray-800 mb-2">
+      <h3 className="text-[15px] font-semibold text-gray-800 mb-2 truncate">
         {meter.name}
       </h3>
-      <div className="text-gray-600 space-y-2 body-xs  truncate font-medium">
+      <div className="text-gray-600 space-y-2 body-sm   truncate font-medium">
         ID: {meter.meterId}
       </div>
-      <div className="text-gray-600 space-y-2 body-xs  font-medium truncate">
+      <div className="text-gray-600 space-y-2 body-sm   font-medium truncate">
         Type: {meter.type}
       </div>
 
-      <div className="space-y-2 body-xs ">
+      <div className="space-y-2 body-sm  ">
         <div className="flex justify-between">
           <span className="text-gray-600">Slave ID</span>
           <span className="font-medium">{meter.slaveId}</span>

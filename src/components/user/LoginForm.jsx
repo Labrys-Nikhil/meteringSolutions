@@ -57,12 +57,12 @@
 //         <div className="bg-gradient-to-br from-cyan-400 to-blue-600 text-white flex flex-col items-center justify-center p-8">
 //           <img src="./logo.svg" alt="Logo" className="w-36 mb-6" />
 //           <h2 className="text-3xl font-bold mb-2">Welcome Back</h2>
-//           <p className="text-center body-xs ">Log in to your dashboard and manage your account</p>
+//           <p className="text-center body-sm  ">Log in to your dashboard and manage your account</p>
 //         </div>
 
 //         {/* Right Form Panel */}
 //         <div className="p-8">
-//           <h2 className="heading-xl font-semibold text-center text-gray-800 mb-6">Sign In</h2>
+//           <h2 className="heading-xl   font-semibold text-center text-gray-800 mb-6">Sign In</h2>
 
 //           <div className="mb-4 relative">
 //             <Mail className="absolute left-3 top-3.5 text-gray-400" size={18} />
@@ -113,13 +113,13 @@
 //           </button>
 
 //           {signInError && (
-//             <p className="text-red-500 text-center mt-4 body-xs ">
+//             <p className="text-red-500 text-center mt-4 body-sm  ">
 //               The email/password combination is incorrect
 //             </p>
 //           )}
 
 //           <div className="text-center mt-6">
-//             <p className="body-xs  text-gray-600">
+//             <p className="body-sm   text-gray-600">
 //               Don&apos;t have an account?{' '}
 //               <Link to="/customer-register" className="text-blue-600 font-semibold hover:underline">
 //                 Sign Up
@@ -201,14 +201,15 @@ const LoginForm = () => {
       <div className="w-full max-w-xl bg-white rounded-xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
         {/* Left Branding Panel */}
         <div className="bg-gradient-to-br from-cyan-400 to-blue-600 text-white flex flex-col items-center justify-center p-8">
-          <img src="./logo.svg" alt="Logo" className="w-36 mb-6" />
+          <img src='./logo.svg' alt="Logo" className="w-48 mb-6" />
+
           <h2 className="text-3xl font-bold mb-2">Welcome Back</h2>
-          <p className="text-center body-xs ">Log in to your dashboard and manage your account</p>
+          <p className="text-center body-sm  ">Log in to your dashboard and manage your account</p>
         </div>
 
         {/* Right Form Panel */}
         <div className="p-8">
-          <h2 className="heading-xl font-semibold text-center text-gray-800 mb-6">Sign In</h2>
+          <h2 className="heading-xl   font-semibold text-center text-gray-800 mb-6">Sign In</h2>
 
           <div className="mb-4 relative">
             <Mail className="absolute left-3 top-3.5 text-gray-400" size={18} />
@@ -256,19 +257,19 @@ const LoginForm = () => {
           </button>
 
           {signInError && (
-            <p className="text-red-500 text-center mt-4 body-xs ">
+            <p className="text-red-500 text-center mt-4 body-sm  ">
               The email/password combination is incorrect
             </p>
           )}
 
-          <div className="text-center mt-6">
-            <p className="body-xs  text-gray-600">
+          {/* <div className="text-center mt-6">
+            <p className="body-sm   text-gray-600">
               Don&apos;t have an account?{' '}
               <Link to="/customer-register" className="text-blue-600 font-semibold hover:underline">
                 Sign Up
               </Link>
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -12,14 +12,14 @@
 //             className={`bg-white px-4 py-3 rounded-xl shadow-md transition-transform transform hover:scale-105 ${className}`}
 //         >
 //             {/* Title */}
-//             <h4 className="body-xsfont-semibold text-gray-500">{title}</h4>
+//             <h4 className="body-xs  font-semibold text-gray-500">{title}</h4>
 
 //             {/* Value */}
-//             <p className="heading-lg font-bold text-gray-800 mt-1">{value}</p>
+//             <p className="text-lg font-bold text-gray-800 mt-1">{value}</p>
 
 //             {/* Change Indicator */}
 //             <p
-//                 className={`body-xsmt-2 ${isPositive ? "text-green-500" : "text-red-500"
+//                 className={`body-xs  mt-2 ${isPositive ? "text-green-500" : "text-red-500"
 //                     }`}
 //             >
 //                 {isPositive ? `+${change}` : `${change}`} from last month
@@ -76,14 +76,14 @@ const MetricsCard = ({
       className={`bg-white px-4 py-3 rounded-xl shadow-md transition-transform transform hover:scale-105 ${className}`}
     >
       {/* Title */}
-      <h4 className="body-xsfont-semibold text-gray-500">{title}</h4>
+      <h4 className="body-xs  font-semibold text-gray-500">{title}</h4>
 
       {/* Value */}
-      <p className="heading-lg font-bold text-gray-800 mt-1">{value}</p>
+      <p className="text-lg font-bold text-gray-800 mt-1">{value}</p>
 
       {/* Change Indicator */}
       <p
-        className={`body-xsmt-2 ${
+        className={`body-xs  mt-2 ${
           isPositive ? "text-green-500" : "text-red-500"
         }`}
       >

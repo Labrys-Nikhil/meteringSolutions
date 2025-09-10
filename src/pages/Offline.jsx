@@ -1,246 +1,361 @@
-import React, { useState, useEffect } from "react";
-import {
-  Eye,
-  ArrowLeft,
-  Filter,
-  Zap,
-  Clock,
-  Wifi,
-  WifiOff,
-  Link,
-  Link2Off,
-} from "lucide-react";
 
+
+// import React, { useState, useEffect } from "react";
+// import { Wifi, WifiOff, Link, Link2Off } from "lucide-react";
+// import { useDispatch, useSelector } from "react-redux";
+// import { fetchMeterListByAdmin } from "../redux/thunks/adminDashboardThunks";
+// import { selectUserId } from "../redux/slice/authSlice";
+// import { selectMeterList } from "../redux/slice/adminDashboardSlice";
+
+// const StatusPill = ({ status }) => (
+//   <span
+//     className={`inline-block capitalize body-xs  sm:body-sm   px-3 py-1 rounded-full font-medium ${
+//       status === "online"
+//         ? "bg-green-100 text-green-700"
+//         : "bg-red-100 text-red-600"
+//     }`}
+//   >
+//     {status || "Offline"}
+//   </span>
+// );
+
+// const AssignmentPill = ({ isAssigned }) => (
+//   <span
+//     className={`inline-flex items-center gap-1 px-3 py-1 rounded-full body-xs  sm:body-sm   font-medium ${
+//       isAssigned ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-600"
+//     }`}
+//   >
+//     {isAssigned ? <Link className="w-3 h-3" /> : <Link2Off className="w-3 h-3" />}
+//     {isAssigned ? "Assigned" : "Unassigned"}
+//   </span>
+// );
+
+// const Offline = () => {
+//   const [searchTerm, setSearchTerm] = useState("");
+//   const dispatch = useDispatch();
+//   const adminId = useSelector(selectUserId);
+//   const adminMeterList = useSelector(selectMeterList);
+
+//   useEffect(() => {
+//     if (adminId) {
+//       dispatch(fetchMeterListByAdmin(adminId));
+//     }
+//   }, [dispatch, adminId]);
+
+//   const filteredMeters = adminMeterList.filter((meter) => {
+//     const status = meter.status?.toLowerCase();
+//     const isOffline = status === "offline";
+
+//     const matchesSearch =
+//       meter.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//       meter.meterId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//       meter.type?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//       meter.meterSerialNumber?.toString().includes(searchTerm);
+
+//     return isOffline && matchesSearch;
+//   });
+
+//   return (
+//     <div className="min-h-screen bg-blue-50 p-2 sm:p-4 md:p-6">
+//       {/* Page Header */}
+//       <div className="mb-2">
+//         <h1 className="heading-xl   lg:text-2xl font-bold text-gray-800 mb-1">
+//           Offline Meters
+//         </h1>
+//         <p className="body-sm   text-gray-600 hidden sm:block">
+//           Search and filter meters that are currently offline.
+//         </p>
+//       </div>
+
+//       {/* Search Filter */}
+//       <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 mb-4">
+//         <div className="flex flex-col sm:flex-row sm:items-end gap-4 flex-wrap">
+//           <div className="w-full sm:w-auto">
+//             <label className="body-sm   font-medium text-gray-700 mb-1 block">
+//               Search
+//             </label>
+//             <input
+//               type="text"
+//               placeholder="Search by Name, Meter ID or Serial"
+//               value={searchTerm}
+//               onChange={(e) => setSearchTerm(e.target.value)}
+//               className="w-full px-3 py-2 border border-gray-300 rounded-md body-sm   focus:outline-none focus:ring-1 focus:ring-blue-500"
+//             />
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Results */}
+//       <div className="space-y-4">
+//         {filteredMeters.length === 0 ? (
+//           <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
+//             <WifiOff className="mx-auto h-12 w-12 text-gray-300 mb-4" />
+//             <p>No offline meters found</p>
+//           </div>
+//         ) : (
+//           filteredMeters.map((meter) => (
+//             <div
+//               key={meter._id}
+//               className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-5"
+//             >
+//               <div className="body-sm   w-full grid grid-cols-2 sm:grid-cols-6 gap-4 text-center">
+//                 {/* Meter Name */}
+//                 <div>
+//                   <p className="body-md   font-semibold text-gray-500">Name</p>
+//                   <p className="body-sm   sm:text-base font-medium text-blue-600">
+//                     {meter.name}
+//                   </p>
+//                 </div>
+
+//                 {/* Meter ID */}
+//                 <div>
+//                   <p className="body-md   font-semibold text-gray-500">Meter ID</p>
+//                   <p className="body-sm   break-all">{meter.meterId}</p>
+//                 </div>
+
+//                 {/* Type */}
+//                 <div>
+//                   <p className="body-md   font-semibold text-gray-500">Type</p>
+//                   <p className="body-sm  ">{meter.type}</p>
+//                 </div>
+
+//                 {/* Status */}
+//                 <div>
+//                   <p className="body-md   font-semibold text-gray-500">Status</p>
+//                   <StatusPill status={meter.status} />
+//                 </div>
+
+//                 {/* Assignment */}
+//                 <div>
+//                   <p className="body-md   font-semibold text-gray-500">
+//                     Assignment
+//                   </p>
+//                   <AssignmentPill isAssigned={meter.isAssigned} />
+//                 </div>
+
+//                 {/* Assign Date */}
+//                 <div>
+//                   <p className="body-md   font-semibold text-gray-500">
+//                     Assign Date
+//                   </p>
+//                   <p className="body-sm   text-gray-700">
+//                     {meter.userAssignedTimestamp
+//                       ? new Date(meter.userAssignedTimestamp).toLocaleString(
+//                           "en-IN",
+//                           {
+//                             year: "numeric",
+//                             month: "short",
+//                             day: "numeric",
+//                             hour: "2-digit",
+//                             minute: "2-digit",
+//                           }
+//                         )
+//                       : "—"}
+//                   </p>
+//                 </div>
+//               </div>
+//             </div>
+//           ))
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Offline;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useState, useEffect } from "react";
+import { WifiOff, Link, Link2Off } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMeterListByAdmin } from "../redux/thunks/adminDashboardThunks";
+import { fetchOfflineOnlineFaultyMeter } from "../redux/thunks/adminDashboardThunks";
 import { selectUserId } from "../redux/slice/authSlice";
-import {
-  selectMeterList,
-  selectLoading,
-  selectError,
-} from "../redux/slice/adminDashboardSlice";
+import { selectFetchDashboardData, selectLoading } from "../redux/slice/adminDashboardSlice";
+
+const AssignmentPill = ({ isAssigned }) => (
+  <span
+    className={`inline-flex items-center gap-1 px-3 py-1 rounded-full body-xs  sm:body-sm   font-medium ${
+      isAssigned ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-600"
+    }`}
+  >
+    {isAssigned ? <Link className="w-3 h-3" /> : <Link2Off className="w-3 h-3" />}
+    {isAssigned ? "Assigned" : "Unassigned"}
+  </span>
+);
 
 const Offline = () => {
-  const [currentView, setCurrentView] = useState("main");
-  const [selectedMeter, setSelectedMeter] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
-
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10); // ✅ dropdown control for 10/20/30
   const dispatch = useDispatch();
   const adminId = useSelector(selectUserId);
-  const adminMeterList = useSelector(selectMeterList);
+  const dashboardData = useSelector(selectFetchDashboardData);
+  const loading = useSelector(selectLoading);
 
   useEffect(() => {
-    dispatch(fetchMeterListByAdmin(adminId));
-  }, [dispatch]);
-
-  const filteredMeters = adminMeterList.filter((meter) => {
-    const status = meter.status?.toLowerCase();
-    const isOfflineOrFaulty = status === "offline";
-
-    const matchesSearch =
-      meter.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      meter.meterId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      meter.type?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      meter.meterSerialNumber?.toString().includes(searchTerm);
-
-    return isOfflineOrFaulty && matchesSearch;
-  });
-
-  console.log("====filteredMeters=====", filteredMeters);
-  const handleViewMeter = (meter) => {
-    setSelectedMeter(meter);
-    setCurrentView("meterDetails");
-  };
-
-  const handleBackToMeterList = () => {
-    setSelectedMeter(null);
-    setCurrentView("main");
-    setSearchTerm("");
-    setStatusFilter("all");
-  };
-
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-IN", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
-  const getStatusBadge = (status) => {
-    const baseClasses =
-      "inline-flex items-center px-2.5 py-0.5 rounded-full body-xsfont-medium";
-    if (status === "online") {
-      return `${baseClasses} bg-green-100 text-green-800`;
-    } else {
-      return `${baseClasses} bg-red-100 text-red-800`;
+    if (adminId) {
+      dispatch(fetchOfflineOnlineFaultyMeter({ adminId, page, limit }));
     }
-  };
+  }, [dispatch, adminId, page, limit]);
 
-  const getAssignmentBadge = (isAssigned) => {
-    const baseClasses =
-      "inline-flex items-center px-2.5 py-0.5 rounded-full body-xsfont-medium";
-    if (isAssigned) {
-      return `${baseClasses} bg-blue-100 text-blue-800`;
-    } else {
-      return `${baseClasses} bg-gray-100 text-gray-800`;
-    }
-  };
+  const offlineMeters = dashboardData?.data?.offlineMeters || [];
+  const pagination = dashboardData?.data?.pagination?.offline || { total: 0, totalPages: 0 };
+
+  const filteredMeters = offlineMeters.filter((meter) =>
+    meter.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    meter.meterId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    meter.type?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    meter.meterSerialNumber?.toString().includes(searchTerm)
+  );
 
   return (
-    <div className="min-h-screen bg-blue-200/10 p-4 sm:p-6 md:p-8">
-      {currentView === "main" && (
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">
-              Admin Dashboard
-            </h1>
-            <p className="text-gray-500">Manage meters and their assignments</p>
+    <div className="min-h-screen bg-blue-50 p-2 sm:p-4 md:p-6">
+      {/* Page Header */}
+      <div className="mb-2 flex flex-col sm:flex-row sm:items-center justify-between">
+        <div>
+          <h1 className="heading-xl   lg:text-2xl font-bold text-gray-800 mb-1">
+            Offline Meters
+          </h1>
+          <p className="body-sm   text-gray-600 hidden sm:block">
+            Search and filter meters that are currently offline.
+          </p>
+        </div>
+        {/* Limit Selector */}
+        <div>
+          <label className="body-sm   font-medium text-gray-700 mr-2">Rows per page:</label>
+          <select
+            value={limit}
+            onChange={(e) => {
+              setLimit(Number(e.target.value));
+              setPage(1); // reset to first page on limit change
+            }}
+            className="px-2 py-1 border rounded-md body-sm  "
+          >
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={30}>30</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Search Filter */}
+      <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-end gap-4 flex-wrap">
+          <div className="w-full sm:w-auto">
+            <label className="body-sm   font-medium text-gray-700 mb-1 block">
+              Search
+            </label>
+            <input
+              type="text"
+              placeholder="Search by Name, Meter ID or Serial"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md body-sm   focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
           </div>
+        </div>
+      </div>
 
-          <div className=" min-h-screen bg-white rounded-lg shadow mb-6">
-            <div className="px-6 py-4 border-b flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-              <h2 className="heading-xl font-semibold text-gray-800">
-                Meters List
-              </h2>
-              <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                {/* <div className="flex items-center">
-                                    <Filter className="w-4 h-4 text-gray-500 mr-2" />
-                                    <select
-                                        value={statusFilter}
-                                        onChange={(e) => setStatusFilter(e.target.value)}
-                                        className="body-xs  border border-gray-300 rounded-md px-2 py-1"
-                                    >
-                                        <option value="all">All Status</option>
-                                        <option value="online">Faulty</option>
-                                        <option value="offline">Offline</option>
+      {/* Results */}
+      <div className="space-y-4">
+        {loading ? (
+          <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
+            <p>Loading offline meters...</p>
+          </div>
+        ) : filteredMeters.length === 0 ? (
+          <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
+            <WifiOff className="mx-auto h-12 w-12 text-gray-300 mb-4" />
+            <p>No offline meters found</p>
+          </div>
+        ) : (
+          filteredMeters.map((meter) => (
+            <div
+              key={meter._id}
+              className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-5"
+            >
+              <div className="body-sm   w-full grid grid-cols-2 sm:grid-cols-5 gap-4 text-center">
+                {/* Meter Name */}
+                <div>
+                  <p className="body-md   font-semibold text-gray-500">Name</p>
+                  <p className="body-sm   sm:text-base font-medium text-blue-600">
+                    {meter.name}
+                  </p>
+                </div>
 
-                                    </select>
-                                </div> */}
-                <input
-                  type="text"
-                  placeholder="Search by Name, Meter ID or Serial"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full sm:w-72 border border-gray-300 rounded-md px-3 py-2 body-xs  text-gray-700"
-                />
+                {/* Meter ID */}
+                <div>
+                  <p className="body-md   font-semibold text-gray-500">Meter ID</p>
+                  <p className="body-sm   break-all">{meter.meterId}</p>
+                </div>
+
+                {/* Type */}
+                <div>
+                  <p className="body-md   font-semibold text-gray-500">Type</p>
+                  <p className="body-sm  ">{meter.type}</p>
+                </div>
+
+                {/* Assignment */}
+                <div>
+                  <p className="body-md   font-semibold text-gray-500">Assignment</p>
+                  <AssignmentPill isAssigned={meter.isAssigned} />
+                </div>
+
+                {/* Assign Date */}
+                <div>
+                  <p className="body-md   font-semibold text-gray-500">Assign Date</p>
+                  <p className="body-sm   text-gray-700">
+                    {meter.userAssignedTimestamp
+                      ? new Date(meter.userAssignedTimestamp).toLocaleString("en-IN", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })
+                      : "—"}
+                  </p>
+                </div>
               </div>
             </div>
+          ))
+        )}
+      </div>
 
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left body-xsfont-medium text-gray-500 uppercase tracking-wider">
-                      Meter Name
-                    </th>
-                    <th className="px-6 py-3 text-left body-xsfont-medium text-gray-500 uppercase tracking-wider">
-                      Meter ID
-                    </th>
-                    <th className="px-6 py-3 text-left body-xsfont-medium text-gray-500 uppercase tracking-wider">
-                      Type
-                    </th>
-                    <th className="px-6 py-3 text-left body-xsfont-medium text-gray-500 uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th className="px-6 py-3 text-left body-xsfont-medium text-gray-500 uppercase tracking-wider">
-                      Assignment
-                    </th>
-                    <th className="px-6 py-3 text-right body-xsfont-medium text-gray-500 uppercase tracking-wider">
-                      Assign Date
-                    </th>
-                  </tr>
-                </thead>
-                {/* <tbody className="bg-white divide-y divide-gray-200">
-                  {filteredMeters.map((meter) => (
-                    <tr key={meter._id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 body-xs  font-medium text-gray-750">
-                        {meter.name}
-                      </td>
-                      <td className="px-6 py-4 body-xs  text-gray-500">
-                        {meter.meterId}
-                      </td>
-                      <td className="px-6 py-4 body-xs  text-gray-500">
-                        {meter.type}
-                      </td>
-                      <td className="px-6 py-4 body-xs ">
-                        <span className={getStatusBadge(meter.status)}>
-                          {meter.status === "online" ? (
-                            <Wifi className="w-3 h-3 mr-1" />
-                          ) : (
-                            <WifiOff className="w-3 h-3 mr-1" />
-                          )}
-                          {meter.status.charAt(0).toUpperCase() +
-                            meter.status.slice(1)}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 body-xs ">
-                        <span className={getAssignmentBadge(meter.isAssigned)}>
-                          {meter.isAssigned ? (
-                            <Link className="w-3 h-3 mr-1" />
-                          ) : (
-                            <Link2Off className="w-3 h-3 mr-1" />
-                          )}
-                          {meter.isAssigned ? "Assigned" : "Unassigned"}
-                        </span>
-                      </td>
-
-                      <td className="px-6 py-4 body-xs  text-gray-700 text-right">
-                        {meter.userAssignedTimestamp
-                          ? formatDate(meter.userAssignedTimestamp)
-                          : "—"}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody> */}
-
-                <tbody className="bg-white divide-y divide-gray-200">
-  {filteredMeters.length > 0 ? (
-    filteredMeters.map((meter) => (
-      <tr key={meter._id} className="hover:bg-gray-50">
-        <td className="px-6 py-4 body-xs  font-medium text-gray-750">{meter.name}</td>
-        <td className="px-6 py-4 body-xs  text-gray-500">{meter.meterId}</td>
-        <td className="px-6 py-4 body-xs  text-gray-500">{meter.type}</td>
-        <td className="px-6 py-4 body-xs ">
-          <span className={getStatusBadge(meter.status)}>
-            {meter.status === 'online' ? (
-              <Wifi className="w-3 h-3 mr-1" />
-            ) : (
-              <WifiOff className="w-3 h-3 mr-1" />
-            )}
-            {meter.status.charAt(0).toUpperCase() + meter.status.slice(1)}
+      {/* Pagination */}
+      {pagination.totalPages > 1 && (
+        <div className="flex justify-center mt-6 gap-2">
+          <button
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            disabled={page === 1}
+            className="px-3 py-1 cursor-pointer bg-gray-200 rounded disabled:opacity-50"
+          >
+            Prev
+          </button>
+          <span className="px-3 py-1 bg-white border rounded">
+            Page {page} of {pagination.totalPages}
           </span>
-        </td>
-        <td className="px-6 py-4 body-xs ">
-          <span className={getAssignmentBadge(meter.isAssigned)}>
-            {meter.isAssigned ? (
-              <Link className="w-3 h-3 mr-1" />
-            ) : (
-              <Link2Off className="w-3 h-3 mr-1" />
-            )}
-            {meter.isAssigned ? 'Assigned' : 'Unassigned'}
-          </span>
-        </td>
-        <td className="px-6 py-4 body-xs  text-gray-700 text-right">
-          {meter.userAssignedTimestamp ? formatDate(meter.userAssignedTimestamp) : '—'}
-        </td>
-      </tr>
-    ))
-  ) : (
-    <tr>
-      <td colSpan="6" className="px-6 py-10 text-center text-gray-500 body-xs  font-medium">
-        No Offline Meters Found
-      </td>
-    </tr>
-  )}
-</tbody>
-
-              </table>
-            </div>
-          </div>
+          <button
+            onClick={() => setPage((prev) => Math.min(prev + 1, pagination.totalPages))}
+            disabled={page === pagination.totalPages}
+            className="px-3 cursor-pointer py-1 bg-gray-200 rounded disabled:opacity-50"
+          >
+            Next
+          </button>
         </div>
       )}
     </div>

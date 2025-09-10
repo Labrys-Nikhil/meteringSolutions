@@ -1,183 +1,5 @@
 
 
-
-
-// import React, { useState, useEffect } from "react";
-// import {
-//   Wifi,
-//   WifiOff,
-//   Link,
-//   Link2Off,
-// } from "lucide-react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { fetchMeterListByAdmin } from "../redux/thunks/adminDashboardThunks";
-// import { selectUserId } from "../redux/slice/authSlice";
-// import {
-//   selectMeterList,
-//   selectLoading,
-// } from "../redux/slice/adminDashboardSlice";
-
-// const Faulty = () => {
-//   const [searchTerm, setSearchTerm] = useState("");
-
-//   const dispatch = useDispatch();
-//   const adminId = useSelector(selectUserId);
-//   const adminMeterList = useSelector(selectMeterList);
-//   const loading = useSelector(selectLoading);
-
-//   useEffect(() => {
-//     if (adminId) dispatch(fetchMeterListByAdmin(adminId));
-//   }, [dispatch, adminId]);
-
-//   const filteredMeters = adminMeterList.filter((meter) => {
-//     const status = meter.status?.toLowerCase();
-//     const isFaulty = status === "faulty";
-
-//     const matchesSearch =
-//       meter.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//       meter.meterId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//       meter.type?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//       meter.meterSerialNumber?.toString().includes(searchTerm);
-
-//     return isFaulty && matchesSearch;
-//   });
-
-//   const formatDate = (dateString) => {
-//     return new Date(dateString).toLocaleDateString("en-IN", {
-//       year: "numeric",
-//       month: "short",
-//       day: "numeric",
-//       hour: "2-digit",
-//       minute: "2-digit",
-//     });
-//   };
-
-//   if (loading) {
-//     return (
-//       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center">
-//         <div className="text-center">
-//           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-//           <p className="mt-4 text-gray-600 font-medium">Loading...</p>
-//         </div>
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <div className="min-h-screen bg-blue-200/10 p-2 sm:p-4 md:p-6">
-//       <div className="max-w-7xl mx-auto">
-//         {/* Page Header */}
-//         <div className="mb-4">
-//           <h1 className="text-3xl font-bold text-gray-800 mb-2">
-//             Admin Dashboard
-//           </h1>
-//           <p className="text-gray-500">
-//             Monitor Faulty Meters
-//           </p>
-//         </div>
-
-//         {/* Search */}
-//         <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-2 mb-4">
-//           <input
-//             type="text"
-//             placeholder="Search by Name, Meter ID or Serial"
-//             value={searchTerm}
-//             onChange={(e) => setSearchTerm(e.target.value)}
-//             className="w-full sm:w-80 border border-gray-300 rounded-md px-3 py-2 body-sm   text-gray-700"
-//           />
-//         </div>
-
-//         {/* Results */}
-//         <div className="space-y-4">
-//           {filteredMeters.length === 0 ? (
-//             <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
-//               <p className="text-gray-500 text-lg font-medium">
-//                 No Faulty Meters Found
-//               </p>
-//             </div>
-//           ) : (
-//             filteredMeters.map((meter, idx) => (
-//               <div
-//                 key={idx}
-//                 className="bg-white rounded-lg shadow hover:shadow-md transition-shadow p-5"
-//               >
-//                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 text-center body-sm  ">
-//                   {/* Meter Name */}
-//                   <div>
-//                     <p className="text-gray-500 font-medium">Meter Name</p>
-//                     <p className="font-semibold text-blue-700">
-//                       {meter.name}
-//                     </p>
-//                   </div>
-
-//                   {/* Meter ID */}
-//                   <div>
-//                     <p className="text-gray-500 font-medium">Meter ID</p>
-//                     <p className="break-words">{meter.meterId}</p>
-//                   </div>
-
-//                   {/* Type */}
-//                   <div>
-//                     <p className="text-gray-500 font-medium">Type</p>
-//                     <p>{meter.type}</p>
-//                   </div>
-
-//                   {/* Status */}
-//                   <div>
-//                     <p className="text-gray-500 font-medium">Status</p>
-//                     <span
-//                       className={`inline-flex items-center px-2 py-1 rounded-full body-xs  font-medium bg-red-100 text-red-700`}
-//                     >
-//                       <WifiOff className="w-3 h-3 mr-1" />
-//                       Faulty
-//                     </span>
-//                   </div>
-
-//                   {/* Assignment */}
-//                   <div>
-//                     <p className="text-gray-500 font-medium">Assignment</p>
-//                     <span
-//                       className={`inline-flex items-center px-2 py-1 rounded-full body-xs  font-medium ${
-//                         meter.isAssigned
-//                           ? "bg-blue-100 text-blue-700"
-//                           : "bg-gray-100 text-gray-700"
-//                       }`}
-//                     >
-//                       {meter.isAssigned ? (
-//                         <Link className="w-3 h-3 mr-1" />
-//                       ) : (
-//                         <Link2Off className="w-3 h-3 mr-1" />
-//                       )}
-//                       {meter.isAssigned ? "Assigned" : "Unassigned"}
-//                     </span>
-//                   </div>
-
-//                   {/* Assign Date */}
-//                   <div>
-//                     <p className="text-gray-500 font-medium">Assign Date</p>
-//                     <p className="text-blue-600">
-//                       {meter.userAssignedTimestamp
-//                         ? formatDate(meter.userAssignedTimestamp)
-//                         : "—"}
-//                     </p>
-//                   </div>
-//                 </div>
-//               </div>
-//             ))
-//           )}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Faulty;
-
-
-
-
-
-
 import React, { useState, useEffect } from "react";
 import { WifiOff, Link, Link2Off } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
@@ -196,7 +18,7 @@ const AssignmentPill = ({ isAssigned }) => (
   </span>
 );
 
-const Faulty = () => {
+const Online = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10); // ✅ state for limit
@@ -211,8 +33,8 @@ const Faulty = () => {
     }
   }, [dispatch, adminId, page, limit]);
 
-  const faultyMeters = dashboardData?.data?.faultyMeters || [];
-  const pagination = dashboardData?.data?.pagination?.faulty || { total: 0, totalPages: 0 };
+  const faultyMeters = dashboardData?.data?.onlineMeters || [];
+  const pagination = dashboardData?.data?.pagination?.online || { total: 0, totalPages: 0 };
 
   const filteredMeters = faultyMeters.filter((meter) => {
     return (
@@ -340,7 +162,7 @@ const Faulty = () => {
           <button
             onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
             disabled={page === 1}
-            className="px-3 py-1 cursor-pointer bg-gray-200 rounded disabled:opacity-50"
+            className="px-3 cursor-pointer py-1 bg-gray-200 rounded disabled:opacity-50"
           >
             Prev
           </button>
@@ -350,7 +172,7 @@ const Faulty = () => {
           <button
             onClick={() => setPage((prev) => Math.min(prev + 1, pagination.totalPages))}
             disabled={page === pagination.totalPages}
-            className="px-3 py-1 bg-gray-200 cursor-pointer rounded disabled:opacity-50"
+            className="px-3 cursor-pointer py-1 bg-gray-200 rounded disabled:opacity-50"
           >
             Next
           </button>
@@ -360,4 +182,4 @@ const Faulty = () => {
   );
 };
 
-export default Faulty;
+export default Online;

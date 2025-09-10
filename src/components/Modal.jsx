@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Delete,XIcon } from "lucide-react";
 const Modal = ({ isOpen, onClose, children,heading }) => {
@@ -8,7 +9,7 @@ const Modal = ({ isOpen, onClose, children,heading }) => {
       <div className="bg-white/90 backdrop-blur-lg rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col p-10">
 
         <div className="flex justify-between mb-4 ">
-            <h2 className="heading-xl">{heading}</h2>
+            <h2 className="heading-xl  ">{heading}</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700"

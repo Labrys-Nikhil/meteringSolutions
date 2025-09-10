@@ -20,8 +20,8 @@ const PermissionItem = ({ permission, description, isSelected, onClick }) => {
         {isSelected && <Icons.CheckCircle className="h-4 w-4" />}
       </div>
       <div>
-        <div className="body-xs  font-medium text-gray-800">{permission.replace(/_/g, ' ')}</div>
-        <div className="body-xstext-gray-600">{description}</div>
+        <div className="body-sm   font-medium text-gray-800">{permission.replace(/_/g, ' ')}</div>
+        <div className="body-xs  text-gray-600">{description}</div>
       </div>
     </div>
   );

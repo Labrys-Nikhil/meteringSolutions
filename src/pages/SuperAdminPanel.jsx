@@ -116,10 +116,10 @@ const SuperAdminPanel = () => {
       <Header />
       <div className="p-4 max-w-7xl mx-auto">
         <div className="mb-4">
-          <h1 className="heading-lg sm:heading-xl md:heading-xl font-semibold text-gray-900">
+          <h1 className="text-lg sm:heading-xl   md:heading-xl   font-semibold text-gray-900">
             Admin Panel
           </h1>
-          <p className="body-xssm:text-base text-gray-600">
+          <p className="body-xs  sm:text-base text-gray-600">
             Manage all meters, recharge balances, and monitor statuses
           </p>
         </div>
@@ -128,7 +128,7 @@ const SuperAdminPanel = () => {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-4">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div className="w-full flex justify-start items-center" ref={dropdownRef}>
-              <label className="block body-xs  font-medium text-gray-700 mb-1 gap-4">
+              <label className="block body-sm   font-medium text-gray-700 mb-1 gap-4">
                 Search Meter
               </label>
               <input
@@ -138,7 +138,7 @@ const SuperAdminPanel = () => {
                 onChange={(e) =>
                   setFilters({ ...filters, search: e.target.value })
                 }
-                className=" px-3 py-2 border border-gray-300 rounded-md body-xsfocus:outline-none focus:ring-1 focus:ring-blue-500"
+                className=" px-3 py-2 border border-gray-300 rounded-md body-xs  focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
 
@@ -148,7 +148,7 @@ const SuperAdminPanel = () => {
                 onClick={() =>
                   navigate(`/superAdmin/recharge-history/${selectedMeter?.meterId}`)
                 }
-                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto body-xsrounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto body-xs  rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
               >
                 Recharge History
               </button>
@@ -158,7 +158,7 @@ const SuperAdminPanel = () => {
                 onClick={() =>
                   navigate(`/superAdmin/meter-usage/${selectedMeter?.meterId}`)
                 }
-                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto body-xsrounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto body-xs  rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
               >
                 Usage History
               </button>
@@ -166,7 +166,7 @@ const SuperAdminPanel = () => {
               <button
                 disabled={!selectedMeter}
                 onClick={handleRecharge}
-                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto body-xsrounded-md bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
+                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto body-xs  rounded-md bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
               >
                 Recharge Now
               </button>
@@ -186,7 +186,7 @@ const SuperAdminPanel = () => {
                 onChange={(e) =>
                   setFilters({ ...filters, search: e.target.value })
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-md body-xsfocus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md body-xs  focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
             </div>
 
@@ -197,7 +197,7 @@ const SuperAdminPanel = () => {
                 onClick={() =>
                   navigate(`/superAdmin/recharge-history/${selectedMeter?.meterId}`)
                 }
-                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto body-xsrounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto body-xs  rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
               >
                 Recharge History
               </button>
@@ -207,7 +207,7 @@ const SuperAdminPanel = () => {
                 onClick={() =>
                   navigate(`/superAdmin/meter-usage/${selectedMeter?.meterId}`)
                 }
-                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto body-xsrounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto body-xs  rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
               >
                 Usage History
               </button>
@@ -215,7 +215,7 @@ const SuperAdminPanel = () => {
               <button
                 disabled={!selectedMeter}
                 onClick={handleRecharge}
-                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto body-xsrounded-md bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
+                className="cursor-pointer disabled:cursor-not-allowed px-3 py-2 w-full sm:w-auto body-xs  rounded-md bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
               >
                 Recharge Now
               </button>
@@ -234,7 +234,7 @@ const SuperAdminPanel = () => {
             {/* Meter Cards */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 space-y-4">
               {paginatedMeters.length === 0 ? (
-                <div className="text-center text-gray-500 py-8 text-xs">
+                <div className="text-center text-gray-500 py-8 body-xs ">
                   No meters found for your search.
                 </div>
               ) : (
@@ -249,38 +249,38 @@ const SuperAdminPanel = () => {
                   >
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
                       <div>
-                        <p className="body-xssm:body-xsfont-semibold text-gray-500 tracking-wid">
+                        <p className="body-xs  sm:body-xs  font-semibold text-gray-500 tracking-wid">
                           Meter ID
                         </p>
-                        <p className="body-xsfont-semibold text-blue-700">
+                        <p className="body-xs  font-semibold text-blue-700">
                           {meter.meterId}
                         </p>
                       </div>
                       <div>
-                        <p className="body-xssm:body-xsfont-semibold text-gray-500 tracking-wid">
+                        <p className="body-xs  sm:body-xs  font-semibold text-gray-500 tracking-wid">
                           User
                         </p>
-                        <p className="body-xsfont-medium">{meter.User}</p>
+                        <p className="body-xs  font-medium">{meter.User}</p>
                       </div>
                       <div>
-                        <p className="body-xssm:body-xsfont-semibold text-gray-500 tracking-wid">
+                        <p className="body-xs  sm:body-xs  font-semibold text-gray-500 tracking-wid">
                           Meter Name
                         </p>
-                        <p className="body-xsfont-medium">{meter.meterName}</p>
+                        <p className="body-xs  font-medium">{meter.meterName}</p>
                       </div>
                       <div>
-                        <p className="body-xssm:body-xsfont-semibold text-gray-500 tracking-wid">
+                        <p className="body-xs  sm:body-xs  font-semibold text-gray-500 tracking-wid">
                           Balance
                         </p>
-                        <p className="body-xsfont-bold text-green-600">
+                        <p className="body-xs  font-bold text-green-600">
                           ₹{meter.currentBalance}
                         </p>
                       </div>
                       <div>
-                        <p className="body-xssm:body-xsfont-semibold text-gray-500 tracking-wid">
+                        <p className="body-xs  sm:body-xs  font-semibold text-gray-500 tracking-wid">
                           Last Recharge
                         </p>
-                        <p className="body-xsfont-medium text-blue-600">
+                        <p className="body-xs  font-medium text-blue-600">
                           {new Date(meter.lastRecharge)
                             .toLocaleString("en-GB", {
                               year: "numeric",
@@ -294,11 +294,11 @@ const SuperAdminPanel = () => {
                         </p>
                       </div>
                       <div>
-                        <p className="body-xssm:body-xsfont-semibold text-gray-500 tracking-wid">
+                        <p className="body-xs  sm:body-xs  font-semibold text-gray-500 tracking-wid">
                           Status
                         </p>
                         <span
-                          className={`body-xspx-2 py-1 font-medium rounded-full ${getStatusColor(
+                          className={`body-xs  px-2 py-1 font-medium rounded-full ${getStatusColor(
                             meter.status
                           )}`}
                         >
@@ -316,11 +316,11 @@ const SuperAdminPanel = () => {
               <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
-                className="px-4 py-2 bg-gray-100 rounded-md body-xshover:bg-gray-200 disabled:opacity-50"
+                className="px-4 py-2 bg-gray-100 rounded-md body-xs  hover:bg-gray-200 disabled:opacity-50"
               >
                 Previous
               </button>
-              <span className="body-xsfont-medium text-gray-700">
+              <span className="body-xs  font-medium text-gray-700">
                 Page {currentPage} of {totalPages}
               </span>
               <button
@@ -330,7 +330,7 @@ const SuperAdminPanel = () => {
                   )
                 }
                 disabled={currentPage === totalPages}
-                className="px-4 py-2 bg-gray-100 rounded-md body-xshover:bg-gray-200 disabled:opacity-50"
+                className="px-4 py-2 bg-gray-100 rounded-md body-xs  hover:bg-gray-200 disabled:opacity-50"
               >
                 Next
               </button>
@@ -344,12 +344,12 @@ const SuperAdminPanel = () => {
             <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
               <button
                 onClick={() => setShowRechargeModal(false)}
-                className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 heading-lg"
+                className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-lg"
               >
                 ×
               </button>
-              <h2 className="heading-md font-semibold mb-4">Recharge Meter</h2>
-              <div className="space-y-1 mb-4 body-xstext-gray-700">
+              <h2 className="body-md   font-semibold mb-4">Recharge Meter</h2>
+              <div className="space-y-1 mb-4 body-xs  text-gray-700">
                 <div>
                   <strong>Meter:</strong> {selectedMeter.meterId}
                 </div>
@@ -369,19 +369,19 @@ const SuperAdminPanel = () => {
                 placeholder="Enter recharge amount"
                 value={rechargeAmount}
                 onChange={(e) => setRechargeAmount(e.target.value)}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 text-xs"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 body-xs "
               />
               <div className="flex justify-end gap-2">
                 <button
                   onClick={() => setShowRechargeModal(false)}
-                  className="px-4 py-2 body-xsbg-gray-100 hover:bg-gray-200 rounded-md"
+                  className="px-4 py-2 body-xs  bg-gray-100 hover:bg-gray-200 rounded-md"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={processRecharge}
                   disabled={!rechargeAmount}
-                  className="px-4 py-2 body-xsbg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+                  className="px-4 py-2 body-xs  bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
                 >
                   Recharge
                 </button>

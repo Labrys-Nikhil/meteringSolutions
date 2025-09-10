@@ -24,23 +24,23 @@
 //                     )}
 //                     <span className="font-medium">{action.actionType}</span>
 //                   </div>
-//                   <span className="body-xs  text-gray-500">
+//                   <span className="body-sm   text-gray-500">
 //                     {formatTimestamp(action.timestamp)}
 //                   </span>
 //                 </div>
                 
-//                 <div className="body-xs  text-gray-700 mb-1">
+//                 <div className="body-sm   text-gray-700 mb-1">
 //                   User: {action.userName} (ID: {action.userId})
 //                 </div>
                 
-//                 <div className="body-xs  text-gray-700">
+//                 <div className="body-sm   text-gray-700">
 //                   Performed by: {action.performedBy}
 //                 </div>
                 
 //                 {action.details && Object.keys(action.details).length > 0 && (
 //                   <div className="mt-2">
-//                     <div className="body-xsfont-medium text-gray-500">Details:</div>
-//                     <div className="body-xstext-gray-500 bg-gray-50 p-2 rounded mt-1">
+//                     <div className="body-xs  font-medium text-gray-500">Details:</div>
+//                     <div className="body-xs  text-gray-500 bg-gray-50 p-2 rounded mt-1">
 //                       {Object.entries(action.details).map(([key, value]) => (
 //                         <div key={key} className="flex">
 //                           <span className="font-medium w-28">{key.replace(/_/g, ' ')}:</span>
@@ -146,29 +146,29 @@ const ActionHistory = ({ user }) => {
                       )}
                       <span className="font-medium">{action.actionType}</span>
                     </div>
-                    <span className="body-xs  text-gray-500">
+                    <span className="body-sm   text-gray-500">
                       {formatTimestamp(action.timestamp)}
                     </span>
                   </div>
 
-                  {/* <div className="body-xs  text-gray-700 mb-1">
+                  {/* <div className="body-sm   text-gray-700 mb-1">
                     User: {action.userName} (ID: {action.userId})
                   </div> */}
-                       <div className="body-xs  text-gray-700 mb-1">
+                       <div className="body-sm   text-gray-700 mb-1">
                     User: {user.name
 } (ID: {user._id})
                   </div>
 
-                  <div className="body-xs  text-gray-700">
+                  <div className="body-sm   text-gray-700">
                     Performed by: {action.performedBy}
                   </div>
 
                   {action.details && (
                     <div className="mt-2">
-                      <div className="body-xsfont-medium text-gray-500">
+                      <div className="body-xs  font-medium text-gray-500">
                         Details:
                       </div>
-                      <div className="body-xstext-gray-500 bg-gray-50 p-2 rounded mt-1">
+                      <div className="body-xs  text-gray-500 bg-gray-50 p-2 rounded mt-1">
                         {formatActionDetails(action.details)}
                       </div>
                     </div>

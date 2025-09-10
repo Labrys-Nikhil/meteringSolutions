@@ -4,7 +4,7 @@ import { getRoleBg } from '../../utils/userUtils';
 
 const RoleBadge = ({ role, roleTemplates }) => {
   return (
-    <span className={`px-2 py-0.5 rounded body-xsfont-medium ${getRoleBg(role, roleTemplates)}`}>
+    <span className={`px-2 py-0.5 rounded body-xs  font-medium ${getRoleBg(role, roleTemplates)}`}>
       {roleTemplates[role]?.name || role}
     </span>
   );

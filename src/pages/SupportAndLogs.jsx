@@ -83,7 +83,7 @@ const TicketingSystem = () => {
           name: 'newStatus',
           label: 'New Status',
           type: 'select',
-          options: statuses
+          options: statuses.filter(data =>data.toUpperCase() !== selectedTicket?.status?.toUpperCase())
         },
         {
           name: 'notes',
@@ -101,7 +101,7 @@ const TicketingSystem = () => {
           name: 'newPriority',
           label: 'New Priority',
           type: 'select',
-          options: priorities
+          options: priorities.filter(data => data.toUpperCase() !== selectedTicket?.priority?.toUpperCase())
         },
         {
           name: 'notes',
@@ -144,7 +144,7 @@ const TicketingSystem = () => {
       case "in progress": return "bg-orange-500";
       case "resolved": return "bg-green-500";
       case "closed": return "bg-gray-500";
-      case "cscalated": return "bg-yellow-500";
+      case "escalated": return "bg-yellow-500";
       default: return "bg-gray-500";
     }
   };
@@ -297,7 +297,7 @@ const TicketingSystem = () => {
 
   const handleReOpenClick = (e) => {
     e.preventDefault();
-    if (!selectedTicket || selectedTicket.status !== "CLOSED") return;
+    if (!selectedTicket) return;
     console.log("Reopening ticket:=========", selectedTicket._id);
     dispatch(reopenTicket(selectedTicket._id)).unwrap()
       .then(() => toast.success(`Ticket is ReOpend`))
@@ -306,7 +306,7 @@ const TicketingSystem = () => {
 
   const handleCloseClick = (e) => {
     e.preventDefault();
-    if (!selectedTicket || selectedTicket.status !== "OPEN") return;
+    if (!selectedTicket) return;
     console.log("Closing ticket:", selectedTicket._id);
     // Dispatch close ticket action
     dispatch(closeTicket(selectedTicket._id)).unwrap()
@@ -421,30 +421,86 @@ const TicketingSystem = () => {
                 {/* Filters - Only show for admin users */}
                 {isAdmin && (
                   <div className="flex space-x-2 mb-4">
+                    {/* Status Filter */}
                     <div className="flex-1">
                       <label className="block body-xs  font-medium mb-1">Status</label>
                       <select
                         value={filterStatus}
                         onChange={(e) => setFilterStatus(e.target.value)}
-                        className="w-full body-xs    border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full body-sm   border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       >
                         <option value="All">All Statuses</option>
-                        {statuses.map(status => (
-                          <option key={status} value={status.toUpperCase()}>{status}</option>
-                        ))}
+                        {/* {statuses.map(status => (
+                          <option
+                            key={status}
+                            value={status.toUpperCase()}
+                            disabled={
+                              status.toUpperCase() === selectedTicket?.status?.toUpperCase()
+                            }
+                          >
+                            {status}
+                          </option>
+                        ))} */}
+                        {/* {console.log(statuses
+                          .filter(status =>
+                            selectedTicket?.status
+                              ? status.toUpperCase() !== selectedTicket.status.toUpperCase()
+                              : true
+                          )
+                          .map(status => (
+                            // <option key={status} value={status.toUpperCase()}>
+                              status
+                            // </option>
+                          )))} */}
+
+                        
+                        {statuses
+                          .filter(status =>
+                            selectedTicket?.status
+                              ? status.toUpperCase() !== selectedTicket.status.toUpperCase()
+                              : true
+                          )
+                          .map(status => (
+                            <option key={status} value={status.toUpperCase()}>
+                              {status}
+                            </option>
+                            // console.log("->",status)
+                          ))}
                       </select>
                     </div>
+
+                    {/* Priority Filter */}
                     <div className="flex-1">
                       <label className="block body-xs  font-medium mb-1">Priority</label>
                       <select
                         value={filterPriority}
                         onChange={(e) => setFilterPriority(e.target.value)}
-                        className="body-xs    w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="body-sm   w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       >
-                        <option className='body-xs   ' value="All">All Priorities</option>
-                        {priorities.map(priority => (
-                          <option className='body-xs   ' key={priority} value={priority.toUpperCase()}>{priority}</option>
-                        ))}
+                        <option className="body-sm  " value="All">All Priorities</option>
+                        {/* {priorities.map(priority => (
+                          <option
+                            key={priority}
+                            value={priority.toUpperCase()}
+                            className="body-sm  "
+                            disabled={priority.toUpperCase() === selectIndividualTicket.priority?.toUpperCase()} // ✅ case-insensitive match
+                          >
+                            {priority}
+                          </option>
+                        ))} */}
+                        {priorities
+                          .filter(priority =>
+                            selectedTicket?.priority
+                              ? priority.toUpperCase() !== selectedTicket.priority.toUpperCase()
+                              : true
+                          )
+                          .map(priority => (
+                            <option key={priority} value={priority.toUpperCase()}>
+                              {priority}
+                            </option>
+                          ))}
+
+
                       </select>
                     </div>
                   </div>
@@ -453,7 +509,7 @@ const TicketingSystem = () => {
 
               <div className="space-y-3 max-h-[80vh] overflow-y-auto p-3">
                 {filteredTickets && filteredTickets.length > 0 ? (
-                  filteredTickets.reverse().map(ticket => (
+                  filteredTickets.map(ticket => (
                     <div
                       key={ticket.ticketId}
                       onClick={() => handleSelectTicket(ticket.ticketId)}
@@ -491,7 +547,7 @@ const TicketingSystem = () => {
                 ) : (
                   <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
                     <Search className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="heading-md font-medium text-gray-900 mb-2">No Tickets Found</h3>
+                    <h3 className="body-md   font-medium text-gray-900 mb-2">No Tickets Found</h3>
                     <p className="text-gray-600">Try adjusting your search or filter criteria.</p>
                   </div>
                 )}
@@ -522,7 +578,7 @@ const TicketingSystem = () => {
               ) : (
                 <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
                   <Eye className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="heading-md font-medium text-gray-900 mb-2">Select a Ticket</h3>
+                  <h3 className="body-md   font-medium text-gray-900 mb-2">Select a Ticket</h3>
                   <p className="text-gray-600">Choose a ticket from the list to view details</p>
                 </div>
               )}
@@ -600,8 +656,8 @@ const TicketDetailsPanel = ({
         <div className="bg-white rounded-full p-3 shadow-sm mb-3">
           <MessageSquare className="h-8 w-8 text-gray-400" />
         </div>
-        <h3 className="heading-lg font-semibold text-gray-900 mb-2">No Ticket Selected</h3>
-        <p className="body-xs    text-gray-600 max-w-md">
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">No Ticket Selected</h3>
+        <p className="body-sm   text-gray-600 max-w-md">
           Select a ticket from the list to view details and perform actions.
         </p>
       </div>
@@ -616,7 +672,7 @@ const TicketDetailsPanel = ({
         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-4 py-4 border-b border-gray-200">
           <div className="flex flex-col md:flex-row md:items-start justify-between gap-2 md:gap-0">
             <div className="flex-1">
-              <h2 className="heading-lg md:heading-xl font-bold text-gray-900 mb-2">{selectedTicket.title}</h2>
+              <h2 className="text-lg md:heading-xl   font-bold text-gray-900 mb-2">{selectedTicket.title}</h2>
               <div className="flex flex-wrap items-center gap-2 body-xs  text-gray-600">
                 <span className="flex items-center bg-white px-2 py-1 rounded-full shadow-sm">
                   <Tag className="h-3 w-3 mr-1 text-blue-500" />
@@ -653,7 +709,7 @@ const TicketDetailsPanel = ({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
             {/* Customer Information */}
             <div className="bg-gray-50 rounded-md p-4">
-              <h3 className="font-semibold text-gray-900 mb-3 flex items-center body-xs   ">
+              <h3 className="font-semibold text-gray-900 mb-3 flex items-center body-sm  ">
                 <User className="h-4 w-4 mr-2 text-blue-500" />
                 Customer Information
               </h3>
@@ -664,7 +720,7 @@ const TicketDetailsPanel = ({
                   </div>
                   <div>
                     <p className="body-xs  text-gray-600">Customer ID</p>
-                    <p className="font-medium text-gray-900 text-xs">{selectedTicket?.createdBy?._id || "N/A"}</p>
+                    <p className="font-medium text-gray-900 body-xs ">{selectedTicket?.createdBy?._id || "N/A"}</p>
                   </div>
                 </div>
                 <div className="flex items-center bg-white p-2 rounded-md shadow-sm">
@@ -673,7 +729,7 @@ const TicketDetailsPanel = ({
                   </div>
                   <div>
                     <p className="body-xs  text-gray-600">Name</p>
-                    <p className="font-medium text-gray-900 text-xs">
+                    <p className="font-medium text-gray-900 body-xs ">
                       {selectedTicket?.createdBy?.name?.toUpperCase() || "Unknown"}
                     </p>
                   </div>
@@ -683,7 +739,7 @@ const TicketDetailsPanel = ({
 
             {/* Ticket Information */}
             <div className="bg-gray-50 rounded-md p-4">
-              <h3 className="font-semibold text-gray-900 mb-3 flex items-center body-xs   ">
+              <h3 className="font-semibold text-gray-900 mb-3 flex items-center body-sm  ">
                 <Tag className="h-4 w-4 mr-2 text-purple-500" />
                 Ticket Information
               </h3>
@@ -712,18 +768,18 @@ const TicketDetailsPanel = ({
 
           {/* Description */}
           <div className="mb-5">
-            <h3 className="font-semibold text-gray-900 mb-2 flex items-center body-xs   ">
+            <h3 className="font-semibold text-gray-900 mb-2 flex items-center body-sm  ">
               <FileText className="h-4 w-4 mr-2 text-orange-500" />
               Description
             </h3>
             <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-3 rounded-md border border-gray-200">
-              <p className="text-gray-700 body-xs    leading-relaxed">{selectedTicket?.description || "No description provided"}</p>
+              <p className="text-gray-700 body-sm   leading-relaxed">{selectedTicket?.description || "No description provided"}</p>
             </div>
           </div>
 
           {/* Comments Section */}
           <div className="mb-5">
-            <h3 className="font-semibold text-gray-900 mb-3 flex items-center body-xs   ">
+            <h3 className="font-semibold text-gray-900 mb-3 flex items-center body-sm  ">
               <MessageSquare className="h-4 w-4 mr-2 text-indigo-500" />
               Comments ({selectedTicket?.comments?.length || 0})
             </h3>
@@ -738,7 +794,7 @@ const TicketDetailsPanel = ({
                             <div className="bg-blue-100 rounded-full p-1">
                               <User className="h-3 w-3 text-blue-600" />
                             </div>
-                            <span className="font-semibold text-gray-900 text-xs">
+                            <span className="font-semibold text-gray-900 body-xs ">
                               {comment?.user?.name || "Anonymous"}
                             </span>
                             <span className="body-xs  text-gray-500 bg-gray-100 px-1 py-0.5 rounded hidden md:inline">
@@ -756,7 +812,7 @@ const TicketDetailsPanel = ({
                 ) : (
                   <div className="text-center py-5">
                     <MessageSquare className="h-8 w-8 text-gray-300 mx-auto mb-2" />
-                    <p className="text-gray-500 body-xs   ">No comments yet.</p>
+                    <p className="text-gray-500 body-sm  ">No comments yet.</p>
                   </div>
                 )}
               </div>
@@ -766,7 +822,7 @@ const TicketDetailsPanel = ({
           {/* Add Comment */}
           {selectedTicket?.status !== 'RESOLVED' && (
             <div className="mb-5">
-              <h3 className="font-semibold text-gray-900 mb-2 body-xs   ">Add Comment</h3>
+              <h3 className="font-semibold text-gray-900 mb-2 body-sm  ">Add Comment</h3>
               <div className="space-y-2">
                 <textarea
                   value={newComment}
@@ -778,7 +834,7 @@ const TicketDetailsPanel = ({
                 <button
                   onClick={addComment}
                   disabled={!newComment.trim()}
-                  className="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md text-xs"
+                  className="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md body-xs "
                 >
                   <MessageSquare className="h-3 w-3 mr-1" />
                   Add Comment
@@ -789,10 +845,38 @@ const TicketDetailsPanel = ({
 
           {/* Action Buttons */}
           {
-            <div className="flex flex-wrap gap-2 mb-4">
-              {selectedTicket?.status !== 'CLOSED' && (
+            // <div className="flex flex-wrap gap-2 mb-4">
+            //   {console.log("------->", selectedTicket.status)}
+            //   {(selectedTicket?.status !== 'CLOSED' || selectedTicket?.status !== 'RESOLVED') && (
+            //     <button
+            //       className="inline-flex items-center px-3 py-1.5 bg-red-600 text-white font-medium rounded-md hover:bg-red-700 transition-all duration-200 shadow-sm hover:shadow-md body-xs "
+            //       onClick={(e) => handleCloseClick(e)}
+            //       type="button"
+            //     >
+            //       <X className="h-3 w-3 mr-1" />
+            //       Close Ticket
+            //     </button>
+            //   )}
+
+            //   {(selectedTicket?.status === 'RESOLVED' || selectedTicket?.status === 'CLOSED') && (
+            //     <button
+            //       className="inline-flex items-center px-3 py-1.5 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 transition-all duration-200 shadow-sm hover:shadow-md body-xs "
+            //       onClick={(e) => handleReOpenClick(e)}
+            //       type="button"
+            //     >
+            //       <RotateCcw className="h-3 w-3 mr-1" />
+            //       Reopen Ticket
+            //     </button>
+            //   )}
+            // </div>
+
+            < div className="flex flex-wrap gap-2 mb-4">
+              {console.log("Current Status ------>", selectedTicket?.status)}
+
+              {/* Show Close button ONLY for ACTIVE tickets (OPEN or INPROGRESS) */}
+              {(selectedTicket?.status === 'OPEN' || selectedTicket?.status === 'IN PROGRESS') && (
                 <button
-                  className="inline-flex items-center px-3 py-1.5 bg-red-600 text-white font-medium rounded-md hover:bg-red-700 transition-all duration-200 shadow-sm hover:shadow-md text-xs"
+                  className="inline-flex items-center px-3 py-1.5 bg-red-600 text-white font-medium rounded-md hover:bg-red-700 transition-all duration-200 shadow-sm hover:shadow-md body-xs "
                   onClick={(e) => handleCloseClick(e)}
                   type="button"
                 >
@@ -801,9 +885,10 @@ const TicketDetailsPanel = ({
                 </button>
               )}
 
+              {/* Show Reopen button ONLY for FINALIZED tickets (RESOLVED or CLOSED) */}
               {(selectedTicket?.status === 'RESOLVED' || selectedTicket?.status === 'CLOSED') && (
                 <button
-                  className="inline-flex items-center px-3 py-1.5 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 transition-all duration-200 shadow-sm hover:shadow-md text-xs"
+                  className="inline-flex items-center px-3 py-1.5 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 transition-all duration-200 shadow-sm hover:shadow-md body-xs "
                   onClick={(e) => handleReOpenClick(e)}
                   type="button"
                 >
@@ -815,7 +900,7 @@ const TicketDetailsPanel = ({
           }
           {/* Action Templates */}
           {isAdmin && <div>
-            <h3 className="font-semibold text-gray-900 mb-2 body-xs   ">Available Actions</h3>
+            <h3 className="font-semibold text-gray-900 mb-2 body-sm  ">Available Actions</h3>
             <div className="flex flex-wrap gap-2">
               {Object.entries(actionTemplates).map(([key, template]) => (
                 <button
@@ -835,89 +920,91 @@ const TicketDetailsPanel = ({
       </div>
 
       {/* Action Form */}
-      {actionType && (
-        <div className="bg-white rounded-lg shadow border border-gray-200 overflow-hidden">
-          <div className="bg-gradient-to-r from-indigo-50 to-purple-50 px-4 py-3 border-b border-gray-200">
-            <h3 className="font-bold text-gray-900 body-xs   ">{actionTemplates[actionType].name}</h3>
-            <p className="text-gray-600 mt-1 text-xs">{actionTemplates[actionType].description}</p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="p-4">
-            <div className="space-y-4">
-              {actionTemplates[actionType].fields.map((field, idx) => (
-                <div key={idx} className="space-y-1">
-                  <label className="block body-xs  font-medium text-gray-700  mb-1">
-                    {field.label}
-                  </label>
-                  {console.log(field.name, formData[field.name])}
-                  {field.type === "select" ? (
-
-                    <select
-                      value={formData[field.name] || ""}
-                      onChange={(e) => handleFormChange(field.name, e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-xs  transition-all duration-200"
-                    >
-                      <option value="">Select {field.label}</option>
-                      {field.options.map((option) => (
-                        <option key={option} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
-                  ) : field.type === "textarea" ? (
-                    <textarea
-                      value={formData[field.name] || ""}
-                      onChange={(e) => handleFormChange(field.name, e.target.value)}
-                      placeholder={field.placeholder}
-                      rows={2}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-xs  resize-none transition-all duration-200"
-                    />
-                  ) : (
-                    <input
-                      type="text"
-                      value={formData[field.name] || ""}
-                      onChange={(e) => handleFormChange(field.name, e.target.value)}
-                      placeholder={field.placeholder}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-xs  transition-all duration-200"
-                    />
-                  )}
-                </div>
-
-              ))}
+      {
+        actionType && (
+          <div className="bg-white rounded-lg shadow border border-gray-200 overflow-hidden">
+            <div className="bg-gradient-to-r from-indigo-50 to-purple-50 px-4 py-3 border-b border-gray-200">
+              <h3 className="font-bold text-gray-900 body-sm  ">{actionTemplates[actionType].name}</h3>
+              <p className="text-gray-600 mt-1 body-xs ">{actionTemplates[actionType].description}</p>
             </div>
 
-            <div className="flex justify-end pt-4 mt-4 border-t border-gray-200">
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => setActionType(null)}
-                  className="px-3 py-1.5 border border-gray-300 text-gray-700 font-medium rounded-md hover:bg-gray-50 transition-all duration-200 text-xs"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={processing}
-                  className="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md text-xs"
-                >
-                  {processing ? (
-                    <>
-                      <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1"></div>
-                      Processing...
-                    </>
-                  ) : (
-                    <>
-                      <Check className="h-3 w-3 mr-1" />
-                      Submit Action
-                    </>
-                  )}
-                </button>
+            <form onSubmit={handleSubmit} className="p-4">
+              <div className="space-y-4">
+                {actionTemplates[actionType].fields.map((field, idx) => (
+                  <div key={idx} className="space-y-1">
+                    <label className="block body-xs  font-medium text-gray-700  mb-1">
+                      {field.label}
+                    </label>
+                    {console.log(field.name, formData[field.name])}
+                    {field.type === "select" ? (
+
+                      <select
+                        value={formData[field.name] || ""}
+                        onChange={(e) => handleFormChange(field.name, e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-xs  transition-all duration-200"
+                      >
+                        <option value="">Select {field.label}</option>
+                        {field.options.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    ) : field.type === "textarea" ? (
+                      <textarea
+                        value={formData[field.name] || ""}
+                        onChange={(e) => handleFormChange(field.name, e.target.value)}
+                        placeholder={field.placeholder}
+                        rows={2}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-xs  resize-none transition-all duration-200"
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        value={formData[field.name] || ""}
+                        onChange={(e) => handleFormChange(field.name, e.target.value)}
+                        placeholder={field.placeholder}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent body-xs  transition-all duration-200"
+                      />
+                    )}
+                  </div>
+
+                ))}
               </div>
-            </div>
-          </form>
-        </div>
-      )}
-    </div>
+
+              <div className="flex justify-end pt-4 mt-4 border-t border-gray-200">
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setActionType(null)}
+                    className="px-3 py-1.5 border border-gray-300 text-gray-700 font-medium rounded-md hover:bg-gray-50 transition-all duration-200 body-xs "
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={processing}
+                    className="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md body-xs "
+                  >
+                    {processing ? (
+                      <>
+                        <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1"></div>
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        <Check className="h-3 w-3 mr-1" />
+                        Submit Action
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        )
+      }
+    </div >
   );
 };
 
@@ -935,7 +1022,7 @@ const DeleteConfirmation = ({ ticket, setShowDeleteConfirm, confirmDelete, isDel
           </div>
         </div>
 
-        <div className="body-xs    text-gray-700 mb-4">
+        <div className="body-sm   text-gray-700 mb-4">
           Are you sure you want to delete the ticket titled:
           <span className="font-semibold"> "{ticket.title}"</span>?
           <p className="body-xs  text-gray-500 mt-2">This action cannot be undone.</p>
@@ -943,14 +1030,14 @@ const DeleteConfirmation = ({ ticket, setShowDeleteConfirm, confirmDelete, isDel
 
         <div>
           <button
-            className="px-4 py-2 body-xs    border border-gray-300 rounded-md hover:bg-gray-50"
+            className="px-4 py-2 body-sm   border border-gray-300 rounded-md hover:bg-gray-50"
             onClick={() => setShowDeleteConfirm(false)}
             disabled={isDeleting}
           >
             Cancel
           </button>
           <button
-            className="px-4 py-2 body-xs    bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-50"
+            className="px-4 py-2 body-sm   bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-50"
             onClick={() => confirmDelete(ticket.id)}
             disabled={isDeleting}
           >
@@ -1046,7 +1133,7 @@ const CreateTicketModal = ({
           <button
             type="button"
             onClick={() => setShowCreateForm(false)}
-            className="px-4 py-2 body-xs    font-medium text-gray-600 bg-transparent 
+            className="px-4 py-2 body-sm   font-medium text-gray-600 bg-transparent 
                border border-gray-300 rounded-lg hover:bg-gray-100 
                focus:outline-none focus:ring-2 focus:ring-gray-300"
           >
@@ -1057,7 +1144,7 @@ const CreateTicketModal = ({
             type="button"
             onClick={handleCreateTicketSubmit}
             disabled={isCreatingTicket}
-            className={`px-4 py-2 body-xs    font-medium text-white rounded-lg 
+            className={`px-4 py-2 body-sm   font-medium text-white rounded-lg 
                focus:outline-none focus:ring-2 focus:ring-blue-500
                ${isCreatingTicket
                 ? "bg-blue-400 cursor-not-allowed"
